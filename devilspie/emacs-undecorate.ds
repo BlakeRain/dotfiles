@@ -1,0 +1,6 @@
+(if (is (window_class) "Emacs")
+	(begin
+		(undecorate)
+	)
+)
+

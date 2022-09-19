@@ -1,0 +1,9 @@
+# Ignore everything
+/*
+!.gitignore
+
+# Add exceptions for what we want to actually include
+!config
+!scripts
+!default.theme
+

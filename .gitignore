@@ -1,0 +1,25 @@
+# Ignore everything
+/*
+!.gitignore
+
+# Add exceptions for what we want to actually include
+!/devilspie
+!/fish
+!/fortunes
+!/irssi
+!/newsboat
+!/nvim
+!/ranger
+!/w3m
+
+!README.md
+!alacritty.yml
+!bashrc
+!bat.config
+!emacs
+!ghci
+!micro.json
+!nanorc
+!pureline.conf
+!tmux.conf
+!vscode-settings.json

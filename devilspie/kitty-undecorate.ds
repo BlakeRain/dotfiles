@@ -1,0 +1,5 @@
+(if (is (window_class) "kitty")
+	(begin
+		(undecorate)
+	)
+)

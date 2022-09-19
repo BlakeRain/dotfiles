@@ -1,0 +1,2 @@
+:set editor emacsclient -c -nw
+:set prompt "λ "
