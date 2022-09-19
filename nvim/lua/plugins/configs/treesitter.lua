@@ -1,10 +1,7 @@
 local treesitter = require("nvim-treesitter.configs")
-local orgmode = require("orgmode")
 
 local M = {}
 M.setup = function()
-  orgmode.setup_ts_grammar()
-
   treesitter.setup({
     ensure_installed = "all",
     sync_install = false,

@@ -24,11 +24,7 @@ packer.startup({
 
     -- Treesitter for better syntax highlighting
     -- https://github.com/nvim-treesitter/nvim-treesitter
-    use {
-      'nvim-treesitter/nvim-treesitter',
-      requires = { 'nvim-orgmode/orgmode' },
-      run = ':TSUpdate'
-    }
+    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
     -- Treesitter objects
     -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
@@ -397,13 +393,6 @@ packer.startup({
     use {
       'simrat39/rust-tools.nvim',
       config = load_config("plugins.configs.rust-tools")
-    }
-
-    -- Orgmode
-    -- https://github.com/nvim-orgmode/orgmode
-    use {
-      'nvim-orgmode/orgmode',
-      config = load_config("plugins.configs.orgmode")
     }
 
     -- Todo comments
