@@ -22,10 +22,14 @@ M.setup = function()
   utils.map('x', 'T',
             "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>")
 
-  utils.map("n", "<leader>j", "<cmd>lua require'hop'.hint_words()<cr>")
-  utils.map("n", "<leader>l", "<cmd>lua require'hop'.hint_lines()<cr>")
-  utils.map("v", "<leader>j", "<cmd>lua require'hop'.hint_words()<cr>")
-  utils.map("v", "<leader>l", "<cmd>lua require'hop'.hint_lines()<cr>")
+  utils.map("n", "<leader>j", "<cmd>lua require'hop'.hint_words()<cr>",
+            { desc = "Hop to Word" })
+  utils.map("n", "<leader>l", "<cmd>lua require'hop'.hint_lines()<cr>",
+            { desc = "Hop to Line" })
+  utils.map("v", "<leader>j", "<cmd>lua require'hop'.hint_words()<cr>",
+            { desc = "Hop to Word" })
+  utils.map("v", "<leader>l", "<cmd>lua require'hop'.hint_lines()<cr>",
+            { desc = "Hop to Line" })
 end
 
 return M

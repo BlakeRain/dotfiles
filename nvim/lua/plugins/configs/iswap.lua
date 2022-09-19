@@ -30,11 +30,12 @@ M.setup = function()
 
     -- Other default options you probably should not change:
     debug = nil,
-    hl_grey_priority = '1000',
+    hl_grey_priority = '1000'
   })
 
-  utils.map("n", "<leader>cs", "<CMD>ISwap<CR>")
-  utils.map("n", "<leader>cS", "<CMD>ISwapWith<CR>")
+  utils.map("n", "<leader>cs", "<CMD>ISwap<CR>", { desc = "Swap Items" })
+  utils.map("n", "<leader>cS", "<CMD>ISwapWith<CR>",
+            { desc = "Swap Current Item" })
 end
 
 return M

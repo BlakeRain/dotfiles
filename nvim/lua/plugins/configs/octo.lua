@@ -1,5 +1,6 @@
 local utils = require("core.utils")
 local octo = require("octo")
+local wk = require("which-key")
 
 local M = {}
 
@@ -19,6 +20,15 @@ M.setup = function()
   -- List issues in the compliance tasks repository
   utils.map("n", "<leader>oti",
             "<cmd>Octo issue list NeoTechnologiesLtd/compliance-tasks<CR>")
+
+  wk.register({
+    ["<leader>o"] = { name = "+Octocat" },
+    ["<leader>oi"] = { name = "+Ocotocat issues" },
+    ["<leader>op"] = { name = "+Ocotocat PRs" },
+    ["<leader>or"] = { name = "+Ocotocat repos" },
+    ["<leader>og"] = { name = "+Ocotocat gists" },
+    ["<leader>ot"] = { name = "+Ocotocat misc." }
+  })
 end
 
 return M

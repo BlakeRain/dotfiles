@@ -51,14 +51,15 @@ M.setup = function()
 
   -- Toggle our standard floating terminal
   utils.map("n", "<Leader>t", "<cmd> lua _floating_toggle()<CR>",
-            { noremap = true, silent = true })
+            { desc = "Toggle Terminal", noremap = true, silent = true })
 
   -- Toggle a terminal at the bottom of the window
-  utils.map("n", "<Leader>T", "<cmd>ToggleTerm<CR>", { noremap = true })
+  utils.map("n", "<Leader>T", "<cmd>ToggleTerm<CR>",
+            { desc = "Toggle Bottom Terminal", noremap = true })
 
   -- Toggle a floating LazyGit window
   utils.map("n", "<Leader>gg", "<cmd>lua _lazygit_toggle()<CR>",
-            { noremap = true, silent = true })
+            { desc = "Lazygit Window", noremap = true, silent = true })
 end
 
 return M

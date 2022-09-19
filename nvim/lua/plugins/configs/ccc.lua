@@ -5,8 +5,8 @@ local M = {}
 M.setup = function()
   ccc.setup({ inputs = { ccc.input.hsl, ccc.input.rgb } })
 
-  utils.map("n", "<leader>cc", "<CMD>CccPick<CR>", { silent = true })
-  -- utils.map("i", "<C-c>", "<Plug>(ccc-insert)", { silent = true })
+  utils.map("n", "<leader>cc", "<CMD>CccPick<CR>",
+            { desc = "Change color", silent = true })
 
   local color_group = vim.api.nvim_create_augroup("ColorPickerSets",
                                                   { clear = true })

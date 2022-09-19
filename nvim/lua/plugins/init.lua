@@ -55,7 +55,8 @@ packer.startup({
     use {
       'nvim-lua/plenary.nvim',
       config = function()
-        require("core.utils").map("n", "<leader>xt", "<Plug>PlenaryTestFile")
+        require("core.utils").map("n", "<leader>xt", "<Plug>PlenaryTestFile",
+                                  { desc = "Run Tests (Plenary)" })
       end
     }
 
@@ -272,13 +273,6 @@ packer.startup({
       branch = "v2.x",
       requires = { "s1n7ax/nvim-window-picker" },
       config = load_config("plugins.configs.neo-tree")
-    }
-
-    -- A plugin to provide git functionality that is based on our friend magit
-    -- https://github.com/TimUntersberger/neogit
-    use {
-      'TimUntersberger/neogit',
-      config = load_config('plugins.configs.neogit')
     }
 
     -- Diffview support, used by neogit

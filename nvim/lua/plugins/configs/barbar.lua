@@ -1,4 +1,5 @@
 local utils = require("core.utils")
+local wk = require("which-key")
 
 local M = {}
 M.setup = function()
@@ -30,10 +31,14 @@ M.setup = function()
   -- Magic buffer-picking mode
   utils.map("n", "<C-s>", ":BufferPick<CR>", { silent = true })
 
-  utils.map("n", "<Leader>bc", ":BufferClose<CR>", { silent = true })
-  utils.map("n", "<Leader>bC", ":BufferClose!<CR>", { silent = true })
-  utils.map("n", "<Leader>bx", ":BufferCloseAllButCurrentOrPinned",
-            { silent = true })
+  utils.map("n", "<Leader>bc", ":BufferClose<CR>",
+            { desc = "Close buffer", silent = true })
+  utils.map("n", "<Leader>bC", ":BufferClose!<CR>",
+            { desc = "Close buffer (force)", silent = true })
+  utils.map("n", "<Leader>bx", ":BufferCloseAllButCurrentOrPinned<CR>",
+            { desc = "Close all buffers", silent = true })
+
+  wk.register({ ["<leader>b"] = { name = "+Buffers" } })
 end
 
 return M

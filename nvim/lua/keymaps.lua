@@ -37,14 +37,14 @@ utils.map('v', '<', '<gv')
 utils.map('v', '>', '>gv')
 
 -- Clear the current highlight with <leader>k.
-utils.map('n', '<leader>k', ':nohlsearch<CR>')
+utils.map('n', '<leader>k', ':nohlsearch<CR>', { desc = "Clear Highlight" })
 
 -- Use 'gf' to go to a file, even if it doesn't exist yet.
 utils.map('n', 'gf', ':edit <cfile><cr>')
 
 -- Use 'gF' to 'open' a file.
 -- NOTE: This doesn't do a <CR>, which means we need to press it ourselves.
-utils.map('n', 'gF', ':! open <cfile>')
+utils.map('n', 'gF', ':! open <cfile>', { desc = "Select last paste" })
 
 -- Use 'gpp' to select pasted text (after pasting).
 utils.map('n', 'gpp', '`[v`]')
@@ -60,11 +60,7 @@ utils.map('n', '<leader>w7', ':7wincmd w <cr>')
 utils.map('n', '<leader>w8', ':8wincmd w <cr>')
 utils.map('n', '<leader>w9', ':9wincmd w <cr>')
 
--- Toggle Neotree file browser.
-utils.map('n', '<leader>v',
-          '<cmd>Neotree toggle=true reveal=true position=left<cr>')
--- Close Neotree file browser.
-utils.map('n', '<leader>V', '<cmd>Neotree action=close position=left<cr>')
-
--- Open netrw
-utils.map('n', '<leader>pv', '<cmd>Ex<CR>')
+for i = 1, 9 do
+  utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
+            { desc = "Goto Window " .. i })
+end

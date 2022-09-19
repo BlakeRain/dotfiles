@@ -36,7 +36,7 @@ M.setup = function()
       { name = 'nvim_lsp' }, { name = 'nvim_lua' }, { name = 'luasnip' }
     }, {
       { name = 'buffer' }, { name = "spell" }, { name = "calc" },
-      { name = "emoji" }, { name = "orgmode" }
+      { name = "emoji" }
     })
   })
 

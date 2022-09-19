@@ -2,6 +2,7 @@ local utils = require("core.utils");
 local telescope = require("telescope");
 local builtin = require("telescope.builtin");
 local themes = require("telescope.themes");
+local wk = require("which-key")
 
 local M = {}
 M.setup = function()
@@ -36,10 +37,11 @@ M.setup = function()
     }))
   end
 
+  utils.map("n", "<leader>gc", "<cmd>Telescope git_commits<cr>")
+  utils.map("n", "<leader>gb", "<cmd>Telescope git_bcommits<cr>")
+  utils.map("n", "<leader>gs", "<cmd>Telescope git_status<cr>")
+
   utils.map("n", "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
-  utils.map("n", "<leader>fcc", "<cmd>Telescope git_commits<cr>")
-  utils.map("n", "<leader>fcb", "<cmd>Telescope git_bcommits<cr>")
-  utils.map("n", "<leader>fcs", "<cmd>Telescope git_status<cr>")
   utils.map("n", "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>")
   utils.map("n", "<leader>fD", "<cmd>Telescope diagnostics<cr>")
   utils.map("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
@@ -56,11 +58,20 @@ M.setup = function()
   utils.map("n", "<leader>fR", "<cmd>Telescope resume<cr>")
   utils.map("n", "<leader>fS", "<cmd>Telescope lsp_workspace_symbols<cr>")
   utils.map("n", "<leader>fs", M.spell_check, { desc = "Spelling Suggestions" })
-  utils.map("n", "<leader>ft", "<cmd>TodoTelescope<cr>")
+  utils.map("n", "<leader>ft", "<cmd>TodoTelescope<cr>",
+            { desc = "Telescope Todos" })
   utils.map("n", "<leader>fT", "<cmd>Telescope builtin<cr>")
 
-  utils.map("n", "gd", "<cmd>Telescope lsp_definitions<cr>")
-  utils.map("n", "gr", "<cmd>Telescope lsp_references<cr>")
+  utils.map("n", "gd", "<cmd>Telescope lsp_definitions<cr>",
+            { desc = "Goto Definitions" })
+  utils.map("n", "gr", "<cmd>Telescope lsp_references<cr>",
+            { desc = "Goto References" })
+
+  wk.register({
+    ["<leader>f"] = { name = "+Telescope" },
+    ["<leader>fc"] = { name = "+Telescope commits" },
+    ["<leader>fH"] = { name = "+Telescope cheats" }
+  })
 end
 
 return M

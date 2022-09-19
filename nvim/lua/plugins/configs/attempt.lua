@@ -1,6 +1,7 @@
 local utils = require("core.utils");
 local attempt = require("attempt")
 local telescope = require("telescope")
+local wk = require("which-key")
 
 local M = {}
 
@@ -23,6 +24,8 @@ M.setup = function()
 
   telescope.load_extension("attempt")
   utils.map("n", "<leader>al", "<cmd>Telescope attempt<cr>")
+
+  wk.register({ ["<leader>a"] = { name = "+Attempt" } })
 end
 
 return M
