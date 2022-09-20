@@ -64,3 +64,5 @@ for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
             { desc = "Goto Window " .. i })
 end
+
+utils.map("n", "<leader>cx", "<CMD>luafile %<CR>", { desc = "Run as Lua" })

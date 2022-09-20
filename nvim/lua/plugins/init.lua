@@ -62,7 +62,7 @@ packer.startup({
 
     -- SQLite binding for NeoVim (LuaJIT)
     -- https://github.com/kkharji/sqlite.lua
-    use 'tami5/sqlite.lua'
+    use 'kkharji/sqlite.lua'
 
     -- Custom plugin
     -- use(vim.fn.stdpath("config") .. "/lua/plugins/custom/stackmap")
@@ -201,9 +201,9 @@ packer.startup({
       requires = {
         'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-nvim-lua', 'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline', 'hrsh7th/cmp-calc',
-        'hrsh7th/cmp-emoji', -- 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-vsnip'
-        'f3fora/cmp-spell', 'onsails/lspkind-nvim', 'ray-x/lsp_signature.nvim',
-        'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip'
+        'hrsh7th/cmp-emoji', 'f3fora/cmp-spell', 'onsails/lspkind-nvim',
+        'ray-x/lsp_signature.nvim', 'L3MON4D3/LuaSnip',
+        'saadparwaiz1/cmp_luasnip'
       },
       config = load_config("plugins.configs.cmp")
     }
