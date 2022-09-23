@@ -71,7 +71,7 @@ packer.startup({
     -- https://github.com/echasnovski/mini.nvim
     use {
       'echasnovski/mini.nvim',
-      branch = "stable",
+      branch = "main",
       config = load_config("plugins.configs.mini")
     }
 
@@ -318,10 +318,6 @@ packer.startup({
       config = load_config("plugins.configs.octo")
     }
 
-    -- Useful alignment of text
-    -- https://github.com/tommcdo/vim-lion
-    use 'tommcdo/vim-lion'
-
     -- Hop for moving around (like ace-jump)
     -- https://github.com/phaazon/hop.nvim
     use { 'phaazon/hop.nvim', config = load_config("plugins.configs.hop") }
@@ -355,9 +351,12 @@ packer.startup({
       config = load_config("plugins.configs.goto-preview")
     }
 
-    -- Git gutter
-    -- https://github.com/airblade/vim-gitgutter
-    use 'airblade/vim-gitgutter'
+    -- Git Signs
+    -- https://github.com/lewis6991/gitsigns.nvim
+    use {
+      'lewis6991/gitsigns.nvim',
+      config = load_config("plugins.configs.gitsigns")
+    }
 
     -- VIM Move for moving things around
     -- https://github.com/matze/vim-move
@@ -395,6 +394,16 @@ packer.startup({
       'folke/todo-comments.nvim',
       config = function() require("todo-comments").setup({}) end
     }
+
+    -- Neoorg - orgmode reimagined for Neovim
+    -- https://github.com/nvim-neorg/neorg
+    -- use {
+    --   'nvim-neorg/neorg',
+    --   tag = "0.0.12",
+    --   -- run = ":Neorg sync-parsers",
+    --   config = load_config("plugins.configs.neorg"),
+    --   requires = { "nvim-lua/plenary.nvim" }
+    -- }
 
     -- Lua documentation in NeoVim help
     -- https://github.com/nanotee/luv-vimdocs

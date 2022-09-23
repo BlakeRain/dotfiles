@@ -24,7 +24,7 @@ M.setup = function()
     ["<leader>cw"] = { name = "+LSP Workspace" },
     ["<leader>cf"] = { name = "Toggle Folding" },
     ["<leader>g"] = { name = "+Git" },
-    ["<leader>h"] = { name = "+Git Hunks" },
+    -- ["<leader>h"] = { name = "+Git Hunks" },
     ["<leader>w"] = { name = "+Windows" }
   })
 end

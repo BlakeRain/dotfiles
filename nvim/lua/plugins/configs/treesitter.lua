@@ -18,17 +18,17 @@ M.setup = function()
         enable = true,
         lookahead = true, -- Automatically jump ahead to text object
         keymaps = {
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
-          ["ac"] = "@class.outer",
-          ["ic"] = "@class.inner",
           ["ab"] = "@block.outer",
           ["ib"] = "@block.inner",
-          ["as"] = "@statement.outer",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
           ["aC"] = "@call.outer",
           ["iC"] = "@call.inner",
-          ["ap"] = "@parameter.outer",
-          ["ip"] = "@parameter.inner"
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ip"] = "@parameter.inner",
+          ["as"] = "@statement.outer",
+          ["ap"] = "@parameter.outer"
         }
       },
       swap = {
