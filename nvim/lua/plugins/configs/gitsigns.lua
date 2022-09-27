@@ -16,7 +16,7 @@ M.setup = function()
 
       map('n', '[c', function()
         if vim.wo.diff then return '[c' end
-        vim.schedule(function() gitsigns.prev_hund() end)
+        vim.schedule(function() gitsigns.prev_hunk() end)
         return '<Ignore>'
       end, { expr = true })
 

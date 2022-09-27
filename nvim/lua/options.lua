@@ -42,7 +42,7 @@ vim.opt.spelllang = { 'en_gb' }
 local spell_group = vim.api
                       .nvim_create_augroup("SpellingSets", { clear = true })
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.md", "*.txt", "*.ms", "*.mom" },
+  pattern = { "*.md", "*.txt", "*.mm", "*.ms", "*.mom" },
   group = spell_group,
   command = "setlocal spell"
 })
