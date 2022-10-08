@@ -30,7 +30,7 @@ utils.map("n", "<Leader>cf", function()
                 { title = "NVim Folding" })
   vim.api.nvim_win_set_option(0, "foldmethod", new_method)
   vim.api.nvim_win_set_option(0, "foldlevel", fold_level)
-end)
+end, { desc = "Toggle Folding" })
 
 -- Reselect visual selection after indent.
 utils.map('v', '<', '<gv')

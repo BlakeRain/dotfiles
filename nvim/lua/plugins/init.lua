@@ -313,6 +313,8 @@ packer.startup({
         -- We add a requirement for our theme to ensure that Octo loads the correct colors. If we did not do this, we
         -- can end up with situations where the colors sampled from the theme by the 'octo.ui.colors' package end up
         -- being some of the original Vim colors.
+        --
+        -- Note: There are still some issues, which I override in the plugin configuration.
         'folke/tokyonight.nvim'
       },
       config = load_config("plugins.configs.octo")

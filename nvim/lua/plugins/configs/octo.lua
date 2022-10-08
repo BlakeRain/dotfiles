@@ -29,6 +29,17 @@ M.setup = function()
     ["<leader>og"] = { name = "+Ocotocat gists" },
     ["<leader>ot"] = { name = "+Ocotocat misc." }
   })
+
+  -- For some reason, Octo is not picking up my color scheme, so let's override some stuff here
+  vim.cmd([[
+    highlight OctoEditable guifg=#c0caf5 guibg=#16161e
+    highlight OctoGreenFloat guibg=#16161e
+    highlight OctoRedFloat guibg=#16161e
+    highlight OctoPurpleFloat guibg=#16161e
+    highlight OctoYellowFloat guibg=#16161e
+    highlight OctoBlueFloat guibg=#16161e
+    highlight OctoGreyFloat guibg=#16161e
+  ]])
 end
 
 return M
