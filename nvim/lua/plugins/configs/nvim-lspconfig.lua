@@ -89,9 +89,17 @@ local on_attach = function(client, bufnr)
   -- buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp
-                                                                   .protocol
-                                                                   .make_client_capabilities())
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+local capabilities = nil
+if type(cmp_nvim_lsp.default_capabilities) == "function" then
+  capabilities = cmp_nvim_lsp.default_capabilities()
+else
+  capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+end
+
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp
+--                                                                    .protocol
+--                                                                    .make_client_capabilities())
 
 local M = {}
 

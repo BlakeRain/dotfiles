@@ -2,7 +2,7 @@
 -- Key Mappings
 --
 local utils = require('core.utils')
-local notify = require("notify")
+local has_notify, notify = pcall(require, "notify")
 
 -- <Leader><Space> toggles folded regions
 utils.map("n", "<Leader><Space>", "zA")

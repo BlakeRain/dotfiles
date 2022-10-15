@@ -30,7 +30,7 @@ M.setup = function()
       ['<C-e>'] = cmp.mapping(
         { i = cmp.mapping.abort(), c = cmp.mapping.close() }),
       ['<C-j>'] = cmp.mapping.confirm({ select = false }),
-      ['<CR>'] = cmp.mapping.confirm({ select = false })
+      -- ['<CR>'] = cmp.mapping.confirm({ select = false })
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' }, { name = 'nvim_lua' }, { name = 'luasnip' }

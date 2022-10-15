@@ -15,7 +15,7 @@ if status is-interactive
 
     # Add the GitHub CLI if it exists
     if [ -f /usr/bin/gh ]
-        eval "(gh completion -s fish)"
+        # eval "(gh completion -s fish)"
     end
 
     # Abbreviate the 'gg' command to 'lazygit'
