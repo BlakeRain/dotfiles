@@ -82,6 +82,10 @@ if status is-interactive
         echo -ne (uname -n | awk '{print " \\\\e[1mHostname : \\\\e[0;32m"$0"\\\\e[0m"}')
         sugoi_emoti
         echo
+
+        if mail -e
+            echo "You have mail"
+        end
     end
 
     function clear_screen
