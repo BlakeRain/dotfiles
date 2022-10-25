@@ -49,7 +49,7 @@ font:
   size: 14.0
 
   # Better font rendering for Mac
-  use_thin_strokes: false
+  # use_thin_strokes: false
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
