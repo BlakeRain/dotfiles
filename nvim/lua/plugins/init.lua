@@ -38,6 +38,13 @@ packer.startup({
       config = load_config("plugins.configs.treesitter")
     }
 
+    -- Treesitter context (lightweight alternative to 'context.nvim')
+    -- https://github.com/nvim-treesitter/nvim-treesitter-context
+    use {
+      'nvim-treesitter/nvim-treesitter-context',
+      config = load_config("plugins.configs.treesitter-context")
+    }
+
     -- Swap objects interactively using Treesitter
     -- https://github.com/mizlan/iswap.nvim
     --
@@ -326,21 +333,42 @@ packer.startup({
 
     -- Lightspeed for visual word jumping
     -- https://github.com/ggandor/lightspeed.nvim
+    -- use {
+    --   'ggandor/lightspeed.nvim',
+    --   config = function() require("lightspeed").setup({}) end
+    -- }
+
+    -- Leap for visual word jumping (reboot of Lightspeed)
+    -- https://github.com/ggandor/leap.nvim
     use {
-      'ggandor/lightspeed.nvim',
-      config = function() require("lightspeed").setup({}) end
+      'ggandor/leap.nvim',
+      config = function() require("leap").add_default_mappings() end
     }
+
+    -- Spooky leap actions
+    -- https://github.com/ggandor/leap-spooky.nvim
+    use {
+      'ggandor/leap-spooky.nvim',
+      config = function()
+        require("leap-spooky").setup({
+          affixes = { window = 'r', cross_window = 'R' }
+        })
+      end
+    }
+
+    -- Custom leap plugin
+    require"plugins.custom.leap_ast".setup()
 
     -- Treesitter hint textobject
     -- https://github.com/mfussenegger/nvim-treehopper
-    use {
-      'mfussenegger/nvim-treehopper',
-      config = function()
-        local utils = require("core.utils")
-        utils.map("n", "gt", "<cmd>lua require('tsht').nodes()<CR>",
-                  { silent = true })
-      end
-    }
+    -- use {
+    --   'mfussenegger/nvim-treehopper',
+    --   config = function()
+    --     local utils = require("core.utils")
+    --     utils.map("n", "gt", "<cmd>lua require('tsht').nodes()<CR>",
+    --               { silent = true })
+    --   end
+    -- }
 
     -- Venn for drawing diagrams in vim
     -- https://github.com/jbyuki/venn.nvim
@@ -396,6 +424,14 @@ packer.startup({
       'folke/todo-comments.nvim',
       config = function() require("todo-comments").setup({}) end
     }
+
+    -- Better marks
+    -- https://github.com/chentoast/marks.nvim
+    use { 'chentoast/marks.nvim', config = load_config("plugins.configs.marks") }
+
+    -- Better quickfix list
+    -- https://github.com/kevinhwang91/nvim-bqf
+    use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 
     -- Neoorg - orgmode reimagined for Neovim
     -- https://github.com/nvim-neorg/neorg

@@ -32,6 +32,9 @@ utils.map("n", "<Leader>cf", function()
   vim.api.nvim_win_set_option(0, "foldlevel", fold_level)
 end, { desc = "Toggle Folding" })
 
+-- Map a keybinding to open the quick-fix list
+utils.map("n", "<Leader>qf", "<CMD>copen<CR>", { desc = "Open Quickfix List" })
+
 -- Reselect visual selection after indent.
 utils.map('v', '<', '<gv')
 utils.map('v', '>', '>gv')
