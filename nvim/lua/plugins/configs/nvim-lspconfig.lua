@@ -94,12 +94,9 @@ local capabilities = nil
 if type(cmp_nvim_lsp.default_capabilities) == "function" then
   capabilities = cmp_nvim_lsp.default_capabilities()
 else
-  capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol
+                                                    .make_client_capabilities())
 end
-
--- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp
---                                                                    .protocol
---                                                                    .make_client_capabilities())
 
 local M = {}
 

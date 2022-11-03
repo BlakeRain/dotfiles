@@ -145,6 +145,24 @@ vim.g.markdown_fenced_languages = {
 }
 
 -- Setup folding.
--- NOTE: I don't actually set the 'foldmethod' here, as I have a keybinding to toggle it
+-- NOTE: I don't actually set the 'foldmethod' here, as I have a keybinding to toggle it (see 'keymaps.lua')
 -- vim.cmd('set foldmethod=expr')
 vim.cmd('set foldexpr=nvim_treesitter#foldexpr()')
+
+-- Tell rust that we want to override the "recommended" style
+vim.g.rust_recommended_style = 0
+
+-- Create an augroup for Rust that sets the textwidth to 120 (rather than the mandated 100)
+local rust_group = vim.api.nvim_create_augroup("RustSettings", { clear = true })
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.rs" },
+  group = rust_group,
+  callback = function(info)
+    -- setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+    vim.api.nvim_buf_set_option(info.buf, "textwidth", 119)
+    vim.api.nvim_buf_set_option(info.buf, "tabstop", 4)
+    vim.api.nvim_buf_set_option(info.buf, "shiftwidth", 4)
+    vim.api.nvim_buf_set_option(info.buf, "softtabstop", 4)
+    vim.api.nvim_buf_set_option(info.buf, "expandtab", true)
+  end
+})
