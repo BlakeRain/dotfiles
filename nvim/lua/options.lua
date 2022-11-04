@@ -166,3 +166,9 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.api.nvim_buf_set_option(info.buf, "expandtab", true)
   end
 })
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*.rs" },
+  group = rust_group,
+  callback = function(info) vim.lsp.buf.formatting_sync({ bufnr = info.buf }) end
+})

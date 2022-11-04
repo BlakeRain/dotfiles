@@ -25,6 +25,7 @@ packer.startup({
     -- Treesitter for better syntax highlighting
     -- https://github.com/nvim-treesitter/nvim-treesitter
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    use { 'nvim-treesitter/playground' }
 
     -- Treesitter objects
     -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
@@ -349,11 +350,7 @@ packer.startup({
     -- https://github.com/ggandor/leap-spooky.nvim
     use {
       'ggandor/leap-spooky.nvim',
-      config = function()
-        require("leap-spooky").setup({
-          affixes = { window = 'r', cross_window = 'R' }
-        })
-      end
+      config = function() require("leap-spooky").setup({}) end
     }
 
     -- Custom leap plugin
