@@ -6,6 +6,9 @@ M.setup = function()
 
   -- Set an override for the window borders
   vim.cmd [[highlight WinSeparator guifg=#313349 guibg=#1A1B27]]
+
+  -- Set an override to make comments a little easier to perceive
+  vim.cmd [[highlight Comment guifg=#7079A5]]
 end
 
 return M
