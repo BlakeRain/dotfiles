@@ -257,7 +257,11 @@ packer.startup({
 
     -- Surround things (e.g. cs'' to replace ' with '; or ysw] to enclose word in []
     -- https://github.com/tpope/vim-surround
-    use 'http://github.com/tpope/vim-surround'
+    -- use 'http://github.com/tpope/vim-surround'
+    use {
+      'kylechui/nvim-surround',
+      config = load_config("plugins.configs.nvim-surround")
+    }
 
     -- Window picker thingy
     -- https://github.com/s1n7ax/nvim-window-picker
