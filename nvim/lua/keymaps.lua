@@ -70,6 +70,21 @@ end
 
 utils.map("n", "<leader>cx", "<CMD>luafile %<CR>", { desc = "Run as Lua" })
 
+local automake_group = vim.api.nvim_create_augroup("AutoMakeGroup",
+                                                   { clear = true })
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  group = automake_group,
+  callback = function() if vim.b.__automake then vim.cmd [[make]] end end
+})
+
+utils.map("n", "<Leader>cm", function()
+  vim.b.__automake = not vim.b.__automake
+  local mode = "DISABLED"
+  if vim.b.__automake then mode = "ENABLED" end
+  notify.notify("Automatically running make on save is " .. mode, "info",
+                { title = "Running Make on Save" })
+end, { desc = "Run 'make' on save" })
+
 vim.cmd([[
 let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
 

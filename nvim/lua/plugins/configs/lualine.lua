@@ -36,7 +36,10 @@ M.setup = function()
         "branch", "diff", { "diagnostics", sources = { "nvim_diagnostic" } }
       },
       lualine_c = {
-        { "filename", path = 1 }, { gps.get_location, cond = gps.is_available }
+        { "filename", path = 1 }, {
+          function() return "Autorun[make]" end,
+          cond = function() return vim.b.__automake == true end
+        }, { gps.get_location, cond = gps.is_available }
       },
       lualine_x = { lualine_winnum, "encoding", "fileformat", "filetype" },
       lualine_y = { "progress" },
