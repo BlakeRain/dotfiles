@@ -43,13 +43,28 @@ local rust_get_test_result = function(position)
 end
 
 local rust_cargo_get_latest_version = function(name)
+  local nodes = {}
+  table.insert(nodes, i(nil, "version"))
+
   local file = io.popen("cargo search --limit 1 " .. name ..
                           " | head -1 | awk '{print $3}' | tr -d '\"'")
-  if not file then return "unknown package" end
+  if file then
+    local version = nil
+    for line in file:lines() do
+      version = line
+      break
+    end
 
-  for line in file:lines() do return line end
+    if version then
+      table.insert(nodes, t(version))
 
-  return "unknown package"
+      local small_version =
+        string.sub(version, string.find(version, "%d+%.%d+"))
+      if small_version then table.insert(nodes, t(small_version)) end
+    end
+  end
+
+  return sn(nil, c(1, nodes))
 end
 
 local M = {}
@@ -199,12 +214,9 @@ M.setup = function()
                    {
       i(1, "cratename"), i(2, "description"), c(3, { t "true", t "false" })
     })), s("dep", fmt([[{} = {{ version = "{}" }}]], {
-      i(1, "package_name"), c(2, {
-        i(nil, "version"), d(nil, function(args)
-          local version = rust_cargo_get_latest_version(args[1][1])
-          return sn(nil, t(version))
-        end, { 1 })
-      })
+      i(1, "package_name"),
+      d(2, function(args) return rust_cargo_get_latest_version(args[1][1]) end,
+        { 1 })
     }))
   })
 
