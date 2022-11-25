@@ -55,6 +55,10 @@ return packer.startup({
     -- file on the command-line does not exist.
     use 'mong8se/actually.nvim'
 
+    -- Maximize and restore a window
+    -- https://github.com/szw/vim-maximizer
+    use { 'szw/vim-maximizer' }
+
     -- Treesitter for better syntax highlighting
     -- https://github.com/nvim-treesitter/nvim-treesitter
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }

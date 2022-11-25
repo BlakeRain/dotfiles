@@ -70,6 +70,7 @@ utils.map('n', '<leader>w7', ':7wincmd w <CR>')
 utils.map('n', '<leader>w8', ':8wincmd w <CR>')
 utils.map('n', '<leader>w9', ':9wincmd w <CR>')
 utils.map('n', '<leader>wc', ":close<CR>")
+utils.map('n', '<leader>wz', ':MaximizerToggle<CR>')
 
 for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
