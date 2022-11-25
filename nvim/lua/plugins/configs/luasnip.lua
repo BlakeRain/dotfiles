@@ -86,7 +86,6 @@ M.setup = function()
   }
 
   ls.add_snippets("all", {
-    ls.parser.parse_snippet("expand", "-- this is what was expanded!"),
     s("curdate", f(function() return os.date "%Y-%m-%d" end)),
     s("curtime", f(function() return os.date "%Y-%m-%d %H:%M:%S" end))
   })
@@ -104,6 +103,7 @@ M.setup = function()
     ls.parser.parse_snippet("arrow_up", "\\(ua"),
     ls.parser.parse_snippet("arrow_down", "\\(da"),
     ls.parser.parse_snippet("section", "\\(sc"),
+    ls.parser.parse_snippet("pound", "\\(Po"),
 
     ls.parser.parse_snippet("alpha", "\\(*a"),
     ls.parser.parse_snippet("Alpha", "\\(*A"),
