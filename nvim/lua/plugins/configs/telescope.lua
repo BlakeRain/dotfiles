@@ -23,7 +23,18 @@ M.setup = function()
         "Cargo.lock"
       }
     },
-    pickers = { help_tags = { layout_config = { preview_width = 0.7 } } },
+    pickers = {
+      help_tags = { layout_config = { preview_width = 0.7 } },
+      live_grep = {
+        layout_strategy = "vertical",
+        layout_config = {
+          width = 0.9,
+          height = 0.9,
+          preview_height = 0.6,
+          preview_cutoff = 0
+        }
+      }
+    },
     extensions = {}
   })
 

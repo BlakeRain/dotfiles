@@ -31,12 +31,22 @@ M.setup = function()
   -- Magic buffer-picking mode
   utils.map("n", "<C-s>", ":BufferPick<CR>", { silent = true })
 
+  utils.map("n", "<Leader>bb", ":BufferPick<CR>",
+            { desc = "Pick Buffer", silent = true })
   utils.map("n", "<Leader>bc", ":BufferClose<CR>",
             { desc = "Close buffer", silent = true })
   utils.map("n", "<Leader>bC", ":BufferClose!<CR>",
             { desc = "Close buffer (force)", silent = true })
   utils.map("n", "<Leader>bx", ":BufferCloseAllButCurrentOrPinned<CR>",
             { desc = "Close all buffers", silent = true })
+
+  utils.map("n", "<Leader>bn", ":BufferNext<CR>",
+            { desc = "Next Buffer", silent = true })
+  utils.map("n", "<Leader>bp", ":BufferPrevious<CR>",
+            { desc = "Previous Buffer", silent = true })
+
+  utils.map("n", "<Leader>bP", ":BufferPin<CR>",
+            { desc = "Pin Buffer", silent = true })
 
   wk.register({ ["<leader>b"] = { name = "+Buffers" } })
 end

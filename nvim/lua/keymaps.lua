@@ -1,6 +1,8 @@
 --
 -- Key Mappings
 --
+-- These are the key-mappings that are not plugin-specific
+--
 local utils = require('core.utils')
 local has_notify, notify = pcall(require, "notify")
 
@@ -26,8 +28,10 @@ utils.map("n", "<Leader>cf", function()
     fold_level = 9000
   end
 
-  notify.notify("Setting fold method to '" .. new_method .. "'", "info",
-                { title = "NVim Folding" })
+  if has_notify then
+    notify.notify("Setting fold method to '" .. new_method .. "'", "info",
+                  { title = "NVim Folding" })
+  end
   vim.api.nvim_win_set_option(0, "foldmethod", new_method)
   vim.api.nvim_win_set_option(0, "foldlevel", fold_level)
 end, { desc = "Toggle Folding" })
@@ -38,6 +42,9 @@ utils.map("n", "<Leader>qf", "<CMD>copen<CR>", { desc = "Open Quickfix List" })
 -- Reselect visual selection after indent.
 utils.map('v', '<', '<gv')
 utils.map('v', '>', '>gv')
+
+-- When using 'x', don't yank the deleted character into a register
+utils.map('n', 'x', '"_x')
 
 -- Clear the current highlight with <leader>k.
 utils.map('n', '<leader>k', ':nohlsearch<CR>', { desc = "Clear Highlight" })
@@ -53,15 +60,16 @@ utils.map('n', 'gF', ':! open <cfile>', { desc = "Select last paste" })
 utils.map('n', 'gpp', '`[v`]')
 
 -- Select windows by number.
-utils.map('n', '<leader>w1', ':1wincmd w <cr>')
-utils.map('n', '<leader>w2', ':2wincmd w <cr>')
-utils.map('n', '<leader>w3', ':3wincmd w <cr>')
-utils.map('n', '<leader>w4', ':4wincmd w <cr>')
-utils.map('n', '<leader>w5', ':5wincmd w <cr>')
-utils.map('n', '<leader>w6', ':6wincmd w <cr>')
-utils.map('n', '<leader>w7', ':7wincmd w <cr>')
-utils.map('n', '<leader>w8', ':8wincmd w <cr>')
-utils.map('n', '<leader>w9', ':9wincmd w <cr>')
+utils.map('n', '<leader>w1', ':1wincmd w <CR>')
+utils.map('n', '<leader>w2', ':2wincmd w <CR>')
+utils.map('n', '<leader>w3', ':3wincmd w <CR>')
+utils.map('n', '<leader>w4', ':4wincmd w <CR>')
+utils.map('n', '<leader>w5', ':5wincmd w <CR>')
+utils.map('n', '<leader>w6', ':6wincmd w <CR>')
+utils.map('n', '<leader>w7', ':7wincmd w <CR>')
+utils.map('n', '<leader>w8', ':8wincmd w <CR>')
+utils.map('n', '<leader>w9', ':9wincmd w <CR>')
+utils.map('n', '<leader>wc', ":close<CR>")
 
 for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
@@ -81,8 +89,10 @@ utils.map("n", "<Leader>cm", function()
   vim.b.__automake = not vim.b.__automake
   local mode = "DISABLED"
   if vim.b.__automake then mode = "ENABLED" end
-  notify.notify("Automatically running make on save is " .. mode, "info",
-                { title = "Running Make on Save" })
+  if has_notify then
+    notify.notify("Automatically running make on save is " .. mode, "info",
+                  { title = "Running Make on Save" })
+  end
 end, { desc = "Run 'make' on save" })
 
 vim.cmd([[

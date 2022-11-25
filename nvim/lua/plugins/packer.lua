@@ -1,10 +1,43 @@
 --
 -- Initialize Plugins
 --
+-- Make sure that packer is installed
+local ensure_packer = function()
+  local install_path = vim.fn.stdpath("data") ..
+                         "/site/pack/packer/start/packer.nvim"
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    vim.fn.system({
+      "git", "clone", "--depth", "1",
+      "https://github.com/wbthomason/packer.nvim", install_path
+    })
+    vim.cmd([[packadd packer.nvim]])
+    return true
+  end
+
+  return false
+end
+
+-- See if we have packer and if not, install it. If we've had to install it we need to perform some additional
+-- operations.
+local packer_boostrap = ensure_packer()
+
+-- Create an augroup and autocommand that will reload this configuration file and run `PackerSync` when we save.
+local packer_config_group = vim.api.nvim_create_augroup("PackerConfigGroup",
+                                                        { clear = true })
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  pattern = { "packer.lua" },
+  group = packer_config_group,
+  command = "source <afile> | PackerSync"
+})
+
+-- See if we can 'require' packer; if not then we're done here
+local status, packer = pcall(require, "packer")
+if not status then return end
+
+-- Function to return an eval string to load plugin configuration from path
 local function load_config(name) return 'require("' .. name .. '").setup()' end
 
-local packer = require('packer');
-packer.startup({
+return packer.startup({
   function(use)
     use 'wbthomason/packer.nvim'
 
@@ -46,6 +79,14 @@ packer.startup({
       config = load_config("plugins.configs.treesitter-context")
     }
 
+    -- TreeSJ: split or join blocks of code
+    -- https://github.com/Wansmer/treesj
+    use {
+      'Wansmer/treesj',
+      requires = { "nvim-treesitter" },
+      config = load_config("plugins.configs.treesj")
+    }
+
     -- Swap objects interactively using Treesitter
     -- https://github.com/mizlan/iswap.nvim
     --
@@ -71,9 +112,6 @@ packer.startup({
     -- SQLite binding for NeoVim (LuaJIT)
     -- https://github.com/kkharji/sqlite.lua
     use 'kkharji/sqlite.lua'
-
-    -- Custom plugin
-    -- use(vim.fn.stdpath("config") .. "/lua/plugins/custom/stackmap")
 
     -- Collection of minimal modules (we use cursor-word and startup)
     -- https://github.com/echasnovski/mini.nvim
@@ -216,14 +254,6 @@ packer.startup({
       config = load_config("plugins.configs.cmp")
     }
 
-    -- Render diagnostics using virtual lines on top of the real line of code
-    -- https://git.sr.ht/~whynothugo/lsp_lines.nvim
-    -- NOTE: Disabled for now, as it makes things jump about too much and hovers get busted
-    -- use {
-    --   'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    --   config = load_config("plugins.configs.lsp_lines")
-    -- }
-
     -- Standalone UI for nvim-lsp progress
     -- https://github.com/j-hui/fidget.nvim
     use {
@@ -336,13 +366,6 @@ packer.startup({
     -- https://github.com/phaazon/hop.nvim
     use { 'phaazon/hop.nvim', config = load_config("plugins.configs.hop") }
 
-    -- Lightspeed for visual word jumping
-    -- https://github.com/ggandor/lightspeed.nvim
-    -- use {
-    --   'ggandor/lightspeed.nvim',
-    --   config = function() require("lightspeed").setup({}) end
-    -- }
-
     -- Leap for visual word jumping (reboot of Lightspeed)
     -- https://github.com/ggandor/leap.nvim
     use {
@@ -359,17 +382,6 @@ packer.startup({
 
     -- Custom leap plugin
     require"plugins.custom.leap_ast".setup()
-
-    -- Treesitter hint textobject
-    -- https://github.com/mfussenegger/nvim-treehopper
-    -- use {
-    --   'mfussenegger/nvim-treehopper',
-    --   config = function()
-    --     local utils = require("core.utils")
-    --     utils.map("n", "gt", "<cmd>lua require('tsht').nodes()<CR>",
-    --               { silent = true })
-    --   end
-    -- }
 
     -- Venn for drawing diagrams in vim
     -- https://github.com/jbyuki/venn.nvim
@@ -416,7 +428,7 @@ packer.startup({
     -- https://github.com/simrat39/rust-tools.nvim
     use {
       'simrat39/rust-tools.nvim',
-      config = load_config("plugins.configs.rust-tools")
+      config = load_config("plugins.configs.rust")
     }
 
     -- Todo comments
@@ -434,16 +446,6 @@ packer.startup({
     -- https://github.com/kevinhwang91/nvim-bqf
     use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 
-    -- Neoorg - orgmode reimagined for Neovim
-    -- https://github.com/nvim-neorg/neorg
-    -- use {
-    --   'nvim-neorg/neorg',
-    --   tag = "0.0.12",
-    --   -- run = ":Neorg sync-parsers",
-    --   config = load_config("plugins.configs.neorg"),
-    --   requires = { "nvim-lua/plenary.nvim" }
-    -- }
-
     -- Lua documentation in NeoVim help
     -- https://github.com/nanotee/luv-vimdocs
     -- https://github.com/milisims/nvim-luaref
@@ -454,7 +456,9 @@ packer.startup({
     -- https://fountain.io
     -- https://github.com/kblin/vim-fountain
     use { 'kblin/vim-fountain' }
+
+    if packer_boostrap then require("packer").sync() end
   end,
-  config = { max_jobs = 4 }
+  config = { max_jobs = 8 }
 })
 

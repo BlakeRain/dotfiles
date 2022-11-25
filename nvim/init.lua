@@ -1,3 +1,6 @@
+-- Load plugins
+require('plugins.packer')
+
 -- Load globals
 require('globals')
 
@@ -6,7 +9,4 @@ require('options')
 
 -- Keymaps
 require('keymaps')
-
--- Load plugins
-require('plugins.init')
 

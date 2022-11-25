@@ -81,6 +81,7 @@ vim.opt.incsearch = true
 vim.opt.inccommand = 'split'
 
 -- Don't ignore case with capitals.
+vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Set the tab size to two by default and replace tabs with spaces
@@ -97,7 +98,8 @@ vim.opt.expandtab = true
 vim.opt.backspace = { 'indent', 'eol', 'start' }
 
 -- Use the system clipboard.
-vim.opt.clipboard = 'unnamedplus'
+-- vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard:append("unnamedplus")
 
 -- Improve the autocompletion menus.
 vim.opt.completeopt = 'menu,menuone,noselect'
@@ -149,26 +151,3 @@ vim.g.markdown_fenced_languages = {
 -- vim.cmd('set foldmethod=expr')
 vim.cmd('set foldexpr=nvim_treesitter#foldexpr()')
 
--- Tell rust that we want to override the "recommended" style
-vim.g.rust_recommended_style = 0
-
--- Create an augroup for Rust that sets the textwidth to 120 (rather than the mandated 100)
-local rust_group = vim.api.nvim_create_augroup("RustSettings", { clear = true })
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.rs" },
-  group = rust_group,
-  callback = function(info)
-    -- setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-    vim.api.nvim_buf_set_option(info.buf, "textwidth", 119)
-    vim.api.nvim_buf_set_option(info.buf, "tabstop", 4)
-    vim.api.nvim_buf_set_option(info.buf, "shiftwidth", 4)
-    vim.api.nvim_buf_set_option(info.buf, "softtabstop", 4)
-    vim.api.nvim_buf_set_option(info.buf, "expandtab", true)
-  end
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*.rs" },
-  group = rust_group,
-  callback = function(info) vim.lsp.buf.formatting_sync({ bufnr = info.buf }) end
-})
