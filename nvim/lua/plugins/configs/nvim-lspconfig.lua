@@ -141,9 +141,14 @@ M.setup = function()
 
   -- Setup the clangd server
 
-  local clangd_path = "/usr/bin/clangd"
-  if vim.loop.os_uname().sysname == "Darwin" then
+  local clangd_path = nil
+  if vim.fn.filereadable("/usr/bin/clangd") == 1 then
+    clangd_path = "/usr/bin/clangd"
+  elseif vim.loop.os_uname().sysname == "Darwin" and
+    vim.fn.filereadable("/opt/homebrew/opt/llvm/bin/clangd") == 1 then
     clangd_path = "/opt/homebrew/opt/llvm/bin/clangd"
+  else
+    print("Unable to locate 'clangd'")
   end
 
   nvim_lsp.clangd.setup {
