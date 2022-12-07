@@ -21,6 +21,7 @@ M.setup = function()
   which_key.register({
     ["<leader><space>"] = { "Toggle folded region" },
     ["<leader>c"] = { name = "+Code" },
+    ["<leader>co"] = { name = "+Code & OpenAI" },
     ["<leader>cw"] = { name = "+LSP Workspace" },
     ["<leader>g"] = { name = "+Git" },
     ["<leader>q"] = { name = "+Quickfix" },

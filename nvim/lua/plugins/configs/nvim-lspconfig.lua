@@ -161,6 +161,7 @@ M.setup = function()
   -- Setup the Lua server
   nvim_lsp.sumneko_lua.setup {
     on_attach = on_attach,
+    capabilities = capabilities,
     settings = {
       Lua = {
         runtime = { version = 'LuaJIT' },
@@ -179,7 +180,8 @@ M.setup = function()
   }
 
   -- Setup Solidity
-  nvim_lsp.solidity_ls.setup { on_attach = on_attach }
+  nvim_lsp.solidity_ls
+    .setup { on_attach = on_attach, capabilities = capabilities }
 
   -- NOTE: Rust is activated in 'rust-tools.lua'
 end

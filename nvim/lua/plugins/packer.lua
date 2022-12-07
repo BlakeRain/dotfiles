@@ -386,6 +386,8 @@ return packer.startup({
 
     -- Custom leap plugin
     require"plugins.custom.leap_ast".setup()
+    -- Custom OpenAI plugin
+    require"plugins.custom.openai_tools".setup()
 
     -- Venn for drawing diagrams in vim
     -- https://github.com/jbyuki/venn.nvim
@@ -460,6 +462,30 @@ return packer.startup({
     -- https://fountain.io
     -- https://github.com/kblin/vim-fountain
     use { 'kblin/vim-fountain' }
+
+    -- Flow-State reading in neovim
+    -- https://github.com/nullchilly/fsread.nvim
+    use {
+      "nullchilly/fsread.nvim",
+      config = function()
+        require("core.utils").map("n", "<Leader>cF", "<CMD>FSToggle<CR>",
+                                  { desc = "Toggle Flow-State" })
+      end
+    }
+
+    -- Cellular automata in Neovim
+    -- https://github.com/Eandrju/cellular-automaton.nvim
+    use {
+      'eandrju/cellular-automaton.nvim',
+      config = function()
+        require("core.utils").map("n", "<Leader>fml",
+                                  "<CMD>CellularAutomaton make_it_rain<CR>")
+      end
+    }
+
+    -- Chat with ChatGPT
+    -- https://github.com/terror/chatgpt.nvim
+    -- use({ 'terror/chatgpt.nvim', run = 'pip3 install -r requirements.txt' })
 
     if packer_boostrap then require("packer").sync() end
   end,
