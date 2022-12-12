@@ -29,11 +29,12 @@ M.setup = function()
       ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
       ['<C-e>'] = cmp.mapping(
         { i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-      ['<C-j>'] = cmp.mapping.confirm({ select = false }),
+      ['<C-j>'] = cmp.mapping.confirm({ select = false })
       -- ['<CR>'] = cmp.mapping.confirm({ select = false })
     }),
     sources = cmp.config.sources({
-      { name = 'nvim_lsp' }, { name = 'nvim_lua' }, { name = 'luasnip' }
+      { name = 'copilot' }, { name = 'nvim_lsp' }, { name = 'nvim_lua' },
+      { name = 'luasnip' }
     }, {
       { name = 'buffer' }, { name = "spell" }, { name = "calc" },
       { name = "emoji" }

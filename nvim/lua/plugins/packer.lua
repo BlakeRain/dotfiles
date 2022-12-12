@@ -258,6 +258,19 @@ return packer.startup({
       config = load_config("plugins.configs.cmp")
     }
 
+    use {
+      "zbirenbaum/copilot.lua",
+      config = function()
+        vim.defer_fn(function() require("copilot").setup() end, 100)
+      end
+    }
+
+    use {
+      "zbirenbaum/copilot-cmp",
+      after = { "copilot.lua" },
+      config = function() require("copilot_cmp").setup() end
+    }
+
     -- Standalone UI for nvim-lsp progress
     -- https://github.com/j-hui/fidget.nvim
     use {
