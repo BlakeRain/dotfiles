@@ -76,6 +76,10 @@ utils.map("n", "<Leader>coe", function()
   require("plugins.custom.openai_tools").explainFunction()
 end, { desc = "OpenAI explain function" })
 
+-- utils.map("i", "<C-e>",
+--           function() require("plugins.custom.openai_tools").complete() end,
+--           { desc = "OpenAI complete" })
+
 utils.map("n", "<Leader>coq",
           function() require("plugins.custom.openai_tools").query() end,
           { desc = "OpenAI query" })

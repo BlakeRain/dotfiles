@@ -113,11 +113,12 @@ M.setup = function(config)
   end
 
   M.secret_key = secret_key
+  M.mark_namespace = vim.api.nvim_create_namespace("")
 end
 
 M.last_buf_id = nil
 
-M._execute = function(prompt, callback)
+M._execute = function(prompt, suffix, callback)
   curl.post("https://api.openai.com/v1/completions", {
     headers = {
       ["Content-Type"] = "application/json",
@@ -130,7 +131,8 @@ M._execute = function(prompt, callback)
       top_p = 1.0,
       frequency_penalty = 0.0,
       presence_penalty = 0.0,
-      prompt = prompt
+      prompt = prompt,
+      suffix = suffix
     }),
     callback = function(res)
       if type(res.body) == "string" then
@@ -154,7 +156,7 @@ M.query = function()
     end
   })
 
-  M._execute("Using markdown, answer the query: " .. prompt, function(res)
+  M._execute("Using markdown, answer the query: " .. prompt, nil, function(res)
     if #res.body.choices == 0 then
       print("No response from OpenGPT")
       return
@@ -200,7 +202,7 @@ M.explainFunction = function()
          { title = "OpenAI Tools: Explain Function" })
 
   M._execute("Using markdown, explain the following function:\n\n" .. code.text,
-             function(res)
+             nil, function(res)
     if #res.body.choices == 0 then
       print("No choices")
       return
@@ -214,6 +216,69 @@ M.explainFunction = function()
                                                                      .total_tokens),
         vim.log.levels.INFO)
       insert_comment(bufnr, code, choice.text)
+    end)
+  end)
+end
+
+local CONTEXT_LENGTH = 20
+
+M.complete = function()
+  local buffer = vim.api.nvim_get_current_buf()
+  local start_pos = vim.api.nvim_win_get_cursor(0)
+  local start_row = start_pos[1] - 1
+  local start_col = start_pos[2] + 1
+  local end_row = start_row
+  local end_col = start_col
+
+  local start_line_length = vim.api.nvim_buf_get_lines(buffer, start_row,
+                                                       start_row + 1, true)[1]:len()
+  start_col = math.min(start_col, start_line_length)
+
+  local end_line_length = vim.api.nvim_buf_get_lines(buffer, end_row,
+                                                     end_row + 1, true)[1]:len()
+  end_col = math.min(end_col, end_line_length)
+
+  local mark_id = vim.api.nvim_buf_set_extmark(buffer, M.mark_namespace,
+                                               start_row, start_col, {
+    end_row = end_row,
+    end_col = end_col,
+    hl_group = "OpenAIHighlight",
+    sign_text = "O",
+    sign_hl_group = "OpenAISign"
+  })
+
+  local prefix = table.concat(vim.api.nvim_buf_get_text(buffer, math.max(0,
+                                                                         start_row -
+                                                                           CONTEXT_LENGTH),
+                                                        0, start_row, start_col,
+                                                        {}), "\n")
+
+  local line_count = vim.api.nvim_buf_line_count(buffer)
+  local suffix = table.concat(vim.api.nvim_buf_get_text(buffer, end_row,
+                                                        end_col, math.min(
+                                                          end_row +
+                                                            CONTEXT_LENGTH,
+                                                          line_count - 1),
+                                                        9999999, {}), "\n")
+
+  M._execute(prompt, suffix, function(res)
+    if #res.body.choices == 0 then
+      print("No choices")
+      return
+    end
+
+    vim.schedule(function()
+      local mark = vim.api.nvim_buf_get_extmark_by_id(buffer, M.mark_namespace,
+                                                      mark_id,
+                                                      { details = true })
+      vim.api.nvim_buf_del_extmark(buffer, M.mark_namespace, mark_id)
+
+      local text = res.body.choices[1].text
+      local lines = {}
+      for line in text:gmatch("[^\n]+") do table.insert(lines, line) end
+
+      vim.api.nvim_buf_set_text(buffer, mark[1], mark[2], mark[3].end_row,
+                                mark[3].end_col, lines)
     end)
   end)
 end
