@@ -84,6 +84,10 @@ utils.map("n", "<Leader>coq",
           function() require("plugins.custom.openai_tools").query() end,
           { desc = "OpenAI query" })
 
+utils.map("n", "<Leader>coc",
+          function() require("plugins.custom.chatgpt").open_chat() end,
+          { desc = "OpenAI ChatGPT" })
+
 for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
             { desc = "Goto Window " .. i })

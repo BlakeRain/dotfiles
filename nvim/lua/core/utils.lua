@@ -53,4 +53,52 @@ M.packer_lazy_load = function(plugin, timer)
   end
 end
 
+M.split = function(text)
+  local t = {}
+  for str in string.gmatch(text, "%S+") do table.insert(t, str) end
+
+  return t
+end
+
+M.split_lines = function(text)
+  local lines = {}
+
+  for line in string.gmatch(text, "[^\n]+") do table.insert(lines, line) end
+
+  return lines
+end
+
+M.wrap_text_table = function(text, max_length)
+  local lines = {}
+
+  local as_lines = M.split_lines(text)
+  for _, line in ipairs(as_lines) do
+    if #line > max_length then
+      local tmp_line = ""
+      local words = M.split(line)
+
+      for _, word in ipairs(words) do
+        if #tmp_line + #word + 1 > max_length then
+          table.insert(lines, tmp_line)
+          tmp_line = word
+        else
+          tmp_line = tmp_line .. " " .. word
+        end
+      end
+
+      table.insert(lines, tmp_line)
+    else
+      table.insert(lines, line)
+    end
+  end
+
+  return lines
+end
+
+M.wrap_text = function(text, max_length)
+  local lines = M.wrap_text_table(text, max_length)
+  return table.concat(lines, "\n")
+end
+
 return M
+

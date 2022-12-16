@@ -126,7 +126,7 @@ M._execute = function(prompt, suffix, callback)
     },
     body = vim.json.encode({
       model = "text-davinci-003",
-      temperature = 0.4,
+      temperature = 0,
       max_tokens = 1000,
       top_p = 1.0,
       frequency_penalty = 0.0,

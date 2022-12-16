@@ -401,6 +401,8 @@ return packer.startup({
     require"plugins.custom.leap_ast".setup()
     -- Custom OpenAI plugin
     require"plugins.custom.openai_tools".setup()
+    -- ChatGPT UI
+    require"plugins.custom.chatgpt".setup()
 
     -- Venn for drawing diagrams in vim
     -- https://github.com/jbyuki/venn.nvim
