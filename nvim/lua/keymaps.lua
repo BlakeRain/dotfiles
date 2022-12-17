@@ -92,6 +92,10 @@ utils.map("n", "<Leader>coc",
           function() require("plugins.custom.chatgpt").open_chat() end,
           { desc = "OpenAI ChatGPT" })
 
+utils.map("n", "<Leader>coC", function()
+  require("plugins.custom.chatgpt").open_chat({ restore = true })
+end, { desc = "OpenAI ChatGPT (Restore Last)" })
+
 for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
             { desc = "Goto Window " .. i })

@@ -118,5 +118,46 @@ M.wrap_text = function(text, max_length, preserve)
   return table.concat(lines, "\n")
 end
 
+M.get_comment_wrapper = function(bufnr)
+  local cs = vim.api.nvim_buf_get_option(bufnr, "commentstring")
+  if cs:find("%%s") then
+    local left, right = cs:match("^(.*)%%s(.*)")
+    if not left:match("%s$") then left = left .. " " end
+    if right and not right:match("^%s") then right = " " .. right end
+    return { left = left, right = right }
+  else
+    vim.notify("Current commentstring is not understood: '" .. cs .. "'")
+    return nil
+  end
+end
+
+M.create_comment_lines = function(text, options)
+  options = options or {}
+  local width = options.width or 120
+  local indent = options.indent or 0
+  local wrapper = options.wrapper or M.get_comment_wrapper(0)
+  if wrapper == nil then wrapper = { left = "", right = "" } end
+
+  local wrap_len = #wrapper.left + #wrapper.right
+  local indent_str = string.rep(" ", indent)
+
+  local lines = M.wrap_text_table(text, width - (wrap_len + indent), true)
+  for index, line in ipairs(lines) do
+    lines[index] = indent_str .. wrapper.left .. line .. wrapper.right
+  end
+
+  return lines
+end
+
+M.add_comment = function(bufnr, line, column, text)
+  local lines = M.create_comment_lines(text, {
+    width = vim.api.nvim_buf_get_option(bufnr, "textwidth"),
+    indent = column,
+    wrapper = M.get_comment_wrapper(bufnr)
+  })
+
+  vim.api.nvim_buf_set_lines(bufnr, line, line, false, lines)
+end
+
 return M
 

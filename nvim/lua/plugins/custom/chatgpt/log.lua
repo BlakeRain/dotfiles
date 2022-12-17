@@ -107,6 +107,8 @@ end
 local Log = {}
 Log.__index = Log
 
+local LAST_CONVERSATION = {}
+
 function Log:new(bufnr, winid)
   self = setmetatable({}, Log)
 
@@ -123,6 +125,21 @@ function Log:new(bufnr, winid)
   self:add("logo", Config.options.logo)
 
   return self
+end
+
+function Log:save()
+  local found = false
+  for _, message in ipairs(self.messages) do
+    if message.type == "answer" then found = true end
+  end
+
+  if found then LAST_CONVERSATION = self.messages end
+end
+
+function Log:load()
+  for _, message in ipairs(LAST_CONVERSATION) do
+    if message.type ~= "logo" then self:add(message.type, message.message) end
+  end
 end
 
 function Log:buffer_exists() return vim.fn.bufexists(self.bufnr) == 1 end
@@ -162,7 +179,6 @@ function Log:yank_conversation()
         table.insert(conversation, "> " .. message.message)
       else
         table.insert(conversation, message.message)
-        table.insert(conversation, "")
       end
     end
   end

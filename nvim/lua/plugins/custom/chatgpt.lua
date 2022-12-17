@@ -1,3 +1,4 @@
+local notify = require("notify")
 local Layout = require("nui.layout")
 local Popup = require("nui.popup")
 local openai = require("plugins.custom.openai_tools")
@@ -7,7 +8,8 @@ local Config = require("plugins.custom.chatgpt.config")
 
 local M = {}
 
-M.open_chat = function()
+M.open_chat = function(args)
+  args = args or {}
   local layout, chat_input, log
 
   local chat_window = Popup(Config.options.chat_window)
@@ -16,6 +18,7 @@ M.open_chat = function()
     prompt = Config.options.chat_input.prompt,
     on_close = function()
       log:cancel_progress()
+      log:save()
       layout:unmount()
     end,
     on_submit = vim.schedule_wrap(function(value)
@@ -38,6 +41,9 @@ M.open_chat = function()
           log:add("answer", "No response from ChatGPT")
           return
         end
+
+        notify(("Response received from OpenAI\n\nUsed %i tokens"):format(
+                 res.body.usage.total_tokens), vim.log.levels.INFO)
 
         local choice = res.body.choices[1].text
         choice = string.gsub(choice, "^%s*(.-)", "%1")
@@ -65,6 +71,7 @@ M.open_chat = function()
   layout:mount()
 
   log = Log:new(chat_window.bufnr, chat_window.winid)
+  if args.restore then log:load() end
 end
 
 M.setup = function(options)
@@ -75,7 +82,11 @@ M.setup = function(options)
   vim.api.nvim_set_hl(0, "ChatGPTAnswer", { fg = "#c0caf5" })
   vim.api.nvim_set_hl(0, "ChatGPTSelected", { fg = "#2ac3de", bg = "#0f5561" })
 
-  vim.api.nvim_create_user_command("ChatGPT", function() M.open_chat() end, {})
+  vim.api.nvim_create_user_command("ChatGPT", function(args)
+    args = args or {}
+    local restore = args.bang == true
+    M.open_chat({ restore = restore })
+  end, {})
 end
 
 return M

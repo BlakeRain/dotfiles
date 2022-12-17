@@ -40,7 +40,7 @@ function M.defaults()
     layout = {
       relative = "editor",
       position = "50%",
-      size = { width = "80%", height = "20%" }
+      size = { width = "80%", height = "80%" }
 
     }
   }

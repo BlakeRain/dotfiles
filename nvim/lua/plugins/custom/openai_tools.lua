@@ -1,3 +1,4 @@
+local utils = require('core.utils')
 local curl = require("plenary.curl")
 local ts_utils = require("nvim-treesitter.ts_utils")
 local notify = require("notify")
@@ -34,64 +35,6 @@ local function get_function_at_cursor()
     finish = { line = endline, col = endcol },
     text = text
   }
-end
-
-local function split_lines(input)
-  local result = {}
-  local from = 1
-
-  local ds, de = string.find(input, "\n", from, true)
-  while ds do
-    if ds ~= 1 then table.insert(result, string.sub(input, from, ds - 1)) end
-    from = de + 1
-    ds, de = string.find(input, "\n", from, true)
-  end
-
-  if from < #input then table.insert(result, string.sub(input, from)) end
-  return result
-end
-
-local function get_comment_wrapper(bufnr)
-  local cs = vim.api.nvim_buf_get_option(bufnr, "commentstring")
-  if cs:find("%%s") then
-    local left, right = cs:match("^(.*)%%s(.*)")
-    if not left:match("%s$") then left = left .. " " end
-
-    if right and not right:match("^%s") then right = " " .. right end
-
-    return left, right
-  else
-    print("Current commentstring is not understood: '" .. cs .. "'")
-    return nil
-  end
-end
-
-local function comment_lines(width, left, right, indent, text)
-  local lines = {}
-  local line = nil
-
-  for word in string.gmatch(text, "([^%s]+)") do
-    if line == nil then
-      line = string.rep(" ", indent) .. left .. word
-    elseif #line + #word + #right + 1 >= width then
-      table.insert(lines, line .. right)
-      line = string.rep(" ", indent) .. left .. word
-    else
-      line = line .. " " .. word
-    end
-  end
-
-  if #line > 0 then table.insert(lines, line .. right) end
-
-  return lines
-end
-
-local function insert_comment(bufnr, code, text)
-  local width = vim.api.nvim_buf_get_option(bufnr, "textwidth")
-  local left, right = get_comment_wrapper(bufnr)
-  local lines = comment_lines(width, left, right, code.start.col, text)
-  vim.api.nvim_buf_set_lines(bufnr, code.start.line, code.start.line, false,
-                             lines)
 end
 
 local M = {}
@@ -183,7 +126,7 @@ M.query = function()
       vim.api.nvim_buf_set_option(M.last_buf_id, "filetype", "markdown")
 
       -- Write out the response from OpenGPT into the window
-      local lines = split_lines(choice.text)
+      local lines = utils.split_lines(choice.text)
       table.insert(lines, 1, "> " .. prompt)
       vim.api.nvim_buf_set_lines(M.last_buf_id, 0, 0, false, lines)
     end)
@@ -208,14 +151,17 @@ M.explainFunction = function()
       return
     end
 
-    local choice = res.body.choices[1]
+    local choice = res.body.choices[1].text
+    choice = string.gsub(choice, "^%s*(.-)", "%1")
+
     vim.schedule(function()
       notify(
         ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
                                                                      .usage
                                                                      .total_tokens),
         vim.log.levels.INFO)
-      insert_comment(bufnr, code, choice.text)
+
+      utils.add_comment(bufnr, code.start.line, code.start.col, choice)
     end)
   end)
 end
