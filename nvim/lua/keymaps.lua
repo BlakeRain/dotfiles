@@ -43,6 +43,10 @@ utils.map("n", "<Leader>qf", "<CMD>copen<CR>", { desc = "Open Quickfix List" })
 utils.map('v', '<', '<gv')
 utils.map('v', '>', '>gv')
 
+-- Drag things up and down in visual selection mode
+utils.map("v", "J", ":m '>+1<CR>gv=gv")
+utils.map("v", "K", ":m '<-2<CR>gv=gv")
+
 -- When using 'x', don't yank the deleted character into a register
 utils.map('n', 'x', '"_x')
 

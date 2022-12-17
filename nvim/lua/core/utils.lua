@@ -60,18 +60,32 @@ M.split = function(text)
   return t
 end
 
-M.split_lines = function(text)
+M.split_lines = function(text, preserve)
   local lines = {}
 
-  for line in string.gmatch(text, "[^\n]+") do table.insert(lines, line) end
+  if preserve then
+    local from = 1
+
+    local ds, de = string.find(text, "\n", from, true)
+    while ds do
+      if ds ~= 1 then table.insert(lines, string.sub(text, from, ds - 1)) end
+      from = de + 1
+      ds, de = string.find(text, "\n", from, true)
+    end
+
+    if from < #text then table.insert(lines, string.sub(text, from)) end
+  else
+    -- Without preserving multiple newlines, we can just use a simple split
+    for line in string.gmatch(text, "[^\n]+") do table.insert(lines, line) end
+  end
 
   return lines
 end
 
-M.wrap_text_table = function(text, max_length)
+M.wrap_text_table = function(text, max_length, preserve)
   local lines = {}
 
-  local as_lines = M.split_lines(text)
+  local as_lines = M.split_lines(text, preserve)
   for _, line in ipairs(as_lines) do
     if #line > max_length then
       local tmp_line = ""
@@ -82,7 +96,11 @@ M.wrap_text_table = function(text, max_length)
           table.insert(lines, tmp_line)
           tmp_line = word
         else
-          tmp_line = tmp_line .. " " .. word
+          if #tmp_line == 0 then
+            tmp_line = word
+          else
+            tmp_line = tmp_line .. " " .. word
+          end
         end
       end
 
@@ -95,8 +113,8 @@ M.wrap_text_table = function(text, max_length)
   return lines
 end
 
-M.wrap_text = function(text, max_length)
-  local lines = M.wrap_text_table(text, max_length)
+M.wrap_text = function(text, max_length, preserve)
+  local lines = M.wrap_text_table(text, max_length, preserve)
   return table.concat(lines, "\n")
 end
 
