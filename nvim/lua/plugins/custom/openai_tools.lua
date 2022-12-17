@@ -1,6 +1,5 @@
 local utils = require('core.utils')
 local curl = require("plenary.curl")
-local ts_utils = require("nvim-treesitter.ts_utils")
 local notify = require("notify")
 
 local function load_keyfile(path)
@@ -9,32 +8,6 @@ local function load_keyfile(path)
   local content = file:read("*a")
   file:close()
   return vim.json.decode(content)
-end
-
-local function get_node_text(node)
-  local lines = ts_utils.get_node_text(node)
-  return table.concat(lines, "\n")
-end
-
-local function get_function_at_cursor()
-  local node = ts_utils.get_node_at_cursor()
-  if not node then return nil end
-
-  while node do
-    local t = node:type()
-    if t == "function_definition" or t == "function_declaration" then break end
-    node = node:parent()
-  end
-
-  if not node then return nil end
-  local startline, startcol, endline, endcol = node:range()
-  local text = get_node_text(node)
-
-  return {
-    start = { line = startline, col = startcol },
-    finish = { line = endline, col = endcol },
-    text = text
-  }
 end
 
 local M = {}
@@ -57,6 +30,22 @@ M.setup = function(config)
 
   M.secret_key = secret_key
   M.mark_namespace = vim.api.nvim_create_namespace("")
+
+  vim.api.nvim_set_hl(0, "OpenAISign", { fg = "#2ac3de" })
+
+  vim.api.nvim_create_user_command("OpenAIQuery",
+                                   function(args) M.query(args) end,
+                                   { range = true, nargs = "*" })
+
+  vim.api.nvim_create_user_command("OpenAIExplainCode",
+                                   function() M.explain_code() end,
+                                   { range = true })
+
+  vim.api.nvim_create_user_command("OpenAIExplainFunction",
+                                   function() M.explain_function() end, {})
+
+  vim.api.nvim_create_user_command("OpenAIComplete",
+                                   function() M.complete() end, {})
 end
 
 M.last_buf_id = nil
@@ -87,11 +76,28 @@ M._execute = function(prompt, suffix, callback)
   })
 end
 
-M.query = function()
-  local prompt = vim.fn.input("Enter prompt: ")
-  if prompt == nil or #prompt == 0 then return end
+M.query = function(args)
+  args = args or {}
+  local prompt = args.args
+  local display_prompt = prompt
+  local visual = args.range > 0
 
-  notify("Sending request to OpenAI:\n\n> " .. prompt, vim.log.levels.INFO, {
+  if visual then
+    local bufnr = vim.api.nvim_get_current_buf()
+    local selection = utils.get_selection(bufnr)
+    prompt = table.concat(selection.lines, "\n")
+    display_prompt = "(visual selection)"
+  else
+    if prompt == nil or #prompt == 0 then
+      local okay, received = pcall(vim.fn.input, "Enter prompt: ")
+      if not okay or received == nil or #received == 0 then return end
+      prompt = received
+      display_prompt = "(visual selection)"
+    end
+  end
+
+  notify("Sending request to OpenAI:\n\n> " .. display_prompt,
+         vim.log.levels.INFO, {
     title = "OpenAI Tools: Query",
     on_open = function(win)
       local buf = vim.api.nvim_win_get_buf(win)
@@ -99,14 +105,20 @@ M.query = function()
     end
   })
 
-  M._execute("Using markdown, answer the query: " .. prompt, nil, function(res)
+  M._execute(prompt, nil, function(res)
     if #res.body.choices == 0 then
-      print("No response from OpenGPT")
+      vim.notify("No response from OpenGPT", vim.log.levels.ERROR)
       return
     end
 
     local choice = res.body.choices[1]
     vim.schedule(function()
+      notify(
+        ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+                                                                     .usage
+                                                                     .total_tokens),
+        vim.log.levels.INFO, { title = "OpenAI Tools: Query" })
+
       -- If we already have a buffer from previous output, delete it
       if M.last_buf_id ~= nil and vim.api.nvim_buf_is_valid(M.last_buf_id) then
         vim.api.nvim_buf_delete(M.last_buf_id, { force = true })
@@ -125,27 +137,105 @@ M.query = function()
       -- Set the filetype of the scratch buffer to markdown
       vim.api.nvim_buf_set_option(M.last_buf_id, "filetype", "markdown")
 
-      -- Write out the response from OpenGPT into the window
-      local lines = utils.split_lines(choice.text)
-      table.insert(lines, 1, "> " .. prompt)
+      local lines = {}
+
+      local prompt_lines = utils.split_lines(prompt)
+      for i, line in ipairs(prompt_lines) do
+        if i == 1 then
+          table.insert(lines, "  | " .. line)
+        else
+          table.insert(lines, "   | " .. line)
+        end
+      end
+
+      table.insert(lines, "")
+
+      local choice_lines = utils.split_lines(choice.text)
+      for _, line in ipairs(choice_lines) do table.insert(lines, line) end
+
       vim.api.nvim_buf_set_lines(M.last_buf_id, 0, 0, false, lines)
+      for index = 0, #prompt_lines do
+        local start = 5
+        if index == 0 then start = 7 end
+        vim.api.nvim_buf_add_highlight(M.last_buf_id, -1, "ChatGPTPrompt",
+                                       index, start, -1)
+      end
     end)
   end)
 end
 
-M.explainFunction = function()
+M.explain_function = function()
   local bufnr = vim.api.nvim_get_current_buf()
-  local code = get_function_at_cursor()
+  local code = utils.get_function_at_cursor(0)
   if code == nil then
     print("Unable to find function under cursor")
     return
   end
+
+  code.text = utils.get_node_text(code.node)
+
+  local mark_id = vim.api.nvim_buf_set_extmark(bufnr, M.mark_namespace,
+                                               code.start.line, code.start.col,
+                                               {
+    end_row = code.start.line,
+    end_col = code.start.col,
+    hl_group = "OpenAIHighlight",
+    sign_text = "ﮧ",
+    sign_hl_group = "OpenAISign"
+  })
 
   notify("Sending request to OpenAI ...", vim.log.levels.INFO,
          { title = "OpenAI Tools: Explain Function" })
 
   M._execute("Using markdown, explain the following function:\n\n" .. code.text,
              nil, function(res)
+    vim.schedule(function()
+      notify(
+        ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+                                                                     .usage
+                                                                     .total_tokens),
+        vim.log.levels.INFO, { title = "OpenAI Tools: Explain Function" })
+      vim.api.nvim_buf_del_extmark(bufnr, M.mark_namespace, mark_id)
+
+      if #res.body.choices == 0 then
+        print("No choices")
+        return
+      end
+
+      local choice = res.body.choices[1].text
+      choice = string.gsub(choice, "^%s*(.-)", "%1")
+
+      utils.add_comment(bufnr, code.start.line, code.start.col, choice)
+    end)
+  end)
+end
+
+M.explain_code = function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local code = utils.get_selection(bufnr)
+
+  local mark_id = vim.api.nvim_buf_set_extmark(bufnr, M.mark_namespace,
+                                               code.start.line, code.start.col,
+                                               {
+    end_row = code.start.line,
+    end_col = code.start.col,
+    hl_group = "OpenAIHighlight",
+    sign_text = "ﮧ",
+    sign_hl_group = "OpenAISign"
+  })
+
+  notify("Sending request to OpenAI ...", vim.log.levels.INFO,
+         { title = "OpenAI Tools: Explain Code" })
+
+  M._execute("Using markdown, explain the following code:\n\n" ..
+               table.concat(code.lines, "\n"), nil,
+             vim.schedule_wrap(function(res)
+    notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+                                                                        .usage
+                                                                        .total_tokens),
+           vim.log.levels.INFO, { title = "OpenAI Tools: Explain Function" })
+    vim.api.nvim_buf_del_extmark(bufnr, M.mark_namespace, mark_id)
+
     if #res.body.choices == 0 then
       print("No choices")
       return
@@ -154,79 +244,80 @@ M.explainFunction = function()
     local choice = res.body.choices[1].text
     choice = string.gsub(choice, "^%s*(.-)", "%1")
 
-    vim.schedule(function()
-      notify(
-        ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
-                                                                     .usage
-                                                                     .total_tokens),
-        vim.log.levels.INFO)
+    local indent = code.start.col
+    if #code.lines > 0 then
+      local _, de = string.find(code.lines[1], "^%s*")
+      indent = indent + de
+    end
 
-      utils.add_comment(bufnr, code.start.line, code.start.col, choice)
-    end)
-  end)
+    utils.add_comment(bufnr, code.start.line, indent, choice)
+
+  end))
 end
 
 local CONTEXT_LENGTH = 20
 
 M.complete = function()
-  local buffer = vim.api.nvim_get_current_buf()
+  local bufnr = vim.api.nvim_get_current_buf()
   local start_pos = vim.api.nvim_win_get_cursor(0)
   local start_row = start_pos[1] - 1
   local start_col = start_pos[2] + 1
   local end_row = start_row
   local end_col = start_col
 
-  local start_line_length = vim.api.nvim_buf_get_lines(buffer, start_row,
+  local start_line_length = vim.api.nvim_buf_get_lines(bufnr, start_row,
                                                        start_row + 1, true)[1]:len()
   start_col = math.min(start_col, start_line_length)
 
-  local end_line_length = vim.api.nvim_buf_get_lines(buffer, end_row,
+  local end_line_length = vim.api.nvim_buf_get_lines(bufnr, end_row,
                                                      end_row + 1, true)[1]:len()
   end_col = math.min(end_col, end_line_length)
 
-  local mark_id = vim.api.nvim_buf_set_extmark(buffer, M.mark_namespace,
+  local mark_id = vim.api.nvim_buf_set_extmark(bufnr, M.mark_namespace,
                                                start_row, start_col, {
     end_row = end_row,
     end_col = end_col,
     hl_group = "OpenAIHighlight",
-    sign_text = "O",
+    sign_text = "ﮧ",
     sign_hl_group = "OpenAISign"
   })
 
-  local prefix = table.concat(vim.api.nvim_buf_get_text(buffer, math.max(0,
-                                                                         start_row -
-                                                                           CONTEXT_LENGTH),
-                                                        0, start_row, start_col,
-                                                        {}), "\n")
+  local prefix_line = math.max(0, start_row - CONTEXT_LENGTH)
+  local prefix = table.concat(vim.api.nvim_buf_get_text(bufnr, prefix_line, 0,
+                                                        start_row, start_col, {}),
+                              "\n")
 
-  local line_count = vim.api.nvim_buf_line_count(buffer)
-  local suffix = table.concat(vim.api.nvim_buf_get_text(buffer, end_row,
-                                                        end_col, math.min(
-                                                          end_row +
-                                                            CONTEXT_LENGTH,
-                                                          line_count - 1),
-                                                        9999999, {}), "\n")
+  local line_count = vim.api.nvim_buf_line_count(bufnr)
+  local suffix_line = math.min(end_row + CONTEXT_LENGTH, line_count - 1)
+  local suffix = table.concat(
+                   vim.api.nvim_buf_get_text(bufnr, end_row, end_col,
+                                             suffix_line, 9999999, {}), "\n")
 
-  M._execute(prompt, suffix, function(res)
+  notify("Sending request to OpenAI ...", vim.log.levels.INFO,
+         { title = "OpenAI Tools: Complete Code" })
+
+  M._execute(prefix, suffix, vim.schedule_wrap(function(res)
+    local mark = vim.api.nvim_buf_get_extmark_by_id(bufnr, M.mark_namespace,
+                                                    mark_id, { details = true })
+    vim.api.nvim_buf_del_extmark(bufnr, M.mark_namespace, mark_id)
+
+    notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+                                                                        .usage
+                                                                        .total_tokens),
+           vim.log.levels.INFO, { title = "OpenAI Tools: Complete Code" })
+
     if #res.body.choices == 0 then
       print("No choices")
       return
     end
 
-    vim.schedule(function()
-      local mark = vim.api.nvim_buf_get_extmark_by_id(buffer, M.mark_namespace,
-                                                      mark_id,
-                                                      { details = true })
-      vim.api.nvim_buf_del_extmark(buffer, M.mark_namespace, mark_id)
+    local text = res.body.choices[1].text
+    local lines = {}
+    for line in text:gmatch("[^\n]+") do table.insert(lines, line) end
 
-      local text = res.body.choices[1].text
-      local lines = {}
-      for line in text:gmatch("[^\n]+") do table.insert(lines, line) end
-
-      vim.api.nvim_buf_set_text(buffer, mark[1], mark[2], mark[3].end_row,
-                                mark[3].end_col, lines)
-    end)
-  end)
+    vim.api.nvim_buf_set_text(bufnr, mark[1], mark[2], mark[3].end_row,
+                              mark[3].end_col, lines)
+  end))
 end
 
 return M

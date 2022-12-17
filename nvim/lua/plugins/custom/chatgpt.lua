@@ -36,14 +36,15 @@ M.open_chat = function(args)
                       vim.schedule_wrap(function(res)
         log:cancel_progress()
 
+        notify(("Response received from OpenAI\n\nUsed %i tokens"):format(
+                 res.body.usage.total_tokens), vim.log.levels.INFO,
+               { title = "ChatGPT" })
+
         if #res.body.choices == 0 then
           vim.notify("No response from ChatGPT", vim.log.levels.WARN)
           log:add("answer", "No response from ChatGPT")
           return
         end
-
-        notify(("Response received from OpenAI\n\nUsed %i tokens"):format(
-                 res.body.usage.total_tokens), vim.log.levels.INFO)
 
         local choice = res.body.choices[1].text
         choice = string.gsub(choice, "^%s*(.-)", "%1")
@@ -86,7 +87,7 @@ M.setup = function(options)
     args = args or {}
     local restore = args.bang == true
     M.open_chat({ restore = restore })
-  end, {})
+  end, { bang = true })
 end
 
 return M

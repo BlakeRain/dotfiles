@@ -159,5 +159,59 @@ M.add_comment = function(bufnr, line, column, text)
   vim.api.nvim_buf_set_lines(bufnr, line, line, false, lines)
 end
 
+M.get_function_at_cursor = function(winid)
+  local node = require("nvim-treesitter.ts_utils").get_node_at_cursor(winid)
+  if not node then return nil end
+
+  while node do
+    local t = node:type()
+    if t == "function_definition" or t == "function_declaration" then break end
+    node = node:parent()
+  end
+
+  if not node then return nil end
+  local startline, startcol, endline, endcol = node:range()
+  local text = M.get_node_text(node)
+
+  return {
+    start = { line = startline, col = startcol },
+    finish = { line = endline, col = endcol },
+    node = node
+  }
+end
+
+M.get_node_text = function(node)
+  local startline, startcol, endline, endcol = node:range()
+  local lines = vim.api.nvim_buf_get_lines(0, startline, endline + 1, false)
+  lines[1] = string.sub(lines[1], startcol + 1)
+  lines[#lines] = string.sub(lines[#lines], 1, endcol)
+
+  return table.concat(lines, "\n")
+end
+
+M.get_selection = function(bufnr)
+  local start = vim.api.nvim_buf_get_mark(bufnr, "<")
+  local finish = vim.api.nvim_buf_get_mark(bufnr, ">")
+  local start_row = start[1] - 1
+  local start_col = start[2]
+  local end_row = finish[1] - 1
+  local end_col = finish[2] + 1
+
+  local start_line_length = vim.api.nvim_buf_get_lines(bufnr, start_row,
+                                                       start_row + 1, true)[1]:len()
+  start_col = math.min(start_col, start_line_length)
+
+  local end_line_length = vim.api.nvim_buf_get_lines(bufnr, end_row,
+                                                     end_row + 1, true)[1]:len()
+  end_col = math.min(end_col, end_line_length)
+
+  return {
+    start = { line = start_row, col = start_col },
+    finish = { line = end_row, col = end_col },
+    lines = vim.api.nvim_buf_get_text(bufnr, start_row, start_col, end_row,
+                                      end_col, {})
+  }
+end
+
 return M
 

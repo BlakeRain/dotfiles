@@ -76,25 +76,22 @@ utils.map('n', '<leader>w9', ':9wincmd w <CR>')
 utils.map('n', '<leader>wc', ":close<CR>")
 utils.map('n', '<leader>wz', ':MaximizerToggle<CR>')
 
-utils.map("n", "<Leader>coe", function()
-  require("plugins.custom.openai_tools").explainFunction()
-end, { desc = "OpenAI explain function" })
+utils.map("n", "<Leader>coe", ":OpenAIExplainFunction<CR>",
+          { desc = "OpenAI explain function" })
 
--- utils.map("i", "<C-e>",
---           function() require("plugins.custom.openai_tools").complete() end,
---           { desc = "OpenAI complete" })
+utils.map("v", "<Leader>coe", ":OpenAIExplainCode<CR>",
+          { desc = "OpenAI explain selected code" })
 
-utils.map("n", "<Leader>coq",
-          function() require("plugins.custom.openai_tools").query() end,
-          { desc = "OpenAI query" })
+utils.map("i", "<C-e>", ":OpenAIComplete<CR>", { desc = "OpenAI complete" })
 
-utils.map("n", "<Leader>coc",
-          function() require("plugins.custom.chatgpt").open_chat() end,
-          { desc = "OpenAI ChatGPT" })
+utils.map("n", "<Leader>coq", ":OpenAIQuery<CR>", { desc = "OpenAI query" })
+utils.map("v", "<Leader>coq", ":OpenAIQuery<CR>",
+          { desc = "OpenAI query (selection)" })
 
-utils.map("n", "<Leader>coC", function()
-  require("plugins.custom.chatgpt").open_chat({ restore = true })
-end, { desc = "OpenAI ChatGPT (Restore Last)" })
+utils.map("n", "<Leader>coc", ":ChatGPT<CR>", { desc = "OpenAI ChatGPT" })
+
+utils.map("n", "<Leader>coC", ":ChatGPT!",
+          { desc = "OpenAI ChatGPT (Restore Last)" })
 
 for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
