@@ -47,11 +47,34 @@ utils.map('v', '>', '>gv')
 utils.map("v", "J", ":m '>+1<CR>gv=gv")
 utils.map("v", "K", ":m '<-2<CR>gv=gv")
 
+-- Join lines, but keep cursor where it is
+utils.map("n", "J", "mzJ`z")
+
+-- Centre cursor when going up and down
+utils.map("n", "<C-u>", "<C-u>zz")
+utils.map("n", "<C-d>", "<C-d>zz")
+
+-- Centre cursor when searching
+utils.map("n", "n", "nzzzv")
+utils.map("n", "N", "Nzzzv")
+
 -- When using 'x', don't yank the deleted character into a register
 utils.map('n', 'x', '"_x')
 
 -- Clear the current highlight with <leader>k.
 utils.map('n', '<leader>k', ':nohlsearch<CR>', { desc = "Clear Highlight" })
+
+-- Delete to the void register
+utils.map("n", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
+utils.map("v", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
+
+-- Begin a search/replace with the current word under the cursor
+vim.keymap.set("n", "<leader>s",
+               [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Paste without replacing the contents of the register
+utils.map("x", "<leader>p", "\"_dP",
+          { desc = "Paste (without register overwrite)" })
 
 -- Use 'gf' to go to a file, even if it doesn't exist yet.
 utils.map('n', 'gf', ':edit <cfile><cr>')
