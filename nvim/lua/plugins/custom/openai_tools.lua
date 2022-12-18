@@ -50,6 +50,16 @@ end
 
 M.last_buf_id = nil
 
+M._mark_lines = function(bufnr, from, to)
+  for i = from, to do
+    vim.api.nvim_buf_set_extmark(bufnr, M.mark_namespace, i, -1, {
+      id = i,
+      sign_text = i == from and "ﮧ" or "│",
+      sign_hl_group = "OpenAISign"
+    })
+  end
+end
+
 M._execute = function(prompt, suffix, callback)
   curl.post("https://api.openai.com/v1/completions", {
     headers = {
@@ -173,16 +183,7 @@ M.explain_function = function()
   end
 
   code.text = utils.get_node_text(code.node)
-
-  local mark_id = vim.api.nvim_buf_set_extmark(bufnr, M.mark_namespace,
-                                               code.start.line, code.start.col,
-                                               {
-    end_row = code.start.line,
-    end_col = code.start.col,
-    hl_group = "OpenAIHighlight",
-    sign_text = "ﮧ",
-    sign_hl_group = "OpenAISign"
-  })
+  M._mark_lines(bufnr, code.start.line, code.finish.line)
 
   notify("Sending request to OpenAI ...", vim.log.levels.INFO,
          { title = "OpenAI Tools: Explain Function" })
@@ -195,7 +196,9 @@ M.explain_function = function()
                                                                      .usage
                                                                      .total_tokens),
         vim.log.levels.INFO, { title = "OpenAI Tools: Explain Function" })
-      vim.api.nvim_buf_del_extmark(bufnr, M.mark_namespace, mark_id)
+
+      vim.api.nvim_buf_clear_namespace(bufnr, M.mark_namespace, code.start.line,
+                                       code.finish.line + 1)
 
       if #res.body.choices == 0 then
         print("No choices")
@@ -214,15 +217,8 @@ M.explain_code = function()
   local bufnr = vim.api.nvim_get_current_buf()
   local code = utils.get_selection(bufnr)
 
-  local mark_id = vim.api.nvim_buf_set_extmark(bufnr, M.mark_namespace,
-                                               code.start.line, code.start.col,
-                                               {
-    end_row = code.start.line,
-    end_col = code.start.col,
-    hl_group = "OpenAIHighlight",
-    sign_text = "ﮧ",
-    sign_hl_group = "OpenAISign"
-  })
+  print(vim.inspect(code))
+  M._mark_lines(bufnr, code.start.line, code.finish.line)
 
   notify("Sending request to OpenAI ...", vim.log.levels.INFO,
          { title = "OpenAI Tools: Explain Code" })
@@ -234,7 +230,9 @@ M.explain_code = function()
                                                                         .usage
                                                                         .total_tokens),
            vim.log.levels.INFO, { title = "OpenAI Tools: Explain Function" })
-    vim.api.nvim_buf_del_extmark(bufnr, M.mark_namespace, mark_id)
+
+    vim.api.nvim_buf_clear_namespace(bufnr, M.mark_namespace, code.start.line,
+                                     code.finish.line + 1)
 
     if #res.body.choices == 0 then
       print("No choices")
