@@ -112,9 +112,13 @@ utils.map("v", "<Leader>coq", ":OpenAIQuery<CR>",
           { desc = "OpenAI query (selection)" })
 
 utils.map("n", "<Leader>coc", ":ChatGPT<CR>", { desc = "OpenAI ChatGPT" })
+utils.map("v", "<Leader>coc", ":ChatGPT<CR>",
+          { desc = "OpenAI ChatGPT (Selected Prompt)" })
 
-utils.map("n", "<Leader>coC", ":ChatGPT!",
+utils.map("n", "<Leader>coC", ":ChatGPT!<CR>",
           { desc = "OpenAI ChatGPT (Restore Last)" })
+utils.map("v", "<Leader>coC", ":ChatGPT!<CR>",
+          { desc = "OpenAI ChatGPT (Restore Last, Selected Prompt)" })
 
 for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",

@@ -1,4 +1,5 @@
 local notify = require("notify")
+local utils = require("core.utils")
 local Layout = require("nui.layout")
 local Popup = require("nui.popup")
 local openai = require("plugins.custom.openai_tools")
@@ -12,6 +13,39 @@ M.open_chat = function(args)
   args = args or {}
   local layout, chat_input, log
 
+  local function process(prompt)
+    if log:is_busy() then
+      vim.notify("ChatGPT is busy, please wait...", vim.log.levels.WARN)
+      return false
+    end
+
+    log:add("prompt", prompt)
+    log:start_progress()
+
+    openai._execute(log:gather_conversation(), nil,
+                    vim.schedule_wrap(function(res)
+      log:cancel_progress()
+
+      notify(
+        ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+                                                                     .usage
+                                                                     .total_tokens),
+        vim.log.levels.INFO, { title = "ChatGPT" })
+
+      if #res.body.choices == 0 then
+        vim.notify("No response from ChatGPT", vim.log.levels.WARN)
+        log:add("answer", "No response from ChatGPT")
+        return
+      end
+
+      local choice = res.body.choices[1].text
+      choice = string.gsub(choice, "^%s*(.-)", "%1")
+      log:add("answer", choice)
+    end))
+
+    return true
+  end
+
   local chat_window = Popup(Config.options.chat_window)
 
   chat_input = Input(Config.options.chat_input, {
@@ -22,34 +56,9 @@ M.open_chat = function(args)
       layout:unmount()
     end,
     on_submit = vim.schedule_wrap(function(value)
-      if log:is_busy() then
-        vim.notify("ChatGPT is busy, please wait...", vim.log.levels.WARN)
-        return
+      if process(value) then
+        vim.api.nvim_buf_set_lines(chat_input.bufnr, 0, 1, false, { "" })
       end
-
-      vim.api.nvim_buf_set_lines(chat_input.bufnr, 0, 1, false, { "" })
-
-      log:add("prompt", value)
-      log:start_progress()
-
-      openai._execute(log:gather_conversation(), nil,
-                      vim.schedule_wrap(function(res)
-        log:cancel_progress()
-
-        notify(("Response received from OpenAI\n\nUsed %i tokens"):format(
-                 res.body.usage.total_tokens), vim.log.levels.INFO,
-               { title = "ChatGPT" })
-
-        if #res.body.choices == 0 then
-          vim.notify("No response from ChatGPT", vim.log.levels.WARN)
-          log:add("answer", "No response from ChatGPT")
-          return
-        end
-
-        local choice = res.body.choices[1].text
-        choice = string.gsub(choice, "^%s*(.-)", "%1")
-        log:add("answer", choice)
-      end))
     end)
   })
 
@@ -73,6 +82,7 @@ M.open_chat = function(args)
 
   log = Log:new(chat_window.bufnr, chat_window.winid)
   if args.restore then log:load() end
+  if args.prompt then process(args.prompt) end
 end
 
 M.setup = function(options)
@@ -86,8 +96,14 @@ M.setup = function(options)
   vim.api.nvim_create_user_command("ChatGPT", function(args)
     args = args or {}
     local restore = args.bang == true
-    M.open_chat({ restore = restore })
-  end, { bang = true })
+    local prompt = nil
+    if args.range > 0 then
+      local bufnr = vim.api.nvim_get_current_buf()
+      local selection = utils.get_selection(bufnr)
+      prompt = table.concat(selection.lines, "\n")
+    end
+    M.open_chat({ restore = restore, prompt = prompt })
+  end, { bang = true, range = true })
 end
 
 return M
