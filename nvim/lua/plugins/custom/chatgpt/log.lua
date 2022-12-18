@@ -304,13 +304,19 @@ function Log:start_progress()
       "   " .. char .. " loading " .. string.rep(".", index - 1)
     })
 
+    if first then
+      -- Set the cursor to the end of the text, so we scroll the window
+      vim.api.nvim_win_set_cursor(self.winid, {
+        vim.api.nvim_buf_line_count(self.bufnr), 0
+      })
+      first = false
+    end
+
     if index < 4 then
       index = 1 + index
     else
       index = 1
     end
-
-    first = false
 
     -- Change the buffer back to read-only after we've applied our changes
     vim.api.nvim_buf_set_option(self.bufnr, "modifiable", false)
