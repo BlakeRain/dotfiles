@@ -73,7 +73,7 @@ M.split_lines = function(text, preserve)
       ds, de = string.find(text, "\n", from, true)
     end
 
-    if from < #text then table.insert(lines, string.sub(text, from)) end
+    if from <= #text then table.insert(lines, string.sub(text, from)) end
   else
     -- Without preserving multiple newlines, we can just use a simple split
     for line in string.gmatch(text, "[^\n]+") do table.insert(lines, line) end
@@ -205,11 +205,13 @@ M.get_selection = function(bufnr)
                                                      end_row + 1, true)[1]:len()
   end_col = math.min(end_col, end_line_length)
 
+  local lines = vim.api.nvim_buf_get_text(bufnr, start_row, start_col, end_row,
+                                          end_col, {})
+
   return {
     start = { line = start_row, col = start_col },
     finish = { line = end_row, col = end_col },
-    lines = vim.api.nvim_buf_get_text(bufnr, start_row, start_col, end_row,
-                                      end_col, {})
+    lines = lines
   }
 end
 

@@ -12,10 +12,11 @@ local M = {}
 function M.defaults()
   local defaults = {
     logo = LOGO,
-    signs = { prompt = "", answer = "ﮧ" },
+    signs = { prompt = "", answer = "ﮧ", code = "" },
     progress = { "|", "/", "-", "\\" },
     highlights = {
       prompt = "ChatGPTPrompt",
+      code = "ChatGPTPrompt",
       logo = "ChatGPTLogo",
       answer = "ChatGPTAnswer",
       selected = "ChatGPTSelected"
@@ -30,6 +31,7 @@ function M.defaults()
     },
     chat_input = {
       prompt = "> ",
+      size = { height = 4 },
       border = {
         highlight = "FloatBorder",
         style = "rounded",

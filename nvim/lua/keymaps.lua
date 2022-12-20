@@ -120,6 +120,11 @@ utils.map("n", "<Leader>coC", ":ChatGPT!<CR>",
 utils.map("v", "<Leader>coC", ":ChatGPT!<CR>",
           { desc = "OpenAI ChatGPT (Restore Last, Selected Prompt)" })
 
+utils.map("v", "<Leader>coa", ":ChatGPTAppend<CR>",
+          { desc = "OpenAI ChatGPT (Insert Selectection)" })
+utils.map("v", "<Leader>coA", ":ChatGPTAppend!<CR>",
+          { desc = "OpenAI ChatGPT (Restore Last, Insert Selection)" })
+
 for i = 1, 9 do
   utils.map("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
             { desc = "Goto Window " .. i })

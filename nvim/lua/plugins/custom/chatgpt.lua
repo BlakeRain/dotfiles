@@ -82,6 +82,7 @@ M.open_chat = function(args)
 
   log = Log:new(chat_window.bufnr, chat_window.winid)
   if args.restore then log:load() end
+  if args.code then log:add("code", args.code) end
   if args.prompt then process(args.prompt) end
 end
 
@@ -103,6 +104,18 @@ M.setup = function(options)
       prompt = table.concat(selection.lines, "\n")
     end
     M.open_chat({ restore = restore, prompt = prompt })
+  end, { bang = true, range = true })
+
+  vim.api.nvim_create_user_command("ChatGPTAppend", function(args)
+    args = args or {}
+    local restore = args.bang == true
+    local code = nil
+    if args.range > 0 then
+      local bufnr = vim.api.nvim_get_current_buf()
+      local selection = utils.get_selection(bufnr)
+      code = table.concat(selection.lines, "\n")
+    end
+    M.open_chat({ restore = restore, code = code })
   end, { bang = true, range = true })
 end
 

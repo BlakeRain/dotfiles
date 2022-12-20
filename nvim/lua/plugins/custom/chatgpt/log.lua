@@ -4,7 +4,7 @@ local Config = require("plugins.custom.chatgpt.config")
 local highlight_ns = vim.api.nvim_create_namespace("")
 
 local function lead_for_message(message_type)
-  if message_type == "prompt" then
+  if message_type == "prompt" or message_type == "code" then
     return 0
   elseif message_type == "logo" then
     return 2
@@ -130,7 +130,7 @@ end
 function Log:save()
   local found = false
   for _, message in ipairs(self.messages) do
-    if message.type == "answer" then found = true end
+    if message.type ~= "logo" then found = true end
   end
 
   if found then LAST_CONVERSATION = self.messages end
@@ -175,7 +175,7 @@ function Log:yank_conversation()
   local conversation = {}
   for _, message in ipairs(self.messages) do
     if message.type ~= "logo" then
-      if message.type == "prompt" then
+      if message.type == "prompt" or message.type == "code" then
         table.insert(conversation, "> " .. message.message)
       else
         table.insert(conversation, message.message)
