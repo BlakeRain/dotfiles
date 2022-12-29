@@ -26,17 +26,17 @@ local M = {
     -- Magic buffer-picking mode
     { "<C-s>", "<cmd>BufferPick<cr>" },
 
-    { "<leader>bb", "<cmd>BufferPick<cr>", desc = "Pick Buffer" },
-    { "<leader>bc", "<cmd>BufferClose<cr>", desc = "Close Buffer" },
-    { "<leader>bC", "<cmd>BufferClose!<cr>", desc = "Close Buffer (force)" },
-    { "<leader>bx", "<cmd>BufferCloseAllButCurrentOrPinned<cr>", desc = "Close All Buffers" },
+    { "<leader>bb", "<cmd>BufferPick<cr>", desc = "Pick buffer" },
+    { "<leader>bc", "<cmd>BufferClose<cr>", desc = "Close buffer" },
+    { "<leader>bC", "<cmd>BufferClose!<cr>", desc = "Close buffer (force)" },
+    { "<leader>bx", "<cmd>BufferCloseAllButCurrentOrPinned<cr>", desc = "Close all buffers" },
 
     -- Move to previous or next buffer
-    { "<leader>bn", "<cmd>BufferNext<cr>", desc = "Next Buffer" },
-    { "<leader>bp", "<cmd>BufferPrevious<cr>", desc = "Previous Buffer" },
+    { "<leader>bn", "<cmd>BufferNext<cr>", desc = "Next buffer" },
+    { "<leader>bp", "<cmd>BufferPrevious<cr>", desc = "Previous buffer" },
 
     -- Pin or unpin a buffer
-    { "<leader>bP", "<cmd>BufferPin<cr>", desc = "Pin/Unpin Buffer" },
+    { "<leader>bP", "<cmd>BufferPin<cr>", desc = "Pin or unpin buffer" },
   }
 }
 

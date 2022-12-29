@@ -57,11 +57,11 @@ local M = {
         })
       end, mode = "x" },
 
-    { "<leader>j", function() require("hop").hint_words() end, desc = "Hop to Word" },
-    { "<leader>l", function() require("hop").hint_lines() end, desc = "Hop to Line" },
+    { "<leader>j", function() require("hop").hint_words() end, desc = "Hop to word" },
+    { "<leader>l", function() require("hop").hint_lines() end, desc = "Hop to line" },
 
-    { "<leader>j", function() require("hop").hint_words() end, desc = "Hop to Word", mode = "v" },
-    { "<leader>l", function() require("hop").hint_lines() end, desc = "Hop to Line", mode = "v" },
+    { "<leader>j", function() require("hop").hint_words() end, desc = "Hop to word", mode = "v" },
+    { "<leader>l", function() require("hop").hint_lines() end, desc = "Hop to line", mode = "v" },
   }
 }
 

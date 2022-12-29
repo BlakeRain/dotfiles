@@ -14,7 +14,7 @@ local M = {
   },
   keys = {
     -- { "<C-c>", "<Plug>(ccc-insert)", mode = "i" },
-    { "<leader>cc", "<cmd>CccPick<cr>", desc = "Change Color" }
+    { "<leader>cc", "<cmd>CccPick<cr>", desc = "Change color" }
   },
 }
 

@@ -6,8 +6,8 @@
 local M = {
   "mizlan/iswap.nvim",
   keys = {
-    { "<leader>cs", "<cmd>ISwap<cr>", desc = "Swap Items" },
-    { "<leader>cS", "<cmd>ISwapWith<cr>", desc = "Swap Current Item" }
+    { "<leader>cs", "<cmd>ISwap<cr>", desc = "Swap items" },
+    { "<leader>cS", "<cmd>ISwapWith<cr>", desc = "Swap current item" }
   }
 }
 

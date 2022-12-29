@@ -25,19 +25,21 @@ function M.config()
 
   which_key.register({
     ["<leader><space>"] = { "Toggle folded region" },
+    ["<leader>a"] = { name = "+Attempt" },
     ["<leader>b"] = { name = "+Buffers" },
     ["<leader>c"] = { name = "+Code" },
     ["<leader>C"] = { name = "+Cargo" },
     ["<leader>co"] = { name = "+Code & OpenAI" },
-    ["<leader>cw"] = { name = "+LSP Workspace" },
+    ["<leader>cw"] = { name = "+LSP workspace" },
     ["<leader>f"] = { name = "+Telescope" },
-    ["<leader>fc"] = { name = "+Telescope Commits" },
-    ["<leader>fH"] = { name = "+Telescope Cheats" },
-    ["<leader>g"] = { name = "+Git" },
-    ["<leader>gp"] = { name = "+Goto Preview" },
+    ["<leader>fc"] = { name = "+Telescope commits" },
+    ["<leader>fH"] = { name = "+Telescope cheats" },
+    ["<leader>g"] = { name = "+Git (& others)" },
+    ["<leader>gh"] = { name = "+Git hunks" },
+    ["<leader>gp"] = { name = "+Goto preview" },
     ["<leader>q"] = { name = "+Quickfix" },
     ["<leader>w"] = { name = "+Windows" },
-    ["<leader>a"] = { name = "+Attempt" },
+    ["<leader>x"] = { name = "+Trouble" },
   })
 end
 

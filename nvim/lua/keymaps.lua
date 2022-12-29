@@ -28,10 +28,10 @@ vim.keymap.set("n", "<Leader>cf", function()
   end
   vim.api.nvim_win_set_option(0, "foldmethod", new_method)
   vim.api.nvim_win_set_option(0, "foldlevel", fold_level)
-end, { desc = "Toggle Folding" })
+end, { desc = "Toggle folding" })
 
 -- Map a keybinding to open the quick-fix list
-vim.keymap.set("n", "<Leader>qf", "<CMD>copen<CR>", { desc = "Open Quickfix List" })
+vim.keymap.set("n", "<Leader>qf", "<CMD>copen<CR>", { desc = "Open quickfix list" })
 
 -- Reselect visual selection after indent.
 vim.keymap.set('v', '<', '<gv')
@@ -56,7 +56,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set('n', 'x', '"_x')
 
 -- Clear the current highlight with <leader>k.
-vim.keymap.set('n', '<leader>k', ':nohlsearch<CR>', { desc = "Clear Highlight" })
+vim.keymap.set('n', '<leader>k', ':nohlsearch<CR>', { desc = "Clear highlight" })
 
 -- Delete to the void register
 vim.keymap.set("n", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
@@ -64,7 +64,7 @@ vim.keymap.set("v", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
 
 -- Begin a search/replace with the current word under the cursor
 vim.keymap.set("n", "<leader>s",
-  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Search & replace word" })
 
 -- Paste without replacing the contents of the register
 vim.keymap.set("x", "<leader>p", "\"_dP",
@@ -75,10 +75,10 @@ vim.keymap.set('n', 'gf', ':edit <cfile><cr>')
 
 -- Use 'gF' to 'open' a file.
 -- NOTE: This doesn't do a <CR>, which means we need to press it ourselves.
-vim.keymap.set('n', 'gF', ':! open <cfile>', { desc = "Select last paste" })
+vim.keymap.set('n', 'gF', ':! open <cfile>', { desc = "Open file/URL under cursor" })
 
 -- Use 'gpp' to select pasted text (after pasting).
-vim.keymap.set('n', 'gpp', '`[v`]')
+vim.keymap.set('n', 'gpp', '`[v`]', { desc = "Select pasted text" })
 
 -- Select windows by number.
 vim.keymap.set('n', '<leader>w1', ':1wincmd w <CR>')
@@ -107,21 +107,21 @@ vim.keymap.set("v", "<Leader>coq", ":OpenAIQuery<CR>",
 
 vim.keymap.set("n", "<Leader>coc", ":ChatGPT<CR>", { desc = "OpenAI ChatGPT" })
 vim.keymap.set("v", "<Leader>coc", ":ChatGPT<CR>",
-  { desc = "OpenAI ChatGPT (Selected Prompt)" })
+  { desc = "OpenAI ChatGPT (selected prompt)" })
 
 vim.keymap.set("n", "<Leader>coC", ":ChatGPT!<CR>",
-  { desc = "OpenAI ChatGPT (Restore Last)" })
+  { desc = "OpenAI ChatGPT (restore last)" })
 vim.keymap.set("v", "<Leader>coC", ":ChatGPT!<CR>",
-  { desc = "OpenAI ChatGPT (Restore Last, Selected Prompt)" })
+  { desc = "OpenAI ChatGPT (restore last, selected prompt)" })
 
 vim.keymap.set("v", "<Leader>coa", ":ChatGPTAppend<CR>",
-  { desc = "OpenAI ChatGPT (Insert Selectection)" })
+  { desc = "OpenAI ChatGPT (insert selectection)" })
 vim.keymap.set("v", "<Leader>coA", ":ChatGPTAppend!<CR>",
-  { desc = "OpenAI ChatGPT (Restore Last, Insert Selection)" })
+  { desc = "OpenAI ChatGPT (restore last, insert selection)" })
 
 for i = 1, 9 do
   vim.keymap.set("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
-    { desc = "Goto Window " .. i })
+    { desc = "Goto window " .. i })
 end
 
 vim.keymap.set("n", "<leader>cx", "<CMD>luafile %<CR>", { desc = "Run as Lua" })

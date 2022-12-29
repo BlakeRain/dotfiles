@@ -69,34 +69,34 @@ function M.on_attach(client, bufnr)
 
   buf_set_keymap('n', '<space>cwa',
     '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', {
-    desc = "Add Folder to Workspace",
+    desc = "Add folder to workspace",
     noremap = true,
     silent = true
   })
   buf_set_keymap('n', '<space>cwr',
     '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', {
-    desc = "Remove Folder from Workspace",
+    desc = "Remove folder from workspace",
     noremap = true,
     silent = true
   })
   buf_set_keymap('n', '<space>cwl',
     '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-    { desc = "List Workspace", noremap = true, silent = true })
+    { desc = "List workspace", noremap = true, silent = true })
 
   -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>',
   --                { desc = "Show Type Definition", noremap = true, silent = true })
 
   buf_set_keymap('n', '<space>cr', '<cmd>lua vim.lsp.buf.rename()<CR>',
-    { desc = "Rename Symbol", noremap = true, silent = true })
+    { desc = "Rename symbol", noremap = true, silent = true })
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>',
-    { desc = "Code Actions", noremap = true, silent = true })
+    { desc = "Code actions", noremap = true, silent = true })
 
   -- NOTE: I use Telescope for references now, as it's easier to browse
   --   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 
   buf_set_keymap('n', '<space>e',
     '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {
-    desc = "Show Line Diagnostics",
+    desc = "Show line diagnostics",
     noremap = true,
     silent = true
   })

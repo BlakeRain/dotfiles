@@ -6,8 +6,8 @@ local M = {
   branch = "v2.x",
 
   keys = {
-    { "<leader>v", "<cmd>Neotree toggle=true reveal=true position=left<cr>", desc = "Toggle Neotree" },
-    { "<leader>V", "<cmd>Neotree action=close position=left<cr>", desc = "Close Neotree" }
+    { "<leader>v", "<cmd>Neotree toggle=true reveal=true position=left<cr>", desc = "Toggle neotree" },
+    { "<leader>V", "<cmd>Neotree action=close position=left<cr>", desc = "Close neotree" }
   }
 }
 
