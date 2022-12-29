@@ -1,2 +1,2 @@
-:set editor emacsclient -c -nw
+:set editor nvim
 :set prompt "λ "
