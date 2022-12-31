@@ -22,6 +22,9 @@ vim.opt.listchars = {
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+vim.opt.title = true
+vim.opt.titlestring = " %{pathshorten(substitute(getcwd(),$HOME,'~',''))}"
+
 -- Set the scroll offsets to something reasonable to avoid hitting the edges of the window.
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 8
