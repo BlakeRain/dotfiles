@@ -38,6 +38,7 @@ function M.config()
     ["<leader>gh"] = { name = "+Git hunks" },
     ["<leader>gp"] = { name = "+Goto preview" },
     ["<leader>q"] = { name = "+Quickfix" },
+    ["<leader>S"] = { name = "+Spectre search" },
     ["<leader>w"] = { name = "+Windows" },
     ["<leader>x"] = { name = "+Trouble" },
   })

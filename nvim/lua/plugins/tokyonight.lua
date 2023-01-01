@@ -12,7 +12,7 @@ function M.config()
   local tokyonight = require("tokyonight")
   tokyonight.setup({
     style = "night",
-    transparent = true,
+    -- transparent = true,
   })
 
   tokyonight.load()
