@@ -9,6 +9,16 @@ local Config = require("custom.chatgpt.config")
 
 local M = {}
 
+M.log_message = function(message)
+  local log_path = vim.fn.expand("$HOME/.openai.log")
+  -- Append the message to the log file
+  local file = io.open(log_path, "a")
+  if file == nil then vim.notify(("Unable to append to log file '%s'"):format(log_path)) return end
+  file:write(message .. "\n")
+  file:flush()
+  file:close()
+end
+
 M.open_chat = function(args)
   args = args or {}
   local layout, chat_input, log
@@ -19,6 +29,7 @@ M.open_chat = function(args)
       return false
     end
 
+    M.log_message(("%i: prompt '%s'"):format(log.id, prompt))
     log:add("prompt", prompt)
     log:start_progress()
 
@@ -32,6 +43,9 @@ M.open_chat = function(args)
             .total_tokens),
           vim.log.levels.INFO, { title = "ChatGPT" })
 
+
+        M.log_message(("%i: %s"):format(log.id, vim.inspect(res.body)))
+
         if #res.body.choices == 0 then
           vim.notify("No response from ChatGPT", vim.log.levels.WARN)
           log:add("answer", "No response from ChatGPT")
@@ -40,6 +54,12 @@ M.open_chat = function(args)
 
         local choice = res.body.choices[1].text
         choice = string.gsub(choice, "^%s*(.-)", "%1")
+        if #choice == 0 then
+          vim.notify("Empty response from ChatGPT", vim.log.levels.WARN)
+          log:add("answer", "Empty response from ChatGPT")
+          return
+        end
+
         log:add("answer", choice)
       end))
 
@@ -81,6 +101,8 @@ M.open_chat = function(args)
   layout:mount()
 
   log = Log:new(chat_window.bufnr, chat_window.winid)
+  M.log_message(("ChatGPT conversation %i started at %s"):format(log.id, os.date("%c")))
+
   if args.restore then log:load() end
   if args.code then log:add("code", args.code) end
   if args.prompt then process(args.prompt) end

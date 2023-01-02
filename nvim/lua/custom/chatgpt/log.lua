@@ -119,6 +119,7 @@ local LAST_CONVERSATION = {}
 function Log:new(bufnr, winid)
   self = setmetatable({}, Log)
 
+  self.id = os.time()
   self.bufnr = bufnr
   self.winid = winid
   self.selected = 0
@@ -140,11 +141,17 @@ function Log:save()
     if message.type ~= "logo" then found = true end
   end
 
-  if found then LAST_CONVERSATION = self.messages end
+  if found then LAST_CONVERSATION = { id = self.id, messages = self.messages } end
 end
 
 function Log:load()
-  for _, message in ipairs(LAST_CONVERSATION) do
+  if LAST_CONVERSATION.id == nil then
+    vim.notify("No previous conversation to load", vim.log.levels.WARN)
+    return
+  end
+
+  self.id = LAST_CONVERSATION.id
+  for _, message in ipairs(LAST_CONVERSATION.messages) do
     if message.type ~= "logo" then self:add(message.type, message.message) end
   end
 end
