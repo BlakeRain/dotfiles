@@ -2,6 +2,7 @@
   "Comment.nvim": { "branch": "master", "commit": "7bb563ff2d811a63b207e9de63e3e9c0877cb6d5" },
   "LuaSnip": { "branch": "master", "commit": "5570fd797eae0790affb54ea669a150cad76db5d" },
   "actually.nvim": { "branch": "main", "commit": "a735082694b1f06c4d9874f2a7288dba94acdb71" },
+  "alpha-nvim": { "branch": "main", "commit": "21a0f2520ad3a7c32c0822f943368dc063a569fb" },
   "attempt.nvim": { "branch": "main", "commit": "0b3628aa348061f4da17e090bbd34b55a46eea2f" },
   "barbar.nvim": { "branch": "master", "commit": "bb2e5e4df5b643c4353e9d6de2d2e6e863f5e531" },
   "ccc.nvim": { "branch": "0.7.2", "commit": "d8b98b13941ae803a7ae8ce5fe6b0750e3fc3e02" },
