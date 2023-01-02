@@ -34,6 +34,7 @@ local M = {
     { "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>", desc = "LSP document symbols" },
     { "<leader>fD", "<cmd>Telescope diagnostics<cr>", desc = "Filter diagnostics" },
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Filter files" },
+    { "<leader>fF", "<cmd>Telescope oldfiles<cr>", desc = "Filter recent files" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
     { "<leader>fG", "<cmd>Telescope grep_string<cr>", desc = "Live grep string" },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
