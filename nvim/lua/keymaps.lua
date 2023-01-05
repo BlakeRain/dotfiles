@@ -119,6 +119,9 @@ vim.keymap.set("v", "<Leader>coa", ":ChatGPTAppend<CR>",
 vim.keymap.set("v", "<Leader>coA", ":ChatGPTAppend!<CR>",
   { desc = "OpenAI ChatGPT (restore last, insert selection)" })
 
+vim.keymap.set("n", "<leader>com", ":OpenAICommitMessage<CR>",
+  { desc = "Generate Commit Message" })
+
 for i = 1, 9 do
   vim.keymap.set("n", "<leader>w" .. i, ":" .. i .. "wincmd w<cr>",
     { desc = "Goto window " .. i })

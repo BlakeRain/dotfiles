@@ -46,6 +46,8 @@ M.setup = function(config)
 
   vim.api.nvim_create_user_command("OpenAIComplete",
     function() M.complete() end, {})
+
+  vim.api.nvim_create_user_command("OpenAICommitMessage", function(args) M.commit_message(args) end, { bang = true })
 end
 
 M.last_buf_id = nil
@@ -314,6 +316,47 @@ M.complete = function()
 
     vim.api.nvim_buf_set_text(bufnr, mark[1], mark[2], mark[3].end_row,
       mark[3].end_col, lines)
+  end))
+end
+
+local COMMIT_MSG_PROMPT = [[
+What follows "-------" is a git diff for a potential commit.
+Reply with a Git commit message. A Git commit message should be concise, but also try to describe the important
+changes in the commit. Don't include any other text but the commit message in your response.
+------- 
+%s
+-------
+]]
+
+function M.commit_message(args)
+  -- Get the current git diff
+  local diff = vim.fn.system("git --no-pager diff --cached --no-color")
+  if #diff == 0 then
+    diff = vim.fn.system("git --no-pager diff --no-color")
+  end
+
+  if #diff == 0 then
+    vim.notify("No changes to commit", vim.log.levels.INFO)
+    return
+  end
+
+  notify("Sending request to OpenAI ...", vim.log.levels.INFO,
+    { title = "OpenAI Tools: Commit Message" })
+
+  M._execute(COMMIT_MSG_PROMPT:format(diff), nil, vim.schedule_wrap(function(res)
+    notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+      .usage
+      .total_tokens),
+      vim.log.levels.INFO, { title = "OpenAI Tools: Commit Message" })
+
+    if #res.body.choices == 0 then
+      print("No choices")
+      return
+    end
+
+    local text = res.body.choices[1].text
+    vim.fn.setreg("+", text)
+    print("Commit message copied to clipboard: " .. text)
   end))
 end
 
