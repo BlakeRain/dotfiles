@@ -33,6 +33,15 @@ local M = {
         },
         autotag = { enable = true },
         indent = { enable = true, disable = { "rust", "yaml", "solidity", "python" } },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<c-space>",
+            node_incremental = "<c-space>",
+            scope_incremental = "<c-s>",
+            node_decremental = "<c-backspace>"
+          }
+        },
         textobjects = {
           select = {
             enable = true,
