@@ -47,7 +47,8 @@ M.setup = function(config)
   vim.api.nvim_create_user_command("OpenAIComplete",
     function() M.complete() end, {})
 
-  vim.api.nvim_create_user_command("OpenAICommitMessage", function(args) M.commit_message(args) end, { bang = true })
+  vim.api.nvim_create_user_command("OpenAICommitMessage",
+    function() M.commit_message() end)
 end
 
 M.last_buf_id = nil
@@ -328,7 +329,7 @@ changes in the commit. Don't include any other text but the commit message in yo
 -------
 ]]
 
-function M.commit_message(args)
+function M.commit_message()
   -- Get the current git diff
   local diff = vim.fn.system("git --no-pager diff --cached --no-color")
   if #diff == 0 then
