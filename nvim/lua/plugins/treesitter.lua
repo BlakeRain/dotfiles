@@ -32,7 +32,7 @@ local M = {
           additional_vim_regex_highlighting = { "org" }
         },
         autotag = { enable = true },
-        indent = { enable = true, disable = { "rust", "yaml", "solidity" } },
+        indent = { enable = true, disable = { "rust", "yaml", "solidity", "python" } },
         textobjects = {
           select = {
             enable = true,
