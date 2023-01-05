@@ -48,7 +48,7 @@ M.setup = function(config)
     function() M.complete() end, {})
 
   vim.api.nvim_create_user_command("OpenAICommitMessage",
-    function() M.commit_message() end)
+    function() M.commit_message() end, {})
 end
 
 M.last_buf_id = nil
