@@ -63,7 +63,8 @@ M._mark_lines = function(bufnr, from, to)
   end
 end
 
-M._execute = function(prompt, suffix, callback)
+M._execute = function(prompt, suffix, callback, opts)
+  opts = opts or {}
   curl.post("https://api.openai.com/v1/completions", {
     headers = {
       ["Content-Type"] = "application/json",
@@ -72,7 +73,7 @@ M._execute = function(prompt, suffix, callback)
     body = vim.json.encode({
       model = "text-davinci-003",
       temperature = 0,
-      max_tokens = 1000,
+      max_tokens = opts.max_tokens or 1000,
       top_p = 1.0,
       frequency_penalty = 0.0,
       presence_penalty = 0.0,
@@ -345,6 +346,7 @@ function M.commit_message()
     { title = "OpenAI Tools: Commit Message" })
 
   M._execute(COMMIT_MSG_PROMPT:format(diff), nil, vim.schedule_wrap(function(res)
+    print(vim.inspect(res.body))
     notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
       .usage
       .total_tokens),
@@ -358,7 +360,7 @@ function M.commit_message()
     local text = res.body.choices[1].text
     vim.fn.setreg("+", text)
     print("Commit message copied to clipboard: " .. text)
-  end))
+  end), { max_tokens = 100 })
 end
 
 return M
