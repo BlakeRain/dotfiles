@@ -7,6 +7,52 @@ local M = {
   },
 }
 
+M.formatting = {}
+M.formatting.autoformat = true
+
+function M.formatting.toggle()
+  M.formatting.autoformat = not M.formatting.autoformat
+  local msg = M.formatting.autoformat and "Enabled" or "Disabled"
+  local notify = require("plugins.notify")
+  notify.info(msg .. " format on save", { title = "Formatting" })
+end
+
+function M.formatting.format()
+  if M.formatting.autoformat then
+    if vim.lsp.buf.format then
+      vim.lsp.buf.format()
+    else
+      vim.lsp.buf.formatting_sync()
+    end
+  end
+end
+
+function M.formatting.setup(client, bufnr)
+  local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  local null_ls = require("plugins.null-ls")
+
+  local enable = true
+  if null_ls.has_formatter(ft) then
+    enable = client.name == "null-ls"
+  else
+    enable = client.name ~= "null-ls"
+  end
+
+  if client.name == "tsserver" then
+    enable = false
+  end
+
+  client.server_capabilities.documentFormattingProvider = enable
+  if client.server_capabilities.documentFormattingProvider then
+    vim.cmd([[
+    augroup LspFormat
+    autocmd! * <buffer>
+    autocmd BufWritePre <buffer> lua require("plugins.lsp").formatting.format()
+    augroup END
+    ]])
+  end
+end
+
 function M.show_documentation()
   local filetype = vim.bo.filetype
   if vim.tbl_contains({ "vim", "help" }, filetype) then
@@ -30,7 +76,8 @@ function M.on_attach(client, bufnr)
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Set formatting on save
-  vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+  -- vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+  M.formatting.setup(client, bufnr)
 
   -- Attach LSP signatures
   require("lsp_signature").on_attach()
@@ -212,6 +259,8 @@ function M.config()
       .setup { on_attach = M.on_attach, capabilities = capabilities }
 
   -- NOTE: Rust is activated in 'rust-tools.lua'
+
+  require("plugins.null-ls").setup()
 end
 
 return M
