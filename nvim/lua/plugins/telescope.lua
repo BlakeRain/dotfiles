@@ -21,7 +21,8 @@ local M = {
     "nvim-telescope/telescope-file-browser.nvim",
     "nvim-telescope/telescope-cheat.nvim",
     "benfowler/telescope-luasnip.nvim",
-    "sudormrfbin/cheatsheet.nvim"
+    "sudormrfbin/cheatsheet.nvim",
+    "debugloop/telescope-undo.nvim",
   },
 
   keys = {
@@ -50,6 +51,7 @@ local M = {
     { "<leader>fs", spell_check, { desc = "Spelling Suggestions" }, desc = "Spelling suggestions" },
     { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Telescope todos" },
     { "<leader>fT", "<cmd>Telescope builtin<cr>", desc = "Telescope builtins" },
+    { "<leader>fu", "<cmd>Telescope undo<cr>", desc = "Telescope undo" },
 
     { "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "Goto definitions" },
     { "gr", "<cmd>Telescope lsp_references<cr>", desc = "Goto references" },
@@ -92,6 +94,7 @@ function M.config()
 
   telescope.load_extension("notify")
   telescope.load_extension("attempt")
+  telescope.load_extension("undo")
 end
 
 return M
