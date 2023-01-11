@@ -1,7 +1,7 @@
 -- General options controlling the behaviour of neovim.
 
 -- Disable some providers that we don't use.
-vim.cmd[[
+vim.cmd [[
 let g:loaded_python3_provider = 0
 let g:loaded_ruby_provider = 0
 let g:loaded_node_provider = 0
@@ -36,7 +36,7 @@ vim.opt.encoding = "utf-8"
 vim.opt.spell = false
 vim.opt.spelllang = { "en_gb" }
 
--- Create an augroup for spelling, which enables spelling for Markdown, test and Roff files.
+-- Create an augroup for spelling, which enables spelling for Markdown, text and Roff files.
 local spell_group = vim.api.nvim_create_augroup("SpellingSets", { clear = true })
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.md", "*.txt", "*.mm", "*.ms", "*.mom" },
@@ -49,7 +49,7 @@ vim.g.mapleader = " "
 
 -- Tell neovim about our terminal color support.
 vim.opt.termguicolors = true
-vim.cmd[[
+vim.cmd [[
 if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
   let &t_8f = '\<Esc>[38;2;%lu;%lu;%lum'
   let &t_8b = '\<Esc>[48;2;%lu;%lu;%lum'
@@ -65,14 +65,14 @@ vim.opt.colorcolumn = '120'
 -- Set the width of formatted text to column 120 (unless overridden elsewhere).
 vim.opt.textwidth = 120
 
--- Highlight the current light.
+-- Highlight the current line.
 vim.opt.cursorline = true
 
 -- Highlight found searches, and show the match whilst we're typing.
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
--- Get a preview of the replacements.
+-- Get a preview of the replacements when using search and replace.
 vim.opt.inccommand = 'split'
 
 -- Ignore case in search, unless we start using case.
@@ -95,7 +95,7 @@ vim.opt.backspace = { "indent", "eol", "start" }
 -- Use the system clipboard.
 vim.opt.clipboard:append("unnamedplus")
 
--- Improve the auto-completion menues.
+-- Improve the auto-completion menus.
 vim.opt.completeopt = "menu,menuone,noselect"
 
 -- Tell vim that we use the fish shell.
@@ -126,16 +126,16 @@ vim.opt.cmdheight = 2
 -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append({ c = true })
 
--- Having a longer updatetime (default is 4000ms) leads to noticable delays and poor UXP.
+-- Having a shorter updatetime leads to noticable delays and poor UXP (default is 4000ms, I think).
 vim.opt.updatetime = 300
 
--- Merge the sign column and the number column onto ine.
+-- Merge the sign column and the number column into one.
 vim.opt.signcolumn = "yes"
 
 -- Use a global status line.
 vim.opt.laststatus = 3
 
--- Include some languages in markdown.
+-- Include some language highlighting in markdown fences.
 vim.g.markdown_fenced_languages = {
   "html",
   "python",
@@ -147,6 +147,6 @@ vim.g.markdown_fenced_languages = {
 
 -- Setup folding.
 -- Note: I don't actually set the 'foldmethod' here, as I have a keybinding to toggle it (see 'keymaps.lua').
-vim.cmd[[
+vim.cmd [[
 set foldexpr=nvim_treesitter#foldexpr()
 ]]

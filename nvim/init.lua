@@ -13,10 +13,11 @@ if not vim.loop.fs_stat(lazy_path) then
   })
 end
 
--- If we ended up with lazy being present, then setup our plugins.
+-- If we ended up with lazy being present, then set up our plugins.
 vim.opt.runtimepath:prepend(lazy_path)
 local have_lazy, lazy = pcall(require, "lazy")
 if have_lazy then
+  -- Setup Lazy to load our plugins from the 'plugins' directory (see nvim/lua/plugins).
   lazy.setup("plugins", {
     defaults = { lazy = true },
     install = { colorscheme = { "tokyonight", "habamax" } },

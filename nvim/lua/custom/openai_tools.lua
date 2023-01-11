@@ -2,6 +2,14 @@ local utils = require('core.utils')
 local curl = require("plenary.curl")
 local notify = require("notify")
 
+-- Load the keyfile from the given location. The keyfile is expected to be a JSON file that provides the key in a
+-- `secretKey` field.
+--
+-- For example:
+--
+-- ```json
+-- { "secretKey": "..." }
+-- ```
 local function load_keyfile(path)
   local file = io.open(path, "rb")
   if not file then return nil end
