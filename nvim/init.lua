@@ -20,6 +20,7 @@ if have_lazy then
   -- Setup Lazy to load our plugins from the 'plugins' directory (see nvim/lua/plugins).
   lazy.setup("plugins", {
     defaults = { lazy = true },
+    lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
     install = { colorscheme = { "tokyonight", "habamax" } },
     checker = { enabled = true },
     diff = {
