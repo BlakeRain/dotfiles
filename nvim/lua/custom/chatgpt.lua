@@ -9,6 +9,56 @@ local Config = require("custom.chatgpt.config")
 
 local M = {}
 
+local KNOWN_PARAMETERS = {
+  ["temperature"] = "temperature",
+  ["temp"] = "temperature",
+  ["t"] = "temperature",
+  ["max_tokens"] = "max_tokens",
+  ["max"] = "max_tokens",
+  ["top_p"] = "top_p",
+  ["top"] = "top_p",
+  ["tp"] = "top_p",
+  ["frequency_penalty"] = "frequency_penalty",
+  ["freq"] = "frequency_penalty",
+  ["presence_penalty"] = "presence_penalty",
+  ["pres"] = "presence_penalty"
+}
+
+local function parse_parameters(message)
+  local result = { message = message, parameters = {} }
+
+  -- See if we have any prefixes in the message. These prefixes are written as attributes in the form 'x:y', where
+  -- 'x' is a variable we pass as an option to GPT, and 'y' is the value of the variable 'x'.
+  local prefixes = {}
+  for prefix in message:gmatch("%b{}") do
+    local key, value = prefix:match("{(%w+):([%w._]+)}")
+    if key and value then
+      value = tonumber(value)
+      if not value then
+        vim.notify("Invalid value for parameter '" .. key .. "'; expected a number", vim.log.levels.ERROR)
+      else
+        local known_key = KNOWN_PARAMETERS[key]
+        if not known_key then
+          vim.notify("Unknown parameter '" .. key .. "' might be ignored", vim.log.levels.WARN)
+          prefixes[key] = value
+        else
+          prefixes[known_key] = value
+        end
+      end
+    end
+  end
+
+  -- Remove the prefixes from the message.
+  result.message = message:gsub("%b{}", "")
+
+  -- Add the prefixes to the result.
+  for key, value in pairs(prefixes) do
+    result.parameters[key] = value
+  end
+
+  return result
+end
+
 M.log_message = function(message)
   local log_path = vim.fn.expand("$HOME/.openai.log")
   -- Append the message to the log file
@@ -29,22 +79,33 @@ M.open_chat = function(args)
       return false
     end
 
-    M.log_message(("%i: prompt '%s'"):format(log.id, prompt))
-    log:add("prompt", prompt)
+    local parsed = parse_parameters(prompt)
+
+    M.log_message(("%i: prompt '%s' (parameters: %s)"):format(log.id, parsed.message,
+      vim.inspect(parsed.parameters, { newline = "", indent = "" })))
+
+    log:add("prompt", parsed.message)
     log:start_progress()
 
     openai._execute(log:gather_conversation(), nil,
       vim.schedule_wrap(function(res)
         log:cancel_progress()
 
-        notify(
-          ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
-            .usage
-            .total_tokens),
-          vim.log.levels.INFO, { title = "ChatGPT" })
+        M.log_message(("%i: [%i] %s"):format(log.id, res.status, vim.inspect(res.body)))
+        if res.status ~= 200 then
+          notify(("Error received from OpenAI (%s):\n\n%s"):format(res.body.error.type, res.body.error.message),
+            vim.log.levels.ERROR)
+          log:add("error", res.body.error.message)
+          return
+        end
 
-
-        M.log_message(("%i: %s"):format(log.id, vim.inspect(res.body)))
+        if res.body.usage then
+          notify(
+            ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+              .usage
+              .total_tokens),
+            vim.log.levels.INFO, { title = "ChatGPT" })
+        end
 
         if #res.body.choices == 0 then
           vim.notify("No response from ChatGPT", vim.log.levels.WARN)
@@ -61,7 +122,7 @@ M.open_chat = function(args)
         end
 
         log:add("answer", choice)
-      end))
+      end), parsed.parameters)
 
     return true
   end
@@ -114,6 +175,7 @@ M.setup = function(options)
   vim.api.nvim_set_hl(0, "ChatGPTLogo", { fg = "#bb9af7" })
   vim.api.nvim_set_hl(0, "ChatGPTPrompt", { fg = "#7079a5" })
   vim.api.nvim_set_hl(0, "ChatGPTAnswer", { fg = "#c0caf5" })
+  vim.api.nvim_set_hl(0, "ChatGPTError", { fg = "#e12626" })
   vim.api.nvim_set_hl(0, "ChatGPTSelected", { fg = "#2ac3de", bg = "#0f5561" })
 
   vim.api.nvim_create_user_command("ChatGPT", function(args)

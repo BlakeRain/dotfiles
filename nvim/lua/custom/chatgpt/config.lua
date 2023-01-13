@@ -14,13 +14,14 @@ local M = {}
 function M.defaults()
   local defaults = {
     logo = LOGO,
-    signs = { prompt = "", answer = "ﮧ", code = "" },
+    signs = { prompt = "", answer = "ﮧ", code = "", error = "" },
     progress = { "|", "/", "-", "\\" },
     highlights = {
       prompt = "ChatGPTPrompt",
       code = "ChatGPTPrompt",
       logo = "ChatGPTLogo",
       answer = "ChatGPTAnswer",
+      error = "ChatGPTError",
       selected = "ChatGPTSelected"
     },
     chat_window = {

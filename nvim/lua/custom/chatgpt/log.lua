@@ -9,7 +9,7 @@ local function lead_for_message(message_type)
     return 0
   elseif message_type == "logo" then
     return 2
-  elseif message_type == "answer" then
+  elseif message_type == "answer" or message_type == "error" then
     return 1
   end
 end
@@ -167,7 +167,7 @@ end
 function Log:gather_conversation()
   local conversation = {}
   for _, message in ipairs(self.messages) do
-    if message.type ~= "logo" then
+    if message.type ~= "logo" and message.type ~= "error" then
       table.insert(conversation, message.message)
     end
   end
@@ -188,7 +188,7 @@ end
 function Log:yank_conversation()
   local conversation = {}
   for _, message in ipairs(self.messages) do
-    if message.type ~= "logo" then
+    if message.type ~= "logo" and message.type ~= "error" then
       if message.type == "prompt" or message.type == "code" then
         table.insert(conversation, "> " .. message.message)
       else
