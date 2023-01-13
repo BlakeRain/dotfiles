@@ -73,21 +73,23 @@ end
 
 M._execute = function(prompt, suffix, callback, opts)
   opts = opts or {}
+  local body = vim.json.encode({
+    model = "text-davinci-003",
+    temperature = opts.temperature or 0,
+    max_tokens = opts.max_tokens or 1000,
+    top_p = opts.top_p or 1.0,
+    frequency_penalty = opts.frequency_penalty or 0.0,
+    presence_penalty = opts.presence_penalty or 0.0,
+    prompt = prompt,
+    suffix = suffix
+  })
+
   curl.post("https://api.openai.com/v1/completions", {
     headers = {
       ["Content-Type"] = "application/json",
       ["Authorization"] = "Bearer " .. M.secret_key
     },
-    body = vim.json.encode({
-      model = "text-davinci-003",
-      temperature = 0,
-      max_tokens = opts.max_tokens or 1000,
-      top_p = 1.0,
-      frequency_penalty = 0.0,
-      presence_penalty = 0.0,
-      prompt = prompt,
-      suffix = suffix
-    }),
+    body = body,
     callback = function(res)
       if type(res.body) == "string" then
         res.body = vim.json.decode(res.body)
