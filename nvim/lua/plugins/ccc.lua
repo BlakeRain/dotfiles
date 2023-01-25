@@ -32,8 +32,8 @@ function M.config()
   vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.css", "*.scss", "*.sass", "*.less" },
     group = color_group,
-    callback = function()
-      vim.keymap.set("i", "<C-c>", "<Plug>(ccc-insert)", { silent = true })
+    callback = function(args)
+      vim.api.nvim_buf_set_keymap(args.buf, "i", "<C-c>", "<Plug>(ccc-insert)", { silent = true })
     end
   })
 end
