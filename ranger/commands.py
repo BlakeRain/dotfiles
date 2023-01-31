@@ -11,9 +11,11 @@ from __future__ import (absolute_import, division, print_function)
 
 # You can import any python module as needed.
 import os
+import subprocess
 
 # You always need to import ranger.api.commands here to get the Command class:
 from ranger.api.commands import Command
+from ranger.ext.img_display import ImageDisplayer, register_image_displayer
 
 
 class show_files_in_finder(Command):
@@ -88,3 +90,9 @@ class fzf_select(Command):
                 self.fm.cd(selected)
             else:
                 self.fm.select_file(selected)
+
+@register_image_displayer("wez")
+class WezImageDisplayer(ImageDisplayer):
+    def draw(self, path, start_x, start_y, width, height):
+        path = os.path.abspath(path)
+        subprocess.call(['wezterm', 'imgcat', '--width', str(width), '--height', str(height), path])
