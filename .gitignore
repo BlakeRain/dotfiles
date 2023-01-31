@@ -11,6 +11,7 @@
 !/nvim
 !/ranger
 !/w3m
+!/wezterm
 
 !README.md
 !alacritty.yml
