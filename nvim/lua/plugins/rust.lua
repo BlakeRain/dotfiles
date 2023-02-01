@@ -31,7 +31,7 @@ function rust_tools.config()
       flags = { debounce_text_changes = 250 },
       capabilities = lsp.get_capabilities(),
       settings = {
-        ["rust_analyzer"] = { checkOnSave = { command = "cargo clippy" } }
+        ["rust-analyzer"] = { checkOnSave = { command = "clippy" } }
       }
     }
   })
