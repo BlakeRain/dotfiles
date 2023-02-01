@@ -109,8 +109,8 @@ if status is-interactive
     end
 
     function fish_greeting
-        is_the_internet_on_fire | cowsay -f hellokitty -n | lolcat -F 0.025 -S 160
-        echo
+        # is_the_internet_on_fire | cowsay -f hellokitty -n | lolcat -F 0.025 -S 160
+        # echo
         echo -e (uname -sm | awk '{print " \\\\e[1mArch     : \\\\e[0;32m"$0"\\\\e[0m"}')
         echo -e (uptime | awk -F, '{print $1}' | sed 's/[0-9]\{2\}:[0-9]\{2\} *up //g' | \
           awk '{print " \\\\e[1mUptime   : \\\\e[0;32m"$0"\\\\e[0m"}')
