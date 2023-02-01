@@ -1,0 +1,6 @@
+customCommands:
+  - key: Z
+    command: git cz c
+    context: files
+    loadingText: Opening commitizen commit tool
+    subprocess: true
