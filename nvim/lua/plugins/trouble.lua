@@ -19,7 +19,10 @@ function M.config()
 
   trouble.setup({
     -- Show document diagnostics by default
-    mode = "document_diagnostics"
+    mode = "document_diagnostics",
+    action_keys = {
+      jump = { "<cr>", "<tab>", "<c-j>" }
+    }
   })
 end
 
