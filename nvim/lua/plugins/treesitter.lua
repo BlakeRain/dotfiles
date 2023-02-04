@@ -34,10 +34,11 @@ local M = {
         autotag = { enable = true },
         indent = { enable = true, disable = { "rust", "yaml", "solidity", "python" } },
         incremental_selection = {
-          enable = true,
+          -- Disable while https://github.com/nvim-treesitter/nvim-treesitter/issues/4000
+          enable = false,
           keymaps = {
             init_selection = "<c-space>",
-            node_incremental = "<c-space>",
+            node_incremental = "<cr>",
             scope_incremental = "<c-s>",
             node_decremental = "<c-backspace>"
           }
