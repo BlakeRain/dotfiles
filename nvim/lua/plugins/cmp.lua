@@ -12,11 +12,10 @@ local M = {
     'hrsh7th/cmp-emoji',
     'f3fora/cmp-spell',
     'onsails/lspkind-nvim',
-    'ray-x/lsp_signature.nvim',
+    -- 'ray-x/lsp_signature.nvim',
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip'
   },
-
   event = "InsertEnter"
 }
 
@@ -45,7 +44,7 @@ function M.config()
       })
     },
     mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs( -4), { 'i', 'c' }),
       ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
       ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
       ['<C-e>'] = cmp.mapping(
@@ -70,7 +69,7 @@ function M.config()
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline({}),
     sources = cmp.config
-        .sources({ { name = 'path' } }, { { name = 'cmdline' } })
+    .sources({ { name = 'path' } }, { { name = 'cmdline' } })
   })
 end
 

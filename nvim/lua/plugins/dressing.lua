@@ -2,6 +2,7 @@
 -- https://github.com/stevearc/dressing.nvim
 local M = {
   "stevearc/dressing.nvim",
+  lazy = true
 }
 
 function M.init()

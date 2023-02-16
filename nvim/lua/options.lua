@@ -121,10 +121,11 @@ vim.opt.undofile = true
 -- vim.opt.nowritebackup = true
 
 -- Give use a bit more space for displaying messages.
-vim.opt.cmdheight = 2
+-- vim.opt.cmdheight = 2
 
--- Don't pass messages to |ins-completion-menu|.
-vim.opt.shortmess:append({ c = true })
+-- Don't pass messages to |ins-completion-menu|, dont't give the intro message, and dont' give "written" when writing a
+-- file.
+vim.opt.shortmess:append({ c = true, I = true, W = true })
 
 -- Having a shorter updatetime leads to noticable delays and poor UXP (default is 4000ms, I think).
 vim.opt.updatetime = 300
