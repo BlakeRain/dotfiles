@@ -4,12 +4,21 @@
 local M = {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v2.x",
-
   keys = {
     { "<leader>v", "<cmd>Neotree toggle=true reveal=true position=left<cr>", desc = "Toggle neotree" },
-    { "<leader>V", "<cmd>Neotree action=close position=left<cr>", desc = "Close neotree" }
+    { "<leader>V", "<cmd>Neotree action=close position=left<cr>",            desc = "Close neotree" }
   }
 }
+
+function M.init()
+  vim.g.neo_tree_remove_legacy_commands = 1
+  if vim.fn.argc() == 1 then
+    local stat = vim.loop.fs_stat(vim.fn.argv(0))
+    if stat and stat.type == "directory" then
+      require("neo-tree")
+    end
+  end
+end
 
 function M.config()
   vim.fn.sign_define("DiagnosticSignError",
@@ -33,7 +42,7 @@ function M.config()
     window = {
       position = "left",
       mappings = {
-        ["<space>"] = "toggle_node",
+        ["<space>"] = "none",
         ["<2-LeftMouse>"] = "open",
         ["<cr>"] = "open",
         ["<C-j>"] = "open",
