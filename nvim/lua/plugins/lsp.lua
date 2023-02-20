@@ -80,7 +80,7 @@ function M.on_attach(client, bufnr)
   M.formatting.setup(client, bufnr)
 
   -- Attach LSP signatures
-  -- require("lsp_signature").on_attach()
+  require("lsp_signature").on_attach()
 
   -- Show diagnostics in floating window on cursor
   vim.api.nvim_create_autocmd("CursorHold", {
@@ -192,13 +192,13 @@ function M.config()
   })
 
   -- Change the border of documentation hover windows
-  -- vim.lsp.handlers["textDocument/hover"] =
-  --     vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+  vim.lsp.handlers["textDocument/hover"] =
+      vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
-  -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-  --         vim.lsp.handlers
-  --         .signature_help,
-  --         { border = "rounded" })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+          vim.lsp.handlers
+          .signature_help,
+          { border = "rounded" })
 
   -- Get our initial set of capabilities
   local capabilities = M.get_capabilities()

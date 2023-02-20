@@ -12,7 +12,7 @@ local M = {
         'hrsh7th/cmp-emoji',
         'f3fora/cmp-spell',
         'onsails/lspkind-nvim',
-        -- 'ray-x/lsp_signature.nvim',
+        'ray-x/lsp_signature.nvim',
         'L3MON4D3/LuaSnip',
         'saadparwaiz1/cmp_luasnip'
     },
