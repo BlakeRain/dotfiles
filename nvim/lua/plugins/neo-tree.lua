@@ -31,6 +31,10 @@ function M.config()
     { text = "", texthl = "DiagnosticSignHint" })
 
   require("neo-tree").setup({
+    source_selector = {
+      winbar = true,
+      statusline = false
+    },
     close_if_last_window = false,
     popup_border_style = "rounded",
     enable_git_status = true,
@@ -84,6 +88,7 @@ function M.config()
     },
     filesystem = {
       use_libuv_file_watcher = true,
+      follow_current_file = true,
       filtered_items = {
         visible = true,
         never_show = { ".DS_Store", "thumbs.db" }
