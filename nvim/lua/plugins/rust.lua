@@ -2,7 +2,11 @@
 -- https://github.com/simrat39/rust-tools.nvim
 local rust_tools = {
   "simrat39/rust-tools.nvim",
-  ft = "rust"
+  ft = "rust",
+  keys = {
+    { "<leader>cRe", "<cmd>RustExpandMacro<cr>", desc = "Expand macro at cursor" },
+    { "<leader>cRc", "<cmd>RustOpenCargo<cr>",   desc = "Open Cargo.toml" }
+  }
 }
 
 local rust_group = vim.api.nvim_create_augroup("RustSettings",
@@ -19,13 +23,12 @@ function rust_tools.config()
     tools = {
       -- hover_with_actions = true,
       inlay_hints = {
-        auto = false,
+        auto = true,
         parameter_hints_prefix = "←─ ",
         other_hints_prefix = "─→ ",
         highlight = "InlayHint"
       }
     },
-
     server = {
       on_attach = lsp.on_attach,
       flags = { debounce_text_changes = 250 },

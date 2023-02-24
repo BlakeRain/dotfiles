@@ -29,6 +29,7 @@ function M.config()
     ["<leader>b"] = { name = "+Buffers" },
     ["<leader>c"] = { name = "+Code" },
     ["<leader>C"] = { name = "+Cargo" },
+    ["<leader>cR"] = { name = "+Rust" },
     ["<leader>co"] = { name = "+Code & OpenAI" },
     ["<leader>cw"] = { name = "+LSP workspace" },
     ["<leader>f"] = { name = "+Telescope" },
