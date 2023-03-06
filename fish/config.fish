@@ -118,7 +118,7 @@ if status is-interactive
         sugoi_emoti
         echo
 
-        if mail -e
+        if [ -d /var/mail/blake ] && mail -e
             echo "You have mail"
         end
     end
