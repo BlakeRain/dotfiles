@@ -22,7 +22,7 @@ if have_lazy then
     defaults = { lazy = true },
     lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
     install = { colorscheme = { "tokyonight", "habamax" } },
-    checker = { enabled = true },
+    checker = { enabled = false },
     diff = {
       cmd = "terminal_git",
     },
