@@ -231,6 +231,7 @@ function M.config()
     on_attach = M.on_attach,
     flags = { debounce_text_changes = 150 },
     capabilities = vim.tbl_extend("force", {}, capabilities, {
+      -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
       offsetEncoding = { "utf-16" }
     })
   }
