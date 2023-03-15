@@ -1,10 +1,10 @@
 -- LSP support
 -- https://github.com/neovim/nvim-lspconfig
 local M = {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-        "hrsh7th/cmp-nvim-lsp"
-    },
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp"
+  },
 }
 
 M.formatting = {}
@@ -84,19 +84,19 @@ function M.on_attach(client, bufnr)
 
   -- Show diagnostics in floating window on cursor
   vim.api.nvim_create_autocmd("CursorHold", {
-      buffer = bufnr,
-      callback = function()
-        local opts = {
-            focusable = false,
-            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-            border = "rounded",
-            source = "always",
-            prefix = " ",
-            scope = "cursor"
-        }
+    buffer = bufnr,
+    callback = function()
+      local opts = {
+        focusable = false,
+        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        border = "rounded",
+        source = "always",
+        prefix = " ",
+        scope = "cursor"
+      }
 
-        vim.diagnostic.open_float(nil, opts)
-      end
+      vim.diagnostic.open_float(nil, opts)
+    end
   })
 
   -- Mappings
@@ -115,44 +115,44 @@ function M.on_attach(client, bufnr)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
   buf_set_keymap('n', '<space>cwa',
-      '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', {
-      desc = "Add folder to workspace",
-      noremap = true,
-      silent = true
+    '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', {
+    desc = "Add folder to workspace",
+    noremap = true,
+    silent = true
   })
   buf_set_keymap('n', '<space>cwr',
-      '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', {
-      desc = "Remove folder from workspace",
-      noremap = true,
-      silent = true
+    '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', {
+    desc = "Remove folder from workspace",
+    noremap = true,
+    silent = true
   })
   buf_set_keymap('n', '<space>cwl',
-      '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-      { desc = "List workspace", noremap = true, silent = true })
+    '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
+    { desc = "List workspace", noremap = true, silent = true })
 
   -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>',
   --                { desc = "Show Type Definition", noremap = true, silent = true })
 
   buf_set_keymap('n', '<space>cr', '<cmd>lua vim.lsp.buf.rename()<CR>',
-      { desc = "Rename symbol", noremap = true, silent = true })
+    { desc = "Rename symbol", noremap = true, silent = true })
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>',
-      { desc = "Code actions", noremap = true, silent = true })
+    { desc = "Code actions", noremap = true, silent = true })
 
   -- NOTE: I use Telescope for references now, as it's easier to browse
   --   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 
   buf_set_keymap('n', '<space>e',
-      '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {
-      desc = "Show line diagnostics",
-      noremap = true,
-      silent = true
+    '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {
+    desc = "Show line diagnostics",
+    noremap = true,
+    silent = true
   })
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', {
-      desc = "Diagnostics to loclist",
-      noremap = true,
-      silent = true
+    desc = "Diagnostics to loclist",
+    noremap = true,
+    silent = true
   })
   -- buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
@@ -167,7 +167,7 @@ function M.get_capabilities()
     M.capabilities = cmp_nvim_lsp.default_capabilities()
   else
     M.capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol
-        .make_client_capabilities())
+    .make_client_capabilities())
   end
 
   return M.capabilities
@@ -177,18 +177,18 @@ function M.config()
   local nvim_lsp = require("lspconfig")
 
   vim.diagnostic.config({
-      signs = true,
-      float = { source = "always", border = "rounded", prefix = " " },
-      virtual_text = {
-          source = "always",
-          format = function(diagnostic)
-            if #diagnostic.message > 60 then
-              return string.sub(diagnostic.message, 1, 60) .. "..."
-            else
-              return diagnostic.message
-            end
-          end
-      }
+    signs = true,
+    float = { source = "always", border = "rounded", prefix = " " },
+    virtual_text = {
+      source = "always",
+      format = function(diagnostic)
+        if #diagnostic.message > 60 then
+          return string.sub(diagnostic.message, 1, 60) .. "..."
+        else
+          return diagnostic.message
+        end
+      end
+    }
   })
 
   -- Change the border of documentation hover windows
@@ -196,9 +196,9 @@ function M.config()
       vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-          vim.lsp.handlers
-          .signature_help,
-          { border = "rounded" })
+    vim.lsp.handlers
+    .signature_help,
+    { border = "rounded" })
 
   -- Get our initial set of capabilities
   local capabilities = M.get_capabilities()
@@ -208,9 +208,9 @@ function M.config()
   local servers = { 'pyright', 'tsserver' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
-        on_attach = M.on_attach,
-        flags = { debounce_text_changes = 150 },
-        capabilities = capabilities
+      on_attach = M.on_attach,
+      flags = { debounce_text_changes = 150 },
+      capabilities = capabilities
     }
   end
 
@@ -227,31 +227,33 @@ function M.config()
   end
 
   nvim_lsp.clangd.setup {
-      cmd = { clangd_path },
-      on_attach = M.on_attach,
-      flags = { debounce_text_changes = 150 },
-      capabilities = capabilities
+    cmd = { clangd_path },
+    on_attach = M.on_attach,
+    flags = { debounce_text_changes = 150 },
+    capabilities = vim.tbl_extend("force", {}, capabilities, {
+      offsetEncoding = { "utf-16" }
+    })
   }
 
   -- Setup the Lua server
   nvim_lsp.lua_ls.setup {
-      on_attach = M.on_attach,
-      capabilities = capabilities,
-      settings = {
-          Lua = {
-              runtime = { version = 'LuaJIT' },
-              diagnostics = {
-                  -- Get the langauge server to recognize the `vim` global
-                  globals = { 'vim' }
-              },
-              workspace = {
-                  -- Make the server aware of Neovim runtime files
-                  library = vim.api.nvim_get_runtime_file("", true)
-              },
-              -- Do not send telemetry data containing a randomized but unique identifier
-              telemetry = { enable = false }
-          }
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+    settings = {
+      Lua = {
+        runtime = { version = 'LuaJIT' },
+        diagnostics = {
+          -- Get the langauge server to recognize the `vim` global
+          globals = { 'vim' }
+        },
+        workspace = {
+          -- Make the server aware of Neovim runtime files
+          library = vim.api.nvim_get_runtime_file("", true)
+        },
+        -- Do not send telemetry data containing a randomized but unique identifier
+        telemetry = { enable = false }
       }
+    }
   }
 
   -- Setup Solidity
