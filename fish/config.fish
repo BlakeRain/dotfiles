@@ -49,6 +49,9 @@ if status is-interactive
     # Set our editor
     setenv EDITOR nvim
 
+    # Ser out OpenAI API key
+    setenv OPENAI_API_KEY (cat "$HOME/.openai.com.secret-key.json" | jq -r '.secretKey')
+
     # colored man output
     # from http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
     setenv LESS_TERMCAP_mb \e'[01;31m' # begin blinking
