@@ -50,7 +50,7 @@ if status is-interactive
     setenv EDITOR nvim
 
     # Ser out OpenAI API key
-    setenv OPENAI_API_KEY (cat "$HOME/.openai.com.secret-key.json" | jq -r '.secretKey')
+    setenv OPENAI_API_KEY (cat "$HOME/.openai.secret-key.json" | jq -r '.secretKey')
 
     # colored man output
     # from http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
