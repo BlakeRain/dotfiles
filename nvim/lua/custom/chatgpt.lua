@@ -59,16 +59,6 @@ local function parse_parameters(message)
   return result
 end
 
-M.log_message = function(message)
-  local log_path = vim.fn.expand("$HOME/.openai.log")
-  -- Append the message to the log file
-  local file = io.open(log_path, "a")
-  if file == nil then vim.notify(("Unable to append to log file '%s'"):format(log_path)) return end
-  file:write(message .. "\n")
-  file:flush()
-  file:close()
-end
-
 M.open_chat = function(args)
   args = args or {}
   local layout, chat_input, log
@@ -81,17 +71,17 @@ M.open_chat = function(args)
 
     local parsed = parse_parameters(prompt)
 
-    M.log_message(("%i: prompt '%s' (parameters: %s)"):format(log.id, parsed.message,
-      vim.inspect(parsed.parameters, { newline = "", indent = "" })))
+    openai.log_message(("chat %i: prompt '%s' (parameters: %s)"):format(log.id, parsed.message,
+      vim.inspect(parsed.parameters)))
 
     log:add("prompt", parsed.message)
     log:start_progress()
 
-    openai._execute(log:gather_conversation(), nil,
+    openai._execute(log:gather_conversation(),
       vim.schedule_wrap(function(res)
         log:cancel_progress()
 
-        M.log_message(("%i: [%i] %s"):format(log.id, res.status, vim.inspect(res.body)))
+        openai.log_message(("chat %i: [%i] %s"):format(log.id, res.status, vim.inspect(res.body)))
         if res.status ~= 200 then
           notify(("Error received from OpenAI (%s):\n\n%s"):format(res.body.error.type, res.body.error.message),
             vim.log.levels.ERROR)
@@ -102,8 +92,8 @@ M.open_chat = function(args)
         if res.body.usage then
           notify(
             ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
-              .usage
-              .total_tokens),
+            .usage
+            .total_tokens),
             vim.log.levels.INFO, { title = "ChatGPT" })
         end
 
@@ -113,7 +103,7 @@ M.open_chat = function(args)
           return
         end
 
-        local choice = res.body.choices[1].text
+        local choice = res.body.choices[1].message.content
         choice = string.gsub(choice, "^%s*(.-)", "%1")
         if #choice == 0 then
           vim.notify("Empty response from ChatGPT", vim.log.levels.WARN)
@@ -162,7 +152,7 @@ M.open_chat = function(args)
   layout:mount()
 
   log = Log:new(chat_window.bufnr, chat_window.winid)
-  M.log_message(("ChatGPT conversation %i started at %s"):format(log.id, os.date("%c")))
+  openai.log_message(("ChatGPT conversation %i started at %s"):format(log.id, os.date("%c")))
 
   if args.restore then log:load() end
   if args.code then log:add("code", args.code) end

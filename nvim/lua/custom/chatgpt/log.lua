@@ -103,7 +103,7 @@ local function highlight_message(bufnr, message, last_message)
       vim.api.nvim_buf_add_highlight(bufnr, highlight_ns,
         Config.options.highlights.selected, index,
         0, (index == message.start_line and
-            lengths.first or lengths.rest) - 1)
+        lengths.first or lengths.rest) - 1)
     end
   end
 
@@ -167,12 +167,20 @@ end
 function Log:gather_conversation()
   local conversation = {}
   for _, message in ipairs(self.messages) do
-    if message.type ~= "logo" and message.type ~= "error" then
-      table.insert(conversation, message.message)
+    if message.type == "prompt" or message.type == "code" then
+      local content = message.message
+      if message.type == "code" then content = "```\n" .. content .. "\n```" end
+      table.insert(conversation, {
+        { role = "user", content = content }
+      })
+    elseif message.type == "answer" then
+      table.insert(conversation, {
+        { role = "assistant", content = message.message }
+      })
     end
   end
 
-  return table.concat(conversation, "\n")
+  return conversation
 end
 
 function Log:get_last_message()
