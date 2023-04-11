@@ -3,7 +3,8 @@
 local M = {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp"
+    "hrsh7th/cmp-nvim-lsp",
+    "SmiteshP/nvim-navic"
   },
 }
 
@@ -75,6 +76,16 @@ function M.on_attach(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
+  -- Attach nvim-navic to the LSP server if 'documentSymbolProvider' is present
+  if client.server_capabilities.documentSymbolProvider then
+    local ok, navic = pcall(require, "nvim-navic")
+    if ok then
+      navic.attach(client, bufnr)
+    else
+      vim.notify("Failed to load nvim-navic", vim.log.levels.WARN)
+    end
+  end
+
   -- Set formatting on save
   -- vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
   M.formatting.setup(client, bufnr)
@@ -116,16 +127,16 @@ function M.on_attach(client, bufnr)
 
   buf_set_keymap('n', '<space>cwa',
     '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', {
-    desc = "Add folder to workspace",
-    noremap = true,
-    silent = true
-  })
+      desc = "Add folder to workspace",
+      noremap = true,
+      silent = true
+    })
   buf_set_keymap('n', '<space>cwr',
     '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', {
-    desc = "Remove folder from workspace",
-    noremap = true,
-    silent = true
-  })
+      desc = "Remove folder from workspace",
+      noremap = true,
+      silent = true
+    })
   buf_set_keymap('n', '<space>cwl',
     '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
     { desc = "List workspace", noremap = true, silent = true })
@@ -143,10 +154,10 @@ function M.on_attach(client, bufnr)
 
   buf_set_keymap('n', '<space>e',
     '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {
-    desc = "Show line diagnostics",
-    noremap = true,
-    silent = true
-  })
+      desc = "Show line diagnostics",
+      noremap = true,
+      silent = true
+    })
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', {
@@ -167,7 +178,7 @@ function M.get_capabilities()
     M.capabilities = cmp_nvim_lsp.default_capabilities()
   else
     M.capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol
-    .make_client_capabilities())
+      .make_client_capabilities())
   end
 
   return M.capabilities
