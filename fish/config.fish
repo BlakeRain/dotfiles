@@ -111,24 +111,26 @@ if status is-interactive
             'NR==1{cmd="fold -s -w 60";print $0|cmd;close(cmd)}NR>1{print}'
     end
 
-    function fish_greeting
-        # is_the_internet_on_fire | cowsay -f hellokitty -n | lolcat -F 0.025 -S 160
-        # echo
-        echo -e (uname -sm | awk -F" " '{print " \\\\e[1mArch     : \\\\e[0;32m"$1" (\\\\e[0;34m"$2"\\\\e[0;32m)\\\\e[0m"}')
-        echo -e (uptime | awk -F, '{print $1}' | sed 's/[0-9]\{2\}:[0-9]\{2\} *up //g' | \
-          awk '{print " \\\\e[1mUptime   : \\\\e[0;32m"$0"\\\\e[0m"}')
-        echo -ne (uname -n | awk '{print " \\\\e[1mHostname : \\\\e[0;32m"$0"\\\\e[0m"}')
-        sugoi_emoti
-        echo
 
-        if [ -d /var/mail/blake ] && mail -e
-            echo "You have mail"
+    function fish_greeting
+        if command -v neofetch >/dev/null
+            neofetch
+        else
+            echo -e (uname -sm | awk -F" " '{print " \\\\e[1mArch     : \\\\e[0;32m"$1" (\\\\e[0;34m"$2"\\\\e[0;32m)\\\\e[0m"}')
+            echo -e (uptime | awk -F, '{print $1}' | sed 's/[0-9]\{2\}:[0-9]\{2\} *up //g' | \
+              awk '{print " \\\\e[1mUptime   : \\\\e[0;32m"$0"\\\\e[0m"}')
+            echo -ne (uname -n | awk '{print " \\\\e[1mHostname : \\\\e[0;32m"$0"\\\\e[0m"}')
+            sugoi_emoti
+            echo
         end
     end
 
     function clear_screen
         clear
         fish_greeting
+        if [ -d /var/mail/blake ] && mail -e
+            echo "You have mail"
+        end
     end
 
     alias cls=clear_screen
