@@ -31,18 +31,52 @@ function M.config()
     { text = "", texthl = "DiagnosticSignHint" })
 
   require("neo-tree").setup({
+    default_component_configs = {
+      indent = { indent_size = 2, padding = 1, with_markers = true },
+      name = { trailing_slash = false, use_git_status_colors = true },
+      icon = {
+        folder_empty = "󰜌",
+        folder_empty_open = "󰜌",
+      },
+      git_status = {
+        symbols = {
+          renamed  = "󰁕",
+          unstaged = "󰄱",
+        },
+      },
+    },
+    document_symbols = {
+      kinds = {
+        File = { icon = "󰈙", hl = "Tag" },
+        Namespace = { icon = "󰌗", hl = "Include" },
+        Package = { icon = "󰏖", hl = "Label" },
+        Class = { icon = "󰌗", hl = "Include" },
+        Property = { icon = "󰆧", hl = "@property" },
+        Enum = { icon = "󰒻", hl = "@number" },
+        Function = { icon = "󰊕", hl = "Function" },
+        String = { icon = "󰀬", hl = "String" },
+        Number = { icon = "󰎠", hl = "Number" },
+        Array = { icon = "󰅪", hl = "Type" },
+        Object = { icon = "󰅩", hl = "Type" },
+        Key = { icon = "󰌋", hl = "" },
+        Struct = { icon = "󰌗", hl = "Type" },
+        Operator = { icon = "󰆕", hl = "Operator" },
+        TypeParameter = { icon = "󰊄", hl = "Type" },
+        StaticMethod = { icon = '󰠄 ', hl = 'Function' },
+      }
+    },
     source_selector = {
       winbar = true,
-      statusline = false
+      statusline = false,
+      sources = {
+        { source = "filesystem", display_name = " 󰉓 Files " },
+        { source = "git_status", display_name = " 󰊢 Git " },
+      }
     },
     close_if_last_window = false,
     popup_border_style = "rounded",
     enable_git_status = true,
     enable_diagnostics = true,
-    default_component_configs = {
-      indent = { indent_size = 2, padding = 1, with_markers = true },
-      name = { trailing_slash = false, use_git_status_colors = true }
-    },
     window = {
       position = "left",
       mappings = {
