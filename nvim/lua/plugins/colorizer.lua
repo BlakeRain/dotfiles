@@ -12,11 +12,12 @@ local M = {
 
 function M.config()
   require("colorizer").setup({
-    filetypes = { "html", "css", "scss", "sass", "less" },
+    filetypes = { "html", "css", "scss", "sass", "less", "rust" },
     user_default_options = {
       rgb_fn = true,
       hsl_fn = true,
       sass = { enable = true, parsers = { css = true } },
+      tailwind = true,
       mode = "background"
     }
   })

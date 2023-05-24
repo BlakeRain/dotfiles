@@ -9,7 +9,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 
     # Abbreviate 'v' to NeoVIM
-    if [ -f /opt/homebrew/bin/nvim ]
+    if [ -f /opt/homebrew/bin/nvim -o -f /usr/bin/nvim ]
         abbr -a v nvim
     end
 

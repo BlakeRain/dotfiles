@@ -23,6 +23,7 @@ M.tools = {
   "black",
   "isort",
   "flake8",
+  "tailwindcss-language-server",
 }
 
 function M.check()
