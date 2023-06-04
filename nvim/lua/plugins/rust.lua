@@ -34,7 +34,11 @@ function rust_tools.config()
       flags = { debounce_text_changes = 250 },
       capabilities = lsp.get_capabilities(),
       settings = {
-        ["rust-analyzer"] = { checkOnSave = { command = "clippy" } }
+        ["rust-analyzer"] = { checkOnSave = { command = "clippy" }, cargo = {
+          extraEnv = {
+            LLVM_SYS_140_PREFIX = "/opt/homebrew/opt/llvm@14"
+          }
+        } }
       }
     }
   })
