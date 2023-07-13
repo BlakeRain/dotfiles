@@ -10,7 +10,7 @@
 !/newsboat
 !/nvim
 !/ranger
-!/wezterm
+!/tmux
 
 !README.md
 !alacritty.yml
