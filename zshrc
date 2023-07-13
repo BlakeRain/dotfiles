@@ -1,4 +1,9 @@
 autoload -U colors && colors
+setopt autocd extendedglob nomatch menucomplete
+setopt interactivecomments
+stty stop undef
+unsetopt beep
+bindkey -v
 
 function greeting() {
   if command -v neofetch >/dev/null; then
@@ -75,3 +80,10 @@ fi
 if [ -d /opt/homebrew/share/zsh-syntax-highlighting ]; then
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
+
+
+# if type brew &>/dev/null; then
+#   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+#   autoload -Uz compinit
+#   compinit
+# fi
