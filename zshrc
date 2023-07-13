@@ -21,6 +21,8 @@ function clear_screen() {
   fi
 }
 
+alias cls=clear_screen
+
 function copydir() {
   pwd | tr -d "\r\n" | pbcopy
 }
@@ -61,10 +63,7 @@ function google() {
   open "$url"
 }
 
-alias cls=clear_screen
-alias ls=exa
-
-  # Add the GitHub CLI if it exists
+# Add the GitHub CLI if it exists
 if command -v gh >/dev/null; then
   eval "$(gh completion -s zsh)"
 fi
@@ -129,6 +128,10 @@ fi
 
 if [ -f $HOME/cs/dotfiles/zsh/dir-persist.zsh ]; then
   source $HOME/cs/dotfiles/zsh/dir-persist.zsh
+fi
+
+if [ -f $HOME/cs/dotfiles/zsh/osx.zsh ]; then
+  source $HOME/cs/dotfiles/zsh/osx.zsh
 fi
 
 # if type brew &>/dev/null; then
