@@ -223,4 +223,4 @@ for keymap in emacs vicmd viins; do
   fi
 done
 
-unset keymap
+unset keymapunset keymap
