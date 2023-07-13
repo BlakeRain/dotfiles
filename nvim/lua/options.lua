@@ -98,8 +98,8 @@ vim.opt.clipboard:append("unnamedplus")
 -- Improve the auto-completion menus.
 vim.opt.completeopt = "menu,menuone,noselect"
 
--- Tell vim that we use the fish shell.
-vim.opt.shell = "fish"
+-- Tell vim that we use the zsh shell.
+vim.opt.shell = "zsh"
 
 -- Enable use of the mouse in all vim modes.
 vim.opt.mouse = "a"

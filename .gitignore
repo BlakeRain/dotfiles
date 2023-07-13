@@ -11,6 +11,7 @@
 !/nvim
 !/ranger
 !/tmux
+!/x220
 
 !README.md
 !alacritty.yml
@@ -20,6 +21,8 @@
 !ghci
 !micro.json
 !nanorc
+!p10k.zsh
 !pureline.conf
 !tmux.conf
 !vscode-settings.json
+!zshrc

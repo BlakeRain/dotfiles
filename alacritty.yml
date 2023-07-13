@@ -3,10 +3,28 @@ env:
   TERM: xterm-256color
 
 shell:
-  program: /opt/homebrew/bin/fish
+  # program: /opt/homebrew/bin/zsh
+  # args:
+  # - --login
+  # - -c /opt/homebrew/bin/tmux
+
+  program: /opt/homebrew/bin/tmux
   args:
-    - --login
-    - -c tmux
+    - new-session
+
+# debug:
+# Keep the log file after quitting Alacritty.
+# persistent_logging: true
+
+# Log level
+# Values for `log_level`:
+#   - Off
+#   - Error
+#   - Warn
+#   - Info
+#   - Debug
+#   - Trace
+# log_level: Debug
 
 window:
   # Window dimensions

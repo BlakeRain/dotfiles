@@ -8,7 +8,7 @@ Some configurations you might find useful:
 
 - [Alacritty Configuration](https://github.com/BlakeRain/dotfiles/blob/main/alatritty.yml)
 - [Tmux Configuration](https://github.com/BlakeRain/dotfiles/tree/main/tmux.conf)
-- [Fish Shell Configuration](https://github.com/BlakeRain/dotfiles/blog/main/fish)
+- [ZSH Shell Configuration](https://github.com/BlakeRain/dotfiles/blob/main/zsh)
 - [NeoVim Configuration](https://github.com/BlakeRain/dotfiles/tree/main/nvim)
 
 ## More Screenshots
