@@ -5,6 +5,8 @@ stty stop undef
 unsetopt beep
 bindkey -v
 
+SAVEHIST=10000
+
 function greeting() {
   if command -v neofetch >/dev/null; then
     neofetch
@@ -17,6 +19,46 @@ function clear_screen() {
   if [ -d /var/mail/blake ] && mail -e; then
     echo "You have mail"
   fi
+}
+
+function copydir() {
+  pwd | tr -d "\r\n" | pbcopy
+}
+
+function copyfile() {
+  [[ "$#" != 1 ]] && return 1
+  local file_to_copy=$1
+  cat $file_to_copy | pbcopy
+}
+
+function copybuffer() {
+  local buf=""
+  if test -z $BUFFER; then
+    buf=$(fc -ln -1)
+  else
+    buf=$BUFFER
+  fi
+
+  printf "%s" "$buf" | pbcopy
+}
+
+zle -N copybuffer
+bindkey '^O' copybuffer
+
+function google() {
+  if [[ $# -lt 1 ]]; then
+    open "https://www.google.co.uk/"
+    return
+  fi
+
+  url="https://www.google.co.uk/search?q="
+  while [[ $# -gt 0 ]]; do
+    url="${url}$1+"
+    shift
+  done
+
+  url="${url%?}"
+  open "$url"
 }
 
 alias cls=clear_screen
@@ -81,6 +123,13 @@ if [ -d /opt/homebrew/share/zsh-syntax-highlighting ]; then
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
+if [ -f $HOME/cs/dotfiles/zsh/dir-history.zsh ]; then
+  source $HOME/cs/dotfiles/zsh/dir-history.zsh
+fi
+
+if [ -f $HOME/cs/dotfiles/zsh/dir-persist.zsh ]; then
+  source $HOME/cs/dotfiles/zsh/dir-persist.zsh
+fi
 
 # if type brew &>/dev/null; then
 #   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
