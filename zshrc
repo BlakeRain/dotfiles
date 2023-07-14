@@ -112,7 +112,9 @@ if [ -d /opt/homebrew/opt/powerlevel10k ]; then
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if [ -f $HOME/cs/dotfiles/zsh/p10k.zsh ]; then
+  source $HOME/cs/dotfiles/zsh/p10k.zsh
+fi
 
 if [ -d /opt/homebrew/share/zsh-autosuggestions ]; then
   source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
