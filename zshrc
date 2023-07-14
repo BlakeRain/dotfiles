@@ -109,35 +109,51 @@ greeting
 
 if [ -d /opt/homebrew/opt/powerlevel10k ]; then
   source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
+else
+  echo "Need to install powerline10k for zsh theme"
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 if [ -f $HOME/cs/dotfiles/zsh/p10k.zsh ]; then
   source $HOME/cs/dotfiles/zsh/p10k.zsh
+else
+  echo "Unable to find powerline10k configuration"
 fi
 
 if [ -d /opt/homebrew/share/zsh-autosuggestions ]; then
   source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+else
+  echo "Need to install zsh-autosuggestions"
 fi
 
 if [ -d /opt/homebrew/share/zsh-syntax-highlighting ]; then
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  echo "Need to install zsh-syntax-highlighting"
 fi
 
 if [ -f $HOME/cs/dotfiles/zsh/dir-history.zsh ]; then
   source $HOME/cs/dotfiles/zsh/dir-history.zsh
+else
+  echo "Unable to find dir-history.zsh (Synology dotfiles)"
 fi
 
 if [ -f $HOME/cs/dotfiles/zsh/dir-persist.zsh ]; then
   source $HOME/cs/dotfiles/zsh/dir-persist.zsh
+else
+  echo "Unable to find dir-persist.zsh (Syngology dotfiles)"
 fi
 
 if [ -f $HOME/cs/dotfiles/zsh/osx.zsh ]; then
   source $HOME/cs/dotfiles/zsh/osx.zsh
+else
+  echo "Unable to find osx.zsh (Synology dotfiles)"
 fi
 
 if [ -f $HOME/cs/dotfiles/zsh/auto-notify.zsh ]; then
   source $HOME/cs/dotfiles/zsh/auto-notify.zsh
+else
+  echo "Unable to find auto-notify.zsh (Synology dotfiles)"
 fi
 
 # if type brew &>/dev/null; then
