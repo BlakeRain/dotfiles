@@ -9,18 +9,19 @@ export AUTO_NOTIFY_VERSION="0.8.1"
 # List of commands/programs to ignore sending notifications for
 [[ -z "$AUTO_NOTIFY_IGNORE" ]] &&
     export AUTO_NOTIFY_IGNORE=(
-        'vim'
-        'nvim'
-        'less'
-        'more'
-        'man'
-        'tig'
-        'watch'
         'git commit'
-        'top'
         'htop'
-        'ssh'
+        'less'
+        'mail'
+        'man'
+        'more'
         'nano'
+        'nvim'
+        'ssh'
+        'tig'
+        'top'
+        'vim'
+        'watch'
     )
 
 function _auto_notify_format() {
