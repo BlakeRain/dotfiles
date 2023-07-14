@@ -115,55 +115,38 @@ greeting
 
 if [ -d /opt/homebrew/opt/powerlevel10k ]; then
   source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
+elif [ -d /usr/share/powerlevel10k ]; then
+  source /usr/share/powerlevel10k/powerlevel10k.zsh-theme
 else
   echo "Need to install powerline10k for zsh theme"
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-if [ -f $HOME/cs/dotfiles/zsh/p10k.zsh ]; then
-  source $HOME/cs/dotfiles/zsh/p10k.zsh
-else
-  echo "Unable to find powerline10k configuration"
-fi
+function load_dotfile() {
+  if [ -f $HOME/cs/dotfiles/zsh/$1.zsh ]; then
+    source $HOME/cs/dotfiles/zsh/$1.zsh
+  elif [ -f $HOME/.config/zsh/$1.zsh ]; then
+    source $HOME/.config/zsh/$1.zsh
+  else
+    echo "Unable to find '$1.zsh' (in Synology dotfiles or ~/.config/zsh)"
+  fi
+}
 
-if [ -d /opt/homebrew/share/zsh-autosuggestions ]; then
-  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-  echo "Need to install zsh-autosuggestions"
-fi
+function load_share() {
+  if [ -f /opt/homebrew/share/$1/$1.zsh ]; then
+    source /opt/homebrew/share/$1/$1.zsh
+  elif [ -f /usr/share/$1/$1.zsh ]; then
+    source /usr/share/$1/$1.zsh
+  else
+    echo "Unable to find '$1' (in Homebrew or /usr/share)"
+  fi
+}
 
-if [ -d /opt/homebrew/share/zsh-syntax-highlighting ]; then
-  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-  echo "Need to install zsh-syntax-highlighting"
-fi
+load_dotfile "1password"
+load_dotfile "p10k"
+load_dotfile "dir-history"
+load_dotfile "dir-persist"
+load_dotfile "osx"
+load_dotfile "auto-notify"
+load_share "zsh-autosuggestions"
+load_share "zsh-syntax-highlighting"
 
-if [ -f $HOME/cs/dotfiles/zsh/dir-history.zsh ]; then
-  source $HOME/cs/dotfiles/zsh/dir-history.zsh
-else
-  echo "Unable to find dir-history.zsh (Synology dotfiles)"
-fi
-
-if [ -f $HOME/cs/dotfiles/zsh/dir-persist.zsh ]; then
-  source $HOME/cs/dotfiles/zsh/dir-persist.zsh
-else
-  echo "Unable to find dir-persist.zsh (Syngology dotfiles)"
-fi
-
-if [ -f $HOME/cs/dotfiles/zsh/osx.zsh ]; then
-  source $HOME/cs/dotfiles/zsh/osx.zsh
-else
-  echo "Unable to find osx.zsh (Synology dotfiles)"
-fi
-
-if [ -f $HOME/cs/dotfiles/zsh/auto-notify.zsh ]; then
-  source $HOME/cs/dotfiles/zsh/auto-notify.zsh
-else
-  echo "Unable to find auto-notify.zsh (Synology dotfiles)"
-fi
-
-# if type brew &>/dev/null; then
-#   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-#   autoload -Uz compinit
-#   compinit
-# fi
