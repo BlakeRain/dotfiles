@@ -134,6 +134,10 @@ if [ -f $HOME/cs/dotfiles/zsh/osx.zsh ]; then
   source $HOME/cs/dotfiles/zsh/osx.zsh
 fi
 
+if [ -f $HOME/cs/dotfiles/zsh/auto-notify.zsh ]; then
+  source $HOME/cs/dotfiles/zsh/auto-notify.zsh
+fi
+
 # if type brew &>/dev/null; then
 #   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 #   autoload -Uz compinit
