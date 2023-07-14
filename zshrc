@@ -102,7 +102,13 @@ fi
 export EDITOR=nvim
 
 if command -v jq >/dev/null; then
-  export OPENAI_API_KEY=$(cat "$HOME/.openai.secret-key.json" | jq -r ".secretKey")
+  if [ -f ~/.openai.secret-key.json ]; then
+    export OPENAI_API_KEY=$(cat "$HOME/.openai.secret-key.json" | jq -r ".secretKey")
+  else
+    echo "OpenAI secret key not found; OPENAI_API_KEY will not be available"
+  fi
+else
+  echo "Need to install jq; OPENAI_API_KEY will not be available"
 fi
 
 greeting
