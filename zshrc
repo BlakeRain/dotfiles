@@ -1,11 +1,60 @@
 autoload -U colors && colors
-setopt autocd extendedglob nomatch menucomplete
+
+# Set the ZSH cache directory and make sure that it exists
+ZSH_CACHE_DIR="$HOME/.cache/zsh"
+if [ ! -d "$ZSH_CACHE_DIR" ]; then
+  mkdir -p "$ZSH_CACHE_DIR"
+fi
+
+# Load all the stock functions
+autoload -U compaudit compinit zercompile
+
+compinit -u
+
+zmodload -i zsh/complist
+
+WORDCHARS=''
+
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+
+setopt auto_cd
+setopt auto_menu         # show completion menu on successive tab press
+setopt auto_pushd
+setopt always_to_end
+setopt complete_in_word
+setopt long_list_jobs
+setopt pushd_ignore_dups
+setopt pushdminus
 setopt interactivecomments
 stty stop undef
 unsetopt beep
-bindkey -v
 
-SAVEHIST=10000
+bindkey -M menuselect '^o' accept-and-infer-next-history
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
+
+# Complete . and .. special directories
+zstyle ':completion:*' special-dirs true
+
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
+
+# disable named-directories autocompletion
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+
+autoload -U +X bashcompinit && bashcompinit
+
+[ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
+[ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
+
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt share_history          # share command history data
 
 function greeting() {
   if command -v neofetch >/dev/null; then
@@ -149,4 +198,3 @@ load_dotfile "osx"
 load_dotfile "auto-notify"
 load_share "zsh-autosuggestions"
 load_share "zsh-syntax-highlighting"
-
