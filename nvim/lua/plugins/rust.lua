@@ -80,6 +80,7 @@ local crates = {
 
 function crates.config()
   require("crates").setup({
+    -- max_parallel_requests = 20
   })
 
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
