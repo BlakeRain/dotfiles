@@ -21,17 +21,17 @@ function M.config()
         vim.keymap.set(mode, l, r, opts)
       end
 
-      map('n', ']c', function()
-        if vim.wo.diff then return ']c' end
+      map('n', ']h', function()
+        if vim.wo.diff then return ']h' end
         vim.schedule(function() gitsigns.next_hunk() end)
         return '<Ignore>'
-      end, { expr = true })
+      end, { expr = true, desc = "Next git hunk" })
 
-      map('n', '[c', function()
-        if vim.wo.diff then return '[c' end
+      map('n', '[h', function()
+        if vim.wo.diff then return '[h' end
         vim.schedule(function() gitsigns.prev_hunk() end)
         return '<Ignore>'
-      end, { expr = true })
+      end, { expr = true, desc = "Previous git hunk" })
 
       map({ 'n', 'v' }, '<leader>ghs', ':Gitsigns stage_hunk<CR>',
         { desc = "Stage current hunk" })

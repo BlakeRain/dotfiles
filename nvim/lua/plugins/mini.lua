@@ -63,6 +63,8 @@ function M.config()
     require("mini.misc").zoom(0, {})
   end, { desc = "Zoom into buffer" })
 
+  require("mini.bracketed").setup({})
+
   -- M.setup_animate()
 end
 
