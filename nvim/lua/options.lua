@@ -150,4 +150,5 @@ vim.g.markdown_fenced_languages = {
 -- Note: I don't actually set the 'foldmethod' here, as I have a keybinding to toggle it (see 'keymaps.lua').
 vim.cmd [[
 set foldexpr=nvim_treesitter#foldexpr()
+set foldlevel=9000
 ]]
