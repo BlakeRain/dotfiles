@@ -11,6 +11,7 @@ local M = {
 
   config = function()
     local cokeline = require("cokeline")
+
     local get_hex = require('cokeline/utils').get_hex
     local mappings = require('cokeline/mappings')
 
@@ -157,11 +158,39 @@ local M = {
   end,
 
   keys = {
+    -- Move to previous or next buffer
     { "<A-,>", "<Plug>(cokeline-focus-prev)" },
     { "<A-.>", "<Plug>(cokeline-focus-next)" },
 
+    -- Re-order current buffer
     { "<A-<>", "<Plug>(cokeline-switch-prev)" },
     { "<A->>", "<Plug>(cokeline-switch-next)" },
+
+    -- Close buffer
+    { "<A-c>", function()
+      local buf = require("cokeline.buffers").get_current()
+      require("core.utils.buffers").delete(buf.number)
+    end },
+
+    -- Magic buffer-picking mode
+    { "<C-s>",      "<Plug>(cokeline-pick-focus)" },
+    { "<leader>bb", "<Plug>(cokeline-pick-focus)", desc = "Pick buffer" },
+    {
+      "<leader>bc",
+      function()
+        local buf = require("cokeline.buffers").get_current()
+        require("core.utils.buffers").delete(buf.number)
+      end,
+      desc = "Close buffer"
+    },
+    {
+      "<leader>bC",
+      function()
+        local buf = require("cokeline.buffers").get_current()
+        require("core.utils.buffers").delete(buf.number, true)
+      end,
+      desc = "Close buffer (force)"
+    },
   }
 }
 
