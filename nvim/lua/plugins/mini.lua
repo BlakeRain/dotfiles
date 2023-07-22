@@ -65,6 +65,11 @@ function M.config()
 
   require("mini.bracketed").setup({})
 
+  require("mini.files").setup({})
+  vim.keymap.set("n", "<leader>o", function()
+    require("mini.files").open()
+  end, { desc = "Open file browser" })
+
   -- M.setup_animate()
 end
 
