@@ -2,6 +2,7 @@
 -- https://github.com/j-hui/fidget.nvim
 local M = {
   'j-hui/fidget.nvim',
+  tag = "legacy",
   event = "VeryLazy"
 }
 
@@ -10,4 +11,3 @@ function M.config()
 end
 
 return M
-
