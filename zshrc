@@ -200,6 +200,16 @@ else
     alias lll="ls -la"
 fi
 
+# See if `xplr` is knocking around
+if command -v xplr >/dev/null; then
+  alias x=xplr
+
+  # Change to a directory selected with `xplr`
+  alias xcd='cd $(xplr --print-pwd-as-result)'
+else
+  alias x=ls
+fi
+
 if command -v ranger >/dev/null; then
     alias r=ranger
 fi

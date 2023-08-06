@@ -1,5 +1,7 @@
 browser open
 
+save-path ~/Documents/notes/incoming/Newsboat/
+
 bind-key j down
 bind-key k up
 bind-key j next articlelist
@@ -19,6 +21,8 @@ bind-key N prev-unread
 bind-key D pb-download
 bind-key U show-urls
 bind-key x pb-delete
+
+macro o set browser ~/cs/scripts/newsboat-obsidian-export.py; open-in-browser; set browser open
 
 color title color16 color111 bold
 color info color16 color111
