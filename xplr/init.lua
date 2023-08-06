@@ -52,6 +52,17 @@ xplr.fn.builtin.fmt_general_table_row_cols_0 = function(m)
   return r
 end
 
+xplr.config.modes.builtin.default.key_bindings.on_key.v = {
+  help = "View with Bat",
+  messages = {
+    {
+      BashExec0 = [===[
+        bat "${XPLR_FOCUS_PATH:?}"
+      ]===]
+    }
+  }
+}
+
 xplr.config.modes.builtin.default.key_bindings.on_key.m = {
   help = "Bookmark (session)",
   messages = {
@@ -87,7 +98,7 @@ xplr.config.modes.builtin.default.key_bindings.on_key.M = {
 }
 
 xplr.config.modes.builtin.default.key_bindings.on_key["`"] = {
-  help = "go to bookmarks",
+  help = "Go to bookmarks",
   messages = {
     {
       BashExec0 = [===[
