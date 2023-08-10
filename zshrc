@@ -218,6 +218,10 @@ if [ -f /opt/homebrew/bin/nvim -o -f /usr/bin/nvim ]; then
   alias v=nvim
 fi
 
+if [[ -f $HOME/.opam/opam-init/init.zsh ]]; then
+  source $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
+fi
+
 # FZF auto-completion and key bindings
 if [ -d /opt/homebrew/opt/fzf/shell ]; then
   source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2> /dev/null
