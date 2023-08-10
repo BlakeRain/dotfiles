@@ -108,14 +108,14 @@ end
 --
 -- The `options` argument can be a table with the following properties:
 --
--- - A `width` property giving the maximum width of a line (defaults to 120),
+-- - A `width` property giving the maximum width of a line (defaults to 100),
 -- - An `indent` property that allows the comment to be indented (defaults to zero), and
 -- - A `wrapper` property that contains a table giving the `left` and `right` comment wrapper. If this property is not
 --   present, it defaults to the result of `get_comment_wrapper` for the current buffer. If the `get_comment_wrapper`
 --   cannot interpret the buffer's `commentstring` then no comment characters will be included.
 function M.create_comment_lines(text, options)
   options = options or {}
-  local width = options.width or 120
+  local width = options.width or 100
   local indent = options.indent or 0
   local wrapper = options.wrapper or M.get_comment_wrapper(0)
   if wrapper == nil then wrapper = { left = "", right = "" } end

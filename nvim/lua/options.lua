@@ -59,11 +59,11 @@ endif
 -- Set the floating-window blending to 10 (percent?).
 vim.opt.winblend = 10
 
--- Add a ruler at column 120
-vim.opt.colorcolumn = '120'
+-- Add a ruler at column 100
+vim.opt.colorcolumn = '100'
 
--- Set the width of formatted text to column 120 (unless overridden elsewhere).
-vim.opt.textwidth = 120
+-- Set the width of formatted text to column 100 (unless overridden elsewhere).
+vim.opt.textwidth = 100
 
 -- Highlight the current line.
 vim.opt.cursorline = true

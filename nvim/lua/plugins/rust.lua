@@ -46,13 +46,13 @@ function rust_tools.config()
   -- Tell rust that we want to override the "recommended" style
   vim.g.rust_recommended_style = 0
 
-  -- Create an augroup for Rust that sets the textwidth to 120 (rather than the mandated 100)
+  -- Create an augroup for Rust that sets the textwidth to 100
   vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.rs" },
     group = rust_group,
     callback = function(info)
       -- setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-      vim.api.nvim_buf_set_option(info.buf, "textwidth", 119)
+      vim.api.nvim_buf_set_option(info.buf, "textwidth", 99)
       vim.api.nvim_buf_set_option(info.buf, "tabstop", 4)
       vim.api.nvim_buf_set_option(info.buf, "shiftwidth", 4)
       vim.api.nvim_buf_set_option(info.buf, "softtabstop", 4)
