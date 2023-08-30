@@ -130,7 +130,7 @@ function greeting() {
 
 function clear_screen() {
   clear
-  greeting
+  # greeting
   if [ -d /var/mail/blake ] && mail -e; then
     echo "You have mail"
   fi
@@ -242,7 +242,7 @@ else
   echo "Need to install jq; OPENAI_API_KEY will not be available"
 fi
 
-greeting
+# greeting
 
 if [ -d /opt/homebrew/opt/powerlevel10k ]; then
   source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
