@@ -226,6 +226,9 @@ fi
 if [ -d /opt/homebrew/opt/fzf/shell ]; then
   source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2> /dev/null
   source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
+elif [ -d /usr/share/fzf ]; then
+  source "/usr/share/fzf/completion.zsh" 2> /dev/null
+  source "/usr/share/fzf/key-bindings.zsh"
 fi
 
 export EDITOR=nvim
@@ -248,6 +251,8 @@ if [ -d /opt/homebrew/opt/powerlevel10k ]; then
   source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 elif [ -d /usr/share/powerlevel10k ]; then
   source /usr/share/powerlevel10k/powerlevel10k.zsh-theme
+elif [ -d /usr/share/zsh-theme-powerlevel10k ]; then
+  source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 else
   echo "Need to install powerline10k for zsh theme"
 fi
@@ -267,6 +272,8 @@ function load_share() {
     source /opt/homebrew/share/$1/$1.zsh
   elif [ -f /usr/share/$1/$1.zsh ]; then
     source /usr/share/$1/$1.zsh
+  elif [ -f /usr/share/zsh/plugins/$1/$1.zsh ]; then
+    source /usr/share/zsh/plugins/$1/$1.zsh
   else
     echo "Unable to find '$1' (in Homebrew or /usr/share)"
   fi
