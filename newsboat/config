@@ -24,6 +24,9 @@ bind-key x pb-delete
 
 macro o set browser ~/cs/scripts/newsboat-obsidian-export.py; open-in-browser; set browser open
 
+feedlist-format "%2i %7U / %-7c %S%n %t"
+articlelist-format "%7i %f %D   %?T?[%-17T]  ?%t"
+
 color title color16 color111 bold
 color info color16 color111
 
