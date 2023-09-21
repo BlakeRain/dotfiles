@@ -1,3 +1,5 @@
+# Newsboat configuration
+
 browser open
 
 save-path ~/Documents/notes/incoming/Newsboat/
