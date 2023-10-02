@@ -33,7 +33,8 @@ window:
     lines: 80
 
   # Make the window _slightly_ transparent
-  opacity: 0.96
+  # opacity: 0.96
+  opacity: 0.85
 
   # Spread additional padding evenly around the terminal content
   dynamic_padding: true
