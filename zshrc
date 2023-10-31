@@ -214,7 +214,7 @@ if command -v ranger >/dev/null; then
     alias r=ranger
 fi
 
-if [ -f /opt/homebrew/bin/nvim -o -f /usr/bin/nvim ]; then
+if command -v nvim >/dev/null; then
   alias v=nvim
 fi
 
