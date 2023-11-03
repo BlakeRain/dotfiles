@@ -52,11 +52,16 @@ function rust_tools.config()
     group = rust_group,
     callback = function(info)
       -- setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-      vim.api.nvim_buf_set_option(info.buf, "textwidth", 99)
-      vim.api.nvim_buf_set_option(info.buf, "tabstop", 4)
-      vim.api.nvim_buf_set_option(info.buf, "shiftwidth", 4)
-      vim.api.nvim_buf_set_option(info.buf, "softtabstop", 4)
-      vim.api.nvim_buf_set_option(info.buf, "expandtab", true)
+      vim.api.nvim_set_option_value("textwidth", 99, { buf = info.buf })
+      vim.api.nvim_set_option_value("tabstop", 4, { buf = info.buf })
+      vim.api.nvim_set_option_value("shiftwidth", 4, { buf = info.buf })
+      vim.api.nvim_set_option_value("softtabstop", 4, { buf = info.buf })
+      vim.api.nvim_set_option_value("exapndtab", true, { buf = info.buf })
+      -- vim.api.nvim_buf_set_option(info.buf, "textwidth", 99)
+      -- vim.api.nvim_buf_set_option(info.buf, "tabstop", 4)
+      -- vim.api.nvim_buf_set_option(info.buf, "shiftwidth", 4)
+      -- vim.api.nvim_buf_set_option(info.buf, "softtabstop", 4)
+      -- vim.api.nvim_buf_set_option(info.buf, "expandtab", true)
     end
   })
 
