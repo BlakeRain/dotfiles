@@ -36,7 +36,9 @@ function rust_tools.config()
       settings = {
         ["rust-analyzer"] = { checkOnSave = { command = "clippy" }, cargo = {
           extraEnv = {
-            LLVM_SYS_140_PREFIX = "/opt/homebrew/opt/llvm@14"
+            LLVM_SYS_140_PREFIX = "/opt/homebrew/opt/llvm@14",
+            LLVM_SYS_150_PREFIX = "/opt/homebrew/opt/llvm@15",
+            LLVM_SYS_160_PREFIX = "/opt/homebrew/opt/llvm@16"
           }
         } }
       }
@@ -79,18 +81,26 @@ end
 -- https://github.com/Saecki/crates.nvim
 local crates = {
   "saecki/crates.nvim",
-  tag = "v0.3.0",
+  -- tag = "v0.4.0",
   event = "VeryLazy"
 }
 
 function crates.config()
   require("crates").setup({
-    -- max_parallel_requests = 20
+    max_parallel_requests = 20,
     src = {
       cmp = {
         enabled = true
       }
     }
+  })
+
+  vim.api.nvim_create_autocmd("BufRead", {
+    group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
+    pattern = "Cargo.toml",
+    callback = function()
+      require("cmp").setup.buffer({ sources = { { name = "crates" } } })
+    end
   })
 
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {

@@ -54,7 +54,7 @@ function M.config()
     }),
     sources = cmp.config.sources({
       { name = 'copilot' }, { name = 'nvim_lsp' }, { name = 'nvim_lua' },
-      { name = 'luasnip' }, { name = 'crates' }
+      { name = 'luasnip' }
     }, {
       { name = 'buffer' }, { name = "spell" },
       { name = "emoji" }
