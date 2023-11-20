@@ -7,3 +7,21 @@ function zsh_stats() {
 function new_fernet_key() {
   python3 -c "import random; import base64; print(base64.urlsafe_b64encode(bytes(random.choices(range(255), k=32))).decode('utf-8'))"
 }
+
+function new_password() {
+  if [ -z "$1" ]; then
+    echo "Usage: new_password <length>"
+    return 1
+  fi
+
+  python3 -c "import random; import string; print(''.join(random.choices(string.ascii_letters + string.digits, k=$1)))"
+}
+
+function new_ssh_key() {
+  if [ -z "$1" ]; then
+    echo "Usage: new_ssh_key <email>"
+    return 1
+  fi
+
+  ssh-keygen -t ed25519 -C "$1"
+}
