@@ -206,7 +206,12 @@ if command -v xplr >/dev/null; then
 
   # Change to a directory selected with `xplr`
   alias xcd='cd "$(xplr --print-pwd-as-result)"'
+
+  # Edit a file selected with `xplr` using `nvim`
+  alias xnvim='nvim "$(xplr)"'
+  alias xv='xnvim'
 else
+  echo "Need to install xplr; xplr will not be available"
   alias x=ls
 fi
 
