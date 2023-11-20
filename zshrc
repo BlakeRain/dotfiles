@@ -123,14 +123,63 @@ bindkey '^W' kill-region
 bindkey '^I' complete-word
 
 function greeting() {
-  if command -v neofetch >/dev/null; then
-    neofetch
-  fi
+  # if command -v neofetch >/dev/null; then
+  #   neofetch
+  # fi
+
+  function _format {
+    awk -F ';' '{ printf("  \x1b[37m%-30s \x1b[96m%s\x1b[0m\n", $1, $2) }'
+  }
+
+  function format {
+    echo "$1:;$2" | _format
+  }
+
+  format "Hostname" "$(hostname -s)"
+  format "Uptime" "$(uptime | sed 's/.*up \([^,]*\),.*/\1/')"
+  format "System Load" "$(uptime | sed 's/.*load av.*: \(.*\)/\1/')"
+  format "Running Processes" "$(ps -caxm | tail -n +2 | wc -l | awk '{ print $1 }')"
+  format "Resident Set Size" "$(ps aux | awk '{ sum += $6 } END { printf("%.2f MiB", sum / 1024.0) }')"
+
+  local inet_script='
+    /^[a-z0-9]+:.*/ {
+      wanted = 0
+      iface = substr($1, 0, length($1) - 1)
+
+      if (index($1, "lo") == 0) {
+        if (index($2, "UP") != 0) {
+          wanted = 1
+
+          if (index($2, "POINTOPOINT") != 0) {
+            wanted = 0
+          }
+        }
+      }
+    }
+
+    /inet / {
+      if (wanted) {
+        printf("IPv4 Address for %s:;%s\n", iface, $2)
+      }
+    }
+
+    # /inet6 / {
+    #   if (wanted) {
+    #     printf("IPv6 Address for %s:;%s\n", iface, $2)
+    #   }
+    # }
+  '
+
+  ip addr | awk "$inet_script" | while read inet_line; do
+    echo $inet_line | _format
+  done
+
+  echo # blank line
 }
 
 function clear_screen() {
   clear
-  # greeting
+  greeting
   if [ -d /var/mail/blake ] && mail -e; then
     echo "You have mail"
   fi
@@ -250,7 +299,7 @@ else
   echo "Need to install jq; OPENAI_API_KEY will not be available"
 fi
 
-# greeting
+greeting
 
 if [ -d /opt/homebrew/opt/powerlevel10k ]; then
   source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
