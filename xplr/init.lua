@@ -57,7 +57,7 @@ xplr.config.modes.builtin.default.key_bindings.on_key.v = {
   messages = {
     {
       BashExec0 = [===[
-        bat "${XPLR_FOCUS_PATH:?}"
+        bat --paging always "${XPLR_FOCUS_PATH:?}"
       ]===]
     }
   }
