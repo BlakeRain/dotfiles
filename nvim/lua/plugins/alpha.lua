@@ -37,7 +37,7 @@ local function create_dashboard()
   local buttons = {
     type = "group",
     val = {
-      button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
+      button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
       button("f", " " .. " Find file", ":Telescope find_files <CR>"),
       button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
       button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
