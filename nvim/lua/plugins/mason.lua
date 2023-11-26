@@ -24,6 +24,7 @@ M.tools = {
   "isort",
   "flake8",
   "tailwindcss-language-server",
+  "java-language-server"
 }
 
 function M.check()

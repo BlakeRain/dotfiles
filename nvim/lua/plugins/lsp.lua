@@ -273,6 +273,7 @@ function M.config()
   nvim_lsp.solidity_ls
       .setup { on_attach = M.on_attach, capabilities = capabilities }
 
+
   -- NOTE: Rust is activated in 'rust-tools.lua'
 
   require("plugins.null-ls").setup()
