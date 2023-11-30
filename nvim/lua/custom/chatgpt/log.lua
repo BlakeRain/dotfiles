@@ -35,8 +35,8 @@ end
 
 -- Work out the lengths of the message prefixes.
 --
--- We need to do this (rather than just assume the value of 5), as our signs might be unicode, and VIM uses byte offsets
--- for columns rather than characters.
+-- We need to do this (rather than just assume the value of 5), as our signs might be unicode, and
+-- VIM uses byte offsets for columns rather than characters.
 local function message_prefix_lengths(message)
   if message.type == "logo" then return { first = 0, rest = 0 } end
 
@@ -45,9 +45,9 @@ local function message_prefix_lengths(message)
 
   local sign = Config.options.signs[message.type]
   if sign ~= nil then
-    -- If the sign is a unicode string, then we can end up with more than one byte in the first line of a message
-    -- prefix, which means the highlighting will be wrong: remember that 'nvim_buf_add_highlight' uses byte-indexed
-    -- column values, not _character_ indexed.
+    -- If the sign is a unicode string, then we can end up with more than one byte in the first line
+    -- of a message prefix, which means the highlighting will be wrong: remember that
+    -- 'nvim_buf_add_highlight' uses byte-indexed column values, not _character_ indexed.
     first = vim.fn.strlen(sign) + 4
   end
 
@@ -57,7 +57,7 @@ end
 -- Render a message into the buffer.
 local function render_message(bufnr, message)
   -- Set the buffer as modifiable before we apply the changes
-  vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
+  vim.api.nvim_set_option_value("modifiable", true, { buf = bufnr })
 
   -- Add some blank lines if 'start_line' is out-of-bounds
   while message.start_line > vim.api.nvim_buf_line_count(bufnr) do
@@ -82,12 +82,12 @@ local function render_message(bufnr, message)
   end
 
   -- Change the buffer back to read-only after we've applied our changes
-  vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
 end
 
 local function highlight_message(bufnr, message, last_message)
   -- Set the buffer as modifiable before we apply the changes
-  vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
+  vim.api.nvim_set_option_value("modifiable", true, { buf = bufnr })
 
   -- If we have a previous highlighted message, then we want to reset it's highlighting
   if last_message ~= nil then
@@ -103,12 +103,12 @@ local function highlight_message(bufnr, message, last_message)
       vim.api.nvim_buf_add_highlight(bufnr, highlight_ns,
         Config.options.highlights.selected, index,
         0, (index == message.start_line and
-        lengths.first or lengths.rest) - 1)
+          lengths.first or lengths.rest) - 1)
     end
   end
 
   -- Change the buffer back to read-only after we've applied our changes
-  vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
 end
 
 local Log = {}
@@ -127,7 +127,7 @@ function Log:new(bufnr, winid)
   self.timer = nil
 
   -- Set the filetype of the log window to 'chatgpt'
-  vim.api.nvim_buf_set_option(bufnr, "filetype", "chatgpt")
+  vim.api.nvim_set_option_value("filetype", "chatgpt", { buf = bufnr })
 
   -- Add the logo to the log
   self:add("logo", Config.options.logo)
@@ -170,13 +170,13 @@ function Log:gather_conversation()
     if message.type == "prompt" or message.type == "code" then
       local content = message.message
       if message.type == "code" then content = "```\n" .. content .. "\n```" end
-      table.insert(conversation, {
+      table.insert(conversation,
         { role = "user", content = content }
-      })
+      )
     elseif message.type == "answer" then
-      table.insert(conversation, {
+      table.insert(conversation,
         { role = "assistant", content = message.message }
-      })
+      )
     end
   end
 
@@ -319,7 +319,7 @@ function Log:start_progress()
     local char = Config.options.progress[index]
 
     -- Set the buffer as modifiable before we apply the changes
-    vim.api.nvim_buf_set_option(self.bufnr, "modifiable", true)
+    vim.api.nvim_set_option_value("modifiable", true, { buf = self.bufnr })
 
     -- Write the message to the buffer
     vim.api.nvim_buf_set_lines(self.bufnr, first and -1 or -2, -1, true, {
@@ -341,7 +341,7 @@ function Log:start_progress()
     end
 
     -- Change the buffer back to read-only after we've applied our changes
-    vim.api.nvim_buf_set_option(self.bufnr, "modifiable", false)
+    vim.api.nvim_set_option_value("modifiable", false, { buf = self.bufnr })
   end))
 end
 
@@ -351,9 +351,9 @@ function Log:cancel_progress()
     self.timer = nil
 
     -- Erase the last line from the buffer (which is our progress line)
-    vim.api.nvim_buf_set_option(self.bufnr, "modifiable", true)
+    vim.api.nvim_set_option_value("modifiable", true, { buf = self.bufnr })
     vim.api.nvim_buf_set_lines(self.bufnr, -2, -1, true, { "" })
-    vim.api.nvim_buf_set_option(self.bufnr, "modifiable", false)
+    vim.api.nvim_set_option_value("modifiable", false, { buf = self.bufnr })
   end
 end
 

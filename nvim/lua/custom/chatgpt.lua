@@ -92,8 +92,8 @@ M.open_chat = function(args)
         if res.body.usage then
           notify(
             ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
-            .usage
-            .total_tokens),
+              .usage
+              .total_tokens),
             vim.log.levels.INFO, { title = "ChatGPT" })
         end
 

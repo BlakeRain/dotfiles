@@ -3,7 +3,8 @@ local curl = require("plenary.curl")
 local notify = require("notify")
 
 -- local MODEL = "text-davinci-003"
-local MODEL = "gpt-3.5-turbo"
+-- local MODEL = "gpt-3.5-turbo"
+local MODEL = "gpt-4-1106-preview"
 
 -- Load the keyfile from the given location. The keyfile is expected to be a JSON file that provides the key in a
 -- `secretKey` field.
@@ -79,6 +80,8 @@ URL = "https://api.openai.com/v1/chat/completions"
 
 M.log_message = function(message)
   local log_path = vim.fn.expand("$HOME/.openai.log")
+  if type(log_path) ~= "string" then return end
+
   -- Append the message to the log file
   local file = io.open(log_path, "a")
   if file == nil then
