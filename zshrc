@@ -238,7 +238,13 @@ if command -v lazygit >/dev/null; then
 fi
 
 # Add aliases to relace 'ls' (and similar) to 'exa'
-if command -v exa >/dev/null; then
+if command -v eza >/dev/null; then
+    alias exa=eza
+    alias l=eza
+    alias ls=eza
+    alias ll="eza -l --git"
+    alias lll="eza -la --git"
+elif command -v exa >/dev/null; then
     alias l=exa
     alias ls=exa
     alias ll="exa -l --git"
@@ -301,7 +307,9 @@ fi
 
 greeting
 
-if [ -d /opt/homebrew/opt/powerlevel10k ]; then
+if [ -d /opt/homebrew/share/powerlevel10k ]; then
+  source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+elif [ -d /opt/homebrew/opt/powerlevel10k ]; then
   source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 elif [ -d /usr/share/powerlevel10k ]; then
   source /usr/share/powerlevel10k/powerlevel10k.zsh-theme
