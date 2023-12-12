@@ -227,6 +227,11 @@ function google() {
   open "$url"
 }
 
+# If we have a `~/.local/bin` directory, then add it to the path
+if [[ -d $HOME/.local/bin ]]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # Add the GitHub CLI if it exists
 if command -v gh >/dev/null; then
   eval "$(gh completion -s zsh)"
