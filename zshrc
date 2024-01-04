@@ -355,3 +355,10 @@ load_dotfile "auto-notify"
 load_dotfile "misc"
 load_share "zsh-autosuggestions"
 load_share "zsh-syntax-highlighting"
+
+if command -v atuin >/dev/null; then
+  eval "$(atuin init zsh)"
+else
+  echo "Need to install atuin; visit https://atuin.sh/docs/ and follow QuickStart"
+  echo "(Authentication credentials are in password manager)"
+fi
