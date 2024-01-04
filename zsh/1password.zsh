@@ -49,6 +49,14 @@ function opswd() {
   (sleep 20 && pbcopy </dev/null 2>/dev/null) &!
 }
 
+function ghtoken() {
+  op item get "GitHub (BlakeRain)" --fields "CLI PAT"
+}
+
+function neo_ghtoken() {
+  op item get "GitHub (BlakeRain)" --fields "Neo PAT"
+}
+
 # TODO: 2022-03-26: Remove support for op CLI 1
 autoload -Uz is-at-least
 is-at-least 2.0.0 $(op --version) || {
