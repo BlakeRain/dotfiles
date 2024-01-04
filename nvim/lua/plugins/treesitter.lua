@@ -46,6 +46,7 @@ local M = {
           "gomod",
           -- "help",
           "html",
+          "java",
           "javascript",
           "json",
           "jsonc",

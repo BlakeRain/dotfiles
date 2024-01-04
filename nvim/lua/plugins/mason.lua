@@ -24,7 +24,6 @@ M.tools = {
   "isort",
   "flake8",
   "tailwindcss-language-server",
-  "java-language-server"
 }
 
 function M.check()
@@ -40,6 +39,7 @@ end
 function M.config()
   require("mason").setup()
   M.check()
+
   require("mason-lspconfig").setup({
     automatic_installation = true,
   })

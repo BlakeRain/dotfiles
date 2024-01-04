@@ -273,8 +273,14 @@ function M.config()
   nvim_lsp.solidity_ls
       .setup { on_attach = M.on_attach, capabilities = capabilities }
 
+  -- Setup the Java server
+  nvim_lsp.jdtls.setup {
+    cmd = { "jdtls" },
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+  }
 
-  -- NOTE: Rust is activated in 'rust-tools.lua'
+  -- NOTE: Rust is now activated in 'rustaceanvim.lua'
 
   require("plugins.null-ls").setup()
 end
