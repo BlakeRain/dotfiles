@@ -247,17 +247,35 @@ if command -v eza >/dev/null; then
     alias exa=eza
     alias l=eza
     alias ls=eza
-    alias ll="eza -l --git"
-    alias lll="eza -la --git"
+    alias ll="eza -l --git --icons"
+    alias lll="eza -la --git --icons"
+    alias lt="eza --tree --git --icons"
 elif command -v exa >/dev/null; then
     alias l=exa
     alias ls=exa
-    alias ll="exa -l --git"
-    alias lll="exa -la --git"
+    alias ll="exa -l --git --icons"
+    alias lll="exa -la --git --icons"
+    alias lt="exa --tree --git --icons"
 else
     alias l=ls
     alias ll="ls -l"
     alias lll="ls -la"
+    if command -v tree >/dev/null; then
+      alias lt="tree"
+    else
+      alias lt="echo 'Need to install eza'"
+    fi
+fi
+
+# Use `dust` instead of `du`
+if command -v dust >/dev/null; then
+    alias du=dust
+    alias duu=du
+fi
+
+# Use 'duf' stead of 'df'
+if command -v duf >/dev/null; then
+    alias df=duf
 fi
 
 # See if `xplr` is knocking around
@@ -281,6 +299,21 @@ fi
 
 if command -v nvim >/dev/null; then
   alias v=nvim
+fi
+
+if command -v fzf >/dev/null; then
+  alias f="fzf --height 40 --layout=reverse --border --preview 'bat --style=numbers --color=always {}'"
+  alias fv="fzf --height 40 --layout=reverse --border --preview 'bat --style=numbers --color=always {}' | xargs nvim"
+fi
+
+if command -v ag >/dev/null; then
+  export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+fi
+
+if command -v rg >/dev/null; then
+  function rgv() {
+    rg -n "$@" | fzf --height 40 --layout=reverse --border --preview "$HOME/cs/dotfiles/zsh/_rgv_preview.sh"' {}' | cut -d':' -f1,2 | xargs -n 1 "$HOME/cs/dotfiles/zsh/_rgv_edit.sh"
+  }
 fi
 
 if [[ -f $HOME/.opam/opam-init/init.zsh ]]; then
