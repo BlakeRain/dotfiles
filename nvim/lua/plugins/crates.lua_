@@ -2,18 +2,14 @@
 -- https://github.com/Saecki/crates.nvim
 local M = {
   "saecki/crates.nvim",
-  -- tag = "v0.4.0",
-  event = "VeryLazy"
+  tag = "stable",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  event = { "BufRead Cargo.toml" },
 }
 
 function M.config()
   require("crates").setup({
     max_parallel_requests = 20,
-    src = {
-      cmp = {
-        enabled = true
-      }
-    }
   })
 
   vim.api.nvim_create_autocmd("BufRead", {
@@ -26,7 +22,7 @@ function M.config()
 
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
     pattern = { "*.toml" },
-    group = rust_group,
+    -- group = rust_group,
     callback = function(info)
       local function buf_set_keymap(mode, lhs, func, desc)
         vim.api.nvim_buf_set_keymap(info.buf, mode, lhs, "<cmd>lua require('crates')." .. func .. "()<cr>",

@@ -21,7 +21,7 @@ if have_lazy then
   lazy.setup("plugins", {
     defaults = { lazy = true },
     lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
-    install = { colorscheme = { "tokyonight", "habamax" } },
+    -- install = { colorscheme = { "catppuccin-mocha" } },
     checker = { enabled = false },
     diff = {
       cmd = "terminal_git",

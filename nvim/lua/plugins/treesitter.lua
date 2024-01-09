@@ -44,7 +44,6 @@ local M = {
           "glsl",
           "go",
           "gomod",
-          -- "help",
           "html",
           "java",
           "javascript",
@@ -61,6 +60,7 @@ local M = {
           "toml",
           "tsx",
           "typescript",
+          "vimdoc",
           "yaml"
         },
         sync_install = true,

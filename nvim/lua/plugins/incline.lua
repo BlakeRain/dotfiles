@@ -29,7 +29,8 @@ local function get_git_diff(props)
 
   for name, icon in pairs(icons) do
     if tonumber(signs[name]) and signs[name] > 0 then
-      table.insert(labels, { icon .. " " .. signs[name] .. " ",
+      table.insert(labels, {
+        icon .. " " .. signs[name] .. " ",
         group = "Diff" .. name
       })
     end
@@ -45,7 +46,8 @@ function M.config()
     return
   end
 
-  local colors = require("tokyonight.colors").setup()
+  local colors = require("catppuccin.palettes").get_palette "mocha"
+  -- local colors = require("tokyonight.colors").setup()
   local fg = "#394264"
 
   require("incline").setup({
@@ -76,9 +78,9 @@ function M.config()
       return {
         { get_diagnostic_label(props) },
         { get_git_diff(props) },
-        { icon, guifg = color },
+        { icon,                       guifg = color },
         { " " },
-        { filename, gui = modified },
+        { filename,                   gui = modified },
       }
     end,
   })
