@@ -26,6 +26,7 @@
 !nanorc
 !p10k.zsh
 !pureline.conf
+!starship.toml
 !tmux.conf
 !vscode-settings.json
 !zshrc
