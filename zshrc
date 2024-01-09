@@ -345,18 +345,6 @@ fi
 
 greeting
 
-# if [ -d /opt/homebrew/share/powerlevel10k ]; then
-#   source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
-# elif [ -d /opt/homebrew/opt/powerlevel10k ]; then
-#   source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
-# elif [ -d /usr/share/powerlevel10k ]; then
-#   source /usr/share/powerlevel10k/powerlevel10k.zsh-theme
-# elif [ -d /usr/share/zsh-theme-powerlevel10k ]; then
-#   source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-# else
-#   echo "Need to install powerline10k for zsh theme"
-# fi
-
 if command -v starship >/dev/null; then
   eval "$(starship init zsh)"
 else
@@ -390,7 +378,6 @@ load_dotfile "p10k"
 load_dotfile "dir-history"
 load_dotfile "dir-persist"
 load_dotfile "osx"
-load_dotfile "auto-notify"
 load_dotfile "misc"
 load_share "zsh-autosuggestions"
 load_share "zsh-syntax-highlighting"
