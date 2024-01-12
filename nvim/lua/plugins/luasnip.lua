@@ -3,6 +3,12 @@
 local M = { "L3MON4D3/LuaSnip", event = "VeryLazy" }
 
 function M.config()
+  require("luasnip.loaders.from_vscode").lazy_load({
+    paths = {
+      "~/cs/dotfiles/nvim/snippets"
+    }
+  })
+
   local ls = require("luasnip")
   local types = require("luasnip.util.types")
 
@@ -25,7 +31,8 @@ function M.config()
   local types = require("luasnip.util.types")
   local conds = require("luasnip.extras.expand_conditions")
 
-  local same = function(index) return f(function(arg) return arg[1] end, { index })
+  local same = function(index)
+    return f(function(arg) return arg[1] end, { index })
   end
 
   local rust_get_test_result = function(position)
@@ -64,7 +71,7 @@ function M.config()
         table.insert(nodes, t(version))
 
         local small_version =
-        string.sub(version, string.find(version, "%d+%.%d+"))
+            string.sub(version, string.find(version, "%d+%.%d+"))
         if small_version then table.insert(nodes, t(small_version)) end
       end
     end
@@ -217,10 +224,10 @@ function M.config()
       {
         i(1, "cratename"), i(2, "description"), c(3, { t "true", t "false" })
       })), s("dep", fmt([[{} = {{ version = "{}" }}]], {
-      i(1, "package_name"),
-      d(2, function(args) return rust_cargo_get_latest_version(args[1][1]) end,
-        { 1 })
-    }))
+    i(1, "package_name"),
+    d(2, function(args) return rust_cargo_get_latest_version(args[1][1]) end,
+      { 1 })
+  }))
   })
 
   vim.keymap.set({ "i", "s" }, "<c-k>", function()

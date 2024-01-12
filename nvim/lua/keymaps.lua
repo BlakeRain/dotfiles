@@ -67,8 +67,16 @@ vim.keymap.set("n", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
 vim.keymap.set("v", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
 
 -- Begin a search/replace with the current word under the cursor
-vim.keymap.set("n", "<leader>s",
+vim.keymap.set("n", "<leader>ss",
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Search & replace word" })
+
+vim.keymap.set("n", "<leader>se", function()
+  require("scissors").editSnippet()
+end)
+
+vim.keymap.set({ "n", "x" }, "<leader>sa", function()
+  require("scissors").addNewSnippet()
+end)
 
 -- Paste without replacing the contents of the register
 vim.keymap.set("x", "<leader>p", "\"_dP",
