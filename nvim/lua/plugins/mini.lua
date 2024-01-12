@@ -7,15 +7,6 @@ local M = {
 }
 
 function M.config()
-  require("mini.indentscope").setup({})
-
-  ------------------------------------------------------------------------------------------------
-
-  require("mini.cursorword").setup({
-    -- Delay (in ms) between when the cursor moved and when the highlighting appears.
-    delay = 250
-  })
-
   ------------------------------------------------------------------------------------------------
 
   require("mini.align").setup({
@@ -33,86 +24,7 @@ function M.config()
 
   ------------------------------------------------------------------------------------------------
 
-  require("mini.pairs").setup({
-  })
-
-  ------------------------------------------------------------------------------------------------
-
-  vim.keymap.set("n", "<leader>bz", function()
-    require("mini.misc").zoom(0, {})
-  end, { desc = "Zoom into buffer" })
-
-  ------------------------------------------------------------------------------------------------
-
   require("mini.bracketed").setup({})
-
-  ------------------------------------------------------------------------------------------------
-
-  require("mini.files").setup({})
-  vim.keymap.set("n", "<leader>o", function()
-    require("mini.files").open()
-  end, { desc = "Open file browser" })
-
-  ------------------------------------------------------------------------------------------------
-
-  require("mini.comment").setup({
-  })
-
-  ------------------------------------------------------------------------------------------------
-
-  require("mini.jump").setup({
-  })
-
-  local mocha = require("catppuccin.palettes").get_palette "mocha"
-  vim.api.nvim_set_hl(0, "MiniJump", {
-    fg = mocha.base,
-    bg = mocha.yellow,
-  })
-
-  local jump2d = require("mini.jump2d")
-  jump2d.setup({
-    mappings = {
-      start_jumping = "",
-    }
-  })
-
-  vim.keymap.set("n", "<leader>jj", function()
-    jump2d.start(jump2d.builtin_opts.word_start)
-  end, { desc = "Jump to word" })
-
-  vim.keymap.set("n", "<leader>jl", function()
-    jump2d.start(jump2d.builtin_opts.line_start)
-  end, { desc = "Jump to line" })
-
-  vim.keymap.set("n", "<leader>jc", function()
-    jump2d.start(jump2d.builtin_opts.single_character)
-  end, { desc = "Jump to input char" })
-
-  vim.keymap.set("n", "<leader>jq", function()
-    jump2d.start(jump2d.builtin_opts.query)
-  end, { desc = "Jump to input word" })
-
-  ------------------------------------------------------------------------------------------------
-
-  local notify = require("mini.notify")
-  notify.setup({
-    content = {
-      format = function(notif)
-        return string.format("• %s", notif.msg)
-      end
-    },
-    lsp_progress = {
-      enabled = true
-    },
-    window = {
-      winblend = 10
-    }
-  })
-
-  vim.notify = notify.make_notify()
-  vim.keymap.set("n", "<leader>fn", function()
-    notify.show_history()
-  end, { desc = "Show notification history" })
 
   ------------------------------------------------------------------------------------------------
 
@@ -189,6 +101,96 @@ function M.config()
         width = "auto"
       }
     }
+  })
+
+  ------------------------------------------------------------------------------------------------
+
+  require("mini.comment").setup({
+  })
+
+  ------------------------------------------------------------------------------------------------
+
+  require("mini.cursorword").setup({
+    -- Delay (in ms) between when the cursor moved and when the highlighting appears.
+    delay = 250
+  })
+
+  ------------------------------------------------------------------------------------------------
+
+  require("mini.files").setup({})
+  vim.keymap.set("n", "<leader>o", function()
+    require("mini.files").open()
+  end, { desc = "Open file browser" })
+
+  ------------------------------------------------------------------------------------------------
+
+  require("mini.indentscope").setup({})
+
+  ------------------------------------------------------------------------------------------------
+
+  require("mini.jump").setup({
+  })
+
+  local mocha = require("catppuccin.palettes").get_palette "mocha"
+  vim.api.nvim_set_hl(0, "MiniJump", {
+    fg = mocha.base,
+    bg = mocha.yellow,
+  })
+
+  local jump2d = require("mini.jump2d")
+  jump2d.setup({
+    mappings = {
+      start_jumping = "",
+    }
+  })
+
+  vim.keymap.set("n", "<leader>jj", function()
+    jump2d.start(jump2d.builtin_opts.word_start)
+  end, { desc = "Jump to word" })
+
+  vim.keymap.set("n", "<leader>jl", function()
+    jump2d.start(jump2d.builtin_opts.line_start)
+  end, { desc = "Jump to line" })
+
+  vim.keymap.set("n", "<leader>jc", function()
+    jump2d.start(jump2d.builtin_opts.single_character)
+  end, { desc = "Jump to input char" })
+
+  vim.keymap.set("n", "<leader>jq", function()
+    jump2d.start(jump2d.builtin_opts.query)
+  end, { desc = "Jump to input word" })
+
+  ------------------------------------------------------------------------------------------------
+
+  vim.keymap.set("n", "<leader>bz", function()
+    require("mini.misc").zoom(0, {})
+  end, { desc = "Zoom into buffer" })
+
+  ------------------------------------------------------------------------------------------------
+
+  local notify = require("mini.notify")
+  notify.setup({
+    content = {
+      format = function(notif)
+        return string.format("• %s", notif.msg)
+      end
+    },
+    lsp_progress = {
+      enabled = true
+    },
+    window = {
+      winblend = 10
+    }
+  })
+
+  vim.notify = notify.make_notify()
+  vim.keymap.set("n", "<leader>fn", function()
+    notify.show_history()
+  end, { desc = "Show notification history" })
+
+  ------------------------------------------------------------------------------------------------
+
+  require("mini.pairs").setup({
   })
 end
 
