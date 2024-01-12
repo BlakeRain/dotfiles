@@ -1,12 +1,11 @@
 local ts_utils = require "nvim-treesitter.ts_utils"
-local notify = require "notify"
 
 local function get_ast_nodes(direction)
   local wininfo = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
   local cur_node = ts_utils.get_node_at_cursor(0)
   print(cur_node)
   if not cur_node then
-    notify("No treesitter node at cursor location", "error",
+    vim.notify("No treesitter node at cursor location", vim.log.levels.WARN,
       { title = "Leap AST" })
     return
   end
@@ -39,7 +38,7 @@ local function get_ast_nodes(direction)
   end
 
   if #targets > 1 then return targets end
-  notify("Not enough targets to make selection", "error", { title = "Leap AST" })
+  vim.notify("Not enough targets to make selection", vim.log.levels.ERROR, { title = "Leap AST" })
   return nil
 end
 

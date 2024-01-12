@@ -6,39 +6,6 @@ local M = {
   event = "VeryLazy",
 }
 
-function M.setup_animate()
-  local mouse_scrolled = false
-  for _, scroll in ipairs({ "Up", "Down" }) do
-    local key = "<ScrollWheel" .. scroll .. ">"
-    vim.keymap.set("", key, function()
-      mouse_scrolled = true
-      return key
-    end, { remap = true, expr = true })
-  end
-
-  local animate = require("mini.animate")
-  vim.go.winwidth = 20
-  vim.go.winminwidth = 5
-
-  animate.setup({
-    resize = {
-      timing = animate.gen_timing.linear({ duration = 100, unit = "total" }),
-    },
-    scroll = {
-      timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
-      subscroll = animate.gen_subscroll.equal({
-        predicate = function(total_scroll)
-          if mouse_scrolled then
-            mouse_scrolled = false
-            return false
-          end
-          return total_scroll > 1
-        end,
-      }),
-    },
-  })
-end
-
 function M.config()
   require("mini.indentscope").setup({})
 
@@ -70,7 +37,25 @@ function M.config()
     require("mini.files").open()
   end, { desc = "Open file browser" })
 
-  -- M.setup_animate()
+  local notify = require("mini.notify")
+  notify.setup({
+    content = {
+      format = function(notif)
+        return string.format("• %s", notif.msg)
+      end
+    },
+    lsp_progress = {
+      enabled = true
+    },
+    window = {
+      winblend = 10
+    }
+  })
+
+  vim.notify = notify.make_notify()
+  vim.keymap.set("n", "<leader>fn", function()
+    notify.show_history()
+  end, { desc = "Show notification history" })
 end
 
 return M

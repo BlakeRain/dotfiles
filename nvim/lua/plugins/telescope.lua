@@ -17,7 +17,6 @@ local M = {
     {
       "nvim-telescope/telescope-fzf-native.nvim", build = "make"
     },
-    -- "nvim-telescope/telescope-file-browser.nvim",
     "nvim-telescope/telescope-cheat.nvim",
     "benfowler/telescope-luasnip.nvim",
     "sudormrfbin/cheatsheet.nvim",
@@ -42,7 +41,6 @@ local M = {
     { "<leader>fl",  "<cmd>Telescope luasnip<cr>",                   desc = "Filter luasnip snippets" },
     { "<leader>fm",  "<cmd>Telescope marks<cr>",                     desc = "Filter marks" },
     { "<leader>fM",  "<cmd>Telescope man_pages<cr>",                 desc = "Man pages" },
-    { "<leader>fn",  "<cmd>Telescope notify<cr>",                    desc = "Show notifications" },
     { "<leader>fr",  "<cmd>Telescope registers<cr>",                 desc = "Filter registers" },
     { "<leader>fR",  "<cmd>Telescope resume<cr>",                    desc = "Telescope resume" },
     { "<leader>fS",  "<cmd>Telescope lsp_workspace_symbols<cr>",     desc = "LSP workspace symbols" },
@@ -93,7 +91,6 @@ function M.config()
     }
   })
 
-  telescope.load_extension("notify")
   telescope.load_extension("attempt")
   telescope.load_extension("undo")
 

@@ -1,6 +1,5 @@
 local utils = require('core.utils')
 local curl = require("plenary.curl")
-local notify = require("notify")
 
 -- local MODEL = "text-davinci-003"
 -- local MODEL = "gpt-3.5-turbo"
@@ -154,7 +153,7 @@ M.query = function(args)
     end
   end
 
-  notify("Sending request to OpenAI:\n\n> " .. display_prompt,
+  vim.notify("Sending request to OpenAI:\n\n> " .. display_prompt,
     vim.log.levels.INFO, {
       title = "OpenAI Tools: Query",
       on_open = function(win)
@@ -171,7 +170,7 @@ M.query = function(args)
 
     local choice = res.body.choices[1]
     vim.schedule(function()
-      notify(
+      vim.notify(
         ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
           .usage
           .total_tokens),
@@ -233,13 +232,13 @@ M.explain_function = function()
   code.text = utils.get_node_text(bufnr, code.node)
   M._mark_lines(bufnr, code.start.line, code.finish.line)
 
-  notify("Sending request to OpenAI ...", vim.log.levels.INFO,
+  vim.notify("Sending request to OpenAI ...", vim.log.levels.INFO,
     { title = "OpenAI Tools: Explain Function" })
 
   M._execute("Using markdown, explain the following function:\n\n" .. code.text,
     function(res)
       vim.schedule(function()
-        notify(
+        vim.notify(
           ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
             .usage
             .total_tokens),
@@ -267,13 +266,13 @@ M.explain_code = function()
 
   M._mark_lines(bufnr, code.start.line, code.finish.line)
 
-  notify("Sending request to OpenAI ...", vim.log.levels.INFO,
+  vim.notify("Sending request to OpenAI ...", vim.log.levels.INFO,
     { title = "OpenAI Tools: Explain Code" })
 
   M._execute("Using markdown, explain the following code:\n\n" ..
     table.concat(code.lines, "\n"),
     vim.schedule_wrap(function(res)
-      notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+      vim.notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
           .usage
           .total_tokens),
         vim.log.levels.INFO, { title = "OpenAI Tools: Explain Function" })
@@ -340,7 +339,7 @@ M.complete = function()
   local prompt = "Complete the code below, writing your code after the line saying '<-- complete here -->'.\n\n" ..
       prefix .. "\n<-- complete here -->\n" .. suffix
 
-  notify("Sending request to OpenAI ...", vim.log.levels.INFO,
+  vim.notify("Sending request to OpenAI ...", vim.log.levels.INFO,
     { title = "OpenAI Tools: Complete Code" })
 
   M._execute(prompt, vim.schedule_wrap(function(res)
@@ -348,7 +347,7 @@ M.complete = function()
       mark_id, { details = true })
     vim.api.nvim_buf_del_extmark(bufnr, M.mark_namespace, mark_id)
 
-    notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+    vim.notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
         .usage
         .total_tokens),
       vim.log.levels.INFO, { title = "OpenAI Tools: Complete Code" })
@@ -388,12 +387,12 @@ function M.commit_message()
     return
   end
 
-  notify("Sending request to OpenAI ...", vim.log.levels.INFO,
+  vim.notify("Sending request to OpenAI ...", vim.log.levels.INFO,
     { title = "OpenAI Tools: Commit Message" })
 
   M._execute(COMMIT_MSG_PROMPT:format(diff), vim.schedule_wrap(function(res)
     print(vim.inspect(res.body))
-    notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
+    vim.notify(("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
         .usage
         .total_tokens),
       vim.log.levels.INFO, { title = "OpenAI Tools: Commit Message" })

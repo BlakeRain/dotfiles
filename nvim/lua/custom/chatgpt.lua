@@ -1,4 +1,3 @@
-local notify = require("notify")
 local utils = require("core.utils")
 local Layout = require("nui.layout")
 local Popup = require("nui.popup")
@@ -83,14 +82,14 @@ M.open_chat = function(args)
 
         openai.log_message(("chat %i: [%i] %s"):format(log.id, res.status, vim.inspect(res.body)))
         if res.status ~= 200 then
-          notify(("Error received from OpenAI (%s):\n\n%s"):format(res.body.error.type, res.body.error.message),
+          vim.notify(("Error received from OpenAI (%s):\n\n%s"):format(res.body.error.type, res.body.error.message),
             vim.log.levels.ERROR)
           log:add("error", res.body.error.message)
           return
         end
 
         if res.body.usage then
-          notify(
+          vim.notify(
             ("Response received from OpenAI\n\nUsed %i tokens"):format(res.body
               .usage
               .total_tokens),

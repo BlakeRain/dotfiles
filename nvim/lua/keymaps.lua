@@ -2,8 +2,6 @@
 --
 -- Note that this is not an entirely complete set of all keymaps, as individual plugins will also bind additional keys.
 
-local has_notify, notify = pcall(require, "notify")
-
 -- <Leader><Space> toggles folded regions
 vim.keymap.set("n", "<Leader><Space>", "zA")
 
@@ -26,10 +24,9 @@ vim.keymap.set("n", "<Leader>cf", function()
     fold_level = 9000
   end
 
-  if has_notify then
-    notify.notify("Setting fold method to '" .. new_method .. "'", "info",
-      { title = "NVim Folding" })
-  end
+  vim.notify("Setting fold method to '" .. new_method .. "'", vim.log.levels.INFO,
+    { title = "NVim Folding" })
+
   vim.api.nvim_win_set_option(0, "foldmethod", new_method)
   vim.api.nvim_win_set_option(0, "foldlevel", fold_level)
 end, { desc = "Toggle folding" })
@@ -161,10 +158,8 @@ vim.keymap.set("n", "<Leader>cm", function()
   vim.b.__automake = not vim.b.__automake
   local mode = "DISABLED"
   if vim.b.__automake then mode = "ENABLED" end
-  if has_notify then
-    notify.notify("Automatically running make on save is " .. mode, "info",
-      { title = "Running Make on Save" })
-  end
+  vim.notify("Automatically running make on save is " .. mode, vim.log.levels.INFO,
+    { title = "Running Make on Save" })
 end, { desc = "Run 'make' on save" })
 
 -- Replace word options: 'cn' will replace the current word, and use '.' to repeat. Use 'n' to skip a match. Note that
