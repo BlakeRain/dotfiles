@@ -58,6 +58,12 @@ function M.config()
   end, { desc = "Open file browser" })
 
   ------------------------------------------------------------------------------------------------
+  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-comment.md
+
+  require("mini.comment").setup({
+  })
+
+  ------------------------------------------------------------------------------------------------
   -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-notify.md
 
   local notify = require("mini.notify")
