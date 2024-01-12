@@ -64,6 +64,36 @@ function M.config()
   })
 
   ------------------------------------------------------------------------------------------------
+  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-jump.md
+  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-jump2d.md
+
+  require("mini.jump").setup({
+  })
+
+  local jump2d = require("mini.jump2d")
+  jump2d.setup({
+    mappings = {
+      start_jumping = "",
+    }
+  })
+
+  vim.keymap.set("n", "<leader>jj", function()
+    jump2d.start(jump2d.builtin_opts.word_start)
+  end, { desc = "Jump to word" })
+
+  vim.keymap.set("n", "<leader>jl", function()
+    jump2d.start(jump2d.builtin_opts.line_start)
+  end, { desc = "Jump to line" })
+
+  vim.keymap.set("n", "<leader>jc", function()
+    jump2d.start(jump2d.builtin_opts.single_character)
+  end, { desc = "Jump to input char" })
+
+  vim.keymap.set("n", "<leader>jq", function()
+    jump2d.start(jump2d.builtin_opts.query)
+  end, { desc = "Jump to input word" })
+
+  ------------------------------------------------------------------------------------------------
   -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-notify.md
 
   local notify = require("mini.notify")
@@ -148,6 +178,7 @@ function M.config()
         { mode = "n", keys = "<leader>g",       desc = "+Git (& others)" },
         { mode = "n", keys = "<leader>gh",      desc = "+Git hunks" },
         { mode = "n", keys = "<leader>gp",      desc = "+Goto preview" },
+        { mode = "n", keys = "<leader>j",       desc = "+Jump" },
         { mode = "n", keys = "<leader>n",       desc = "+Noice" },
         { mode = "n", keys = "<leader>q",       desc = "+Quickfix" },
         { mode = "n", keys = "<leader>w",       desc = "+Windows" },
