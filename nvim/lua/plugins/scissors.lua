@@ -1,3 +1,5 @@
+-- Scissors: Snippet management
+-- https://github.com/chrisgrieser/nvim-scissors
 return {
   "chrisgrieser/nvim-scissors",
   dependencies = {
