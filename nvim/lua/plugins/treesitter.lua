@@ -124,7 +124,7 @@ local M = {
 
       require("treesitter-context").setup({ enabled = true })
       require("treesj").setup({ use_default_keymaps = false })
-      vim.keymap.set("n", "<leader>m", "<cmd>TSJToggle<cr>", { desc = "Toggle node" })
+      vim.keymap.set("n", "<leader>m", "<cmd>TSJToggle<cr>", { desc = "Toggle split" })
     end
   }
 }
