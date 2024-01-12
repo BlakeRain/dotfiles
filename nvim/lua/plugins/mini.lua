@@ -7,13 +7,9 @@ local M = {
 }
 
 function M.config()
-  ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-indentscope.md
-
   require("mini.indentscope").setup({})
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-cursorword.md
 
   require("mini.cursorword").setup({
     -- Delay (in ms) between when the cursor moved and when the highlighting appears.
@@ -21,7 +17,6 @@ function M.config()
   })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-align.md
 
   require("mini.align").setup({
     mappings = {
@@ -31,26 +26,27 @@ function M.config()
   })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md
 
   require("mini.ai").setup({
     custom_text_objects = nil
   })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-misc.md
+
+  require("mini.pairs").setup({
+  })
+
+  ------------------------------------------------------------------------------------------------
 
   vim.keymap.set("n", "<leader>bz", function()
     require("mini.misc").zoom(0, {})
   end, { desc = "Zoom into buffer" })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-bracketed.md
 
   require("mini.bracketed").setup({})
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-files.md
 
   require("mini.files").setup({})
   vim.keymap.set("n", "<leader>o", function()
@@ -58,16 +54,19 @@ function M.config()
   end, { desc = "Open file browser" })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-comment.md
 
   require("mini.comment").setup({
   })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-jump.md
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-jump2d.md
 
   require("mini.jump").setup({
+  })
+
+  local mocha = require("catppuccin.palettes").get_palette "mocha"
+  vim.api.nvim_set_hl(0, "MiniJump", {
+    fg = mocha.base,
+    bg = mocha.yellow,
   })
 
   local jump2d = require("mini.jump2d")
@@ -94,7 +93,6 @@ function M.config()
   end, { desc = "Jump to input word" })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-notify.md
 
   local notify = require("mini.notify")
   notify.setup({
@@ -117,7 +115,6 @@ function M.config()
   end, { desc = "Show notification history" })
 
   ------------------------------------------------------------------------------------------------
-  -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-clue.md
 
   local miniclue = require('mini.clue')
   miniclue.setup({
