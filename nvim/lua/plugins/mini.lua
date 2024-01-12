@@ -3,7 +3,7 @@
 
 local M = {
   "echasnovski/mini.nvim",
-  event = "VeryLazy",
+  event = "VimEnter",
 }
 
 function M.config()
@@ -191,6 +191,11 @@ function M.config()
   ------------------------------------------------------------------------------------------------
 
   require("mini.pairs").setup({
+  })
+
+  ------------------------------------------------------------------------------------------------
+
+  require("mini.starter").setup({
   })
 end
 
