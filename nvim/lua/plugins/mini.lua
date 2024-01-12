@@ -3,10 +3,12 @@
 
 local M = {
   "echasnovski/mini.nvim",
-  event = "VimEnter",
+  event = "VeryLazy",
 }
 
 function M.config()
+  local mocha = require("catppuccin.palettes").get_palette "mocha"
+
   ------------------------------------------------------------------------------------------------
 
   require("mini.align").setup({
@@ -126,12 +128,15 @@ function M.config()
 
   require("mini.indentscope").setup({})
 
+  vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {
+    fg = mocha.mauve
+  })
+
   ------------------------------------------------------------------------------------------------
 
   require("mini.jump").setup({
   })
 
-  local mocha = require("catppuccin.palettes").get_palette "mocha"
   vim.api.nvim_set_hl(0, "MiniJump", {
     fg = mocha.base,
     bg = mocha.yellow,
@@ -195,7 +200,7 @@ function M.config()
 
   ------------------------------------------------------------------------------------------------
 
-  require("mini.starter").setup({
+  require("mini.trailspace").setup({
   })
 end
 
