@@ -3,10 +3,18 @@
 
 local M = {
   "nvim-neo-tree/neo-tree.nvim",
-  branch = "v2.x",
+  branch = "v3.x",
   keys = {
-    { "<leader>v", "<cmd>Neotree toggle=true reveal=true position=left<cr>", desc = "Toggle neotree" },
-    { "<leader>V", "<cmd>Neotree action=close position=left<cr>",            desc = "Close neotree" }
+    {
+      "<leader>v",
+      "<cmd>Neotree toggle=true reveal=true position=left<cr>",
+      desc = "Toggle neotree",
+    },
+    {
+      "<leader>V",
+      "<cmd>Neotree current<cr>",
+      desc = "Neotree netrw style"
+    }
   }
 }
 
@@ -121,12 +129,17 @@ function M.config()
       }
     },
     filesystem = {
+      hijack_netrw_behavior = "open_current",
       use_libuv_file_watcher = true,
-      follow_current_file = true,
+      follow_current_file = {
+        enabled = false
+      },
       filtered_items = {
         visible = true,
         never_show = { ".DS_Store", "thumbs.db" }
-      }
+      },
+      group_empty_dirs = true,
+      -- scan_mode = "deep"
     }
   })
 end
