@@ -29,6 +29,10 @@ vim.opt.titlestring = " %{pathshorten(substitute(getcwd(),$HOME,'~',''))}"
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 8
 
+-- Disable netrw
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrw = 1
+
 -- Set the default encoding to UTF-8.
 vim.opt.encoding = "utf-8"
 
