@@ -4,6 +4,7 @@
 local M = {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
+  lazy = false,
   keys = {
     {
       "<leader>v",
@@ -19,12 +20,20 @@ local M = {
 }
 
 function M.init()
-  vim.g.neo_tree_remove_legacy_commands = 1
+  local open_netrw = false
   if vim.fn.argc() == 1 then
     local stat = vim.loop.fs_stat(vim.fn.argv(0))
     if stat and stat.type == "directory" then
-      require("neo-tree")
+      open_netrw = true
     end
+  elseif vim.fn.argc() == 0 then
+    open_netrw = true
+  end
+
+  if open_netrw then
+    vim.defer_fn(function()
+      vim.cmd("Neotree current")
+    end, 10)
   end
 end
 
@@ -92,9 +101,12 @@ function M.config()
         ["<2-LeftMouse>"] = "open",
         ["<cr>"] = "open",
         ["<C-j>"] = "open",
+        ["l"] = "open",
+        ["L"] = "open_split",
         ["S"] = "open_split",
         ["s"] = "open_vsplit",
         ["C"] = "close_node",
+        ["h"] = "close_node",
         ["z"] = "close_all_nodes",
         ["R"] = "refresh",
         ["a"] = "add",
