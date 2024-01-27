@@ -24,8 +24,13 @@ end
 
 local function get_git_diff(props)
   local icons = { removed = "", changed = "", added = "" }
+  -- local signs = vim.api.nvim_buf_get_var(props.buf, "gitsigns_status_dict")
+  local signs = vim.b[props.buf].gitsigns_status_dict
+
   local labels = {}
-  local signs = vim.api.nvim_buf_get_var(props.buf, "gitsigns_status_dict")
+  if signs == nil then
+    return labels
+  end
 
   for name, icon in pairs(icons) do
     if tonumber(signs[name]) and signs[name] > 0 then
