@@ -181,7 +181,7 @@ function M.config()
       end
     },
     lsp_progress = {
-      enabled = true
+      enable = false
     },
     window = {
       winblend = 10
