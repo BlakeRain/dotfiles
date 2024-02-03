@@ -230,7 +230,7 @@ function M.config()
   }))
   })
 
-  vim.keymap.set({ "i", "s" }, "<c-k>", function()
+  vim.keymap.set({ "i", "s" }, "<c-'>", function()
     if ls.expand_or_jumpable() then ls.expand_or_jump() end
   end, { silent = true })
 
