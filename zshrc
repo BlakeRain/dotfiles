@@ -232,6 +232,10 @@ if [[ -d $HOME/.local/bin ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
+if [[ -d $HOME/.cargo/bin ]]; then
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 # Add the GitHub CLI if it exists
 if command -v gh >/dev/null; then
   eval "$(gh completion -s zsh)"
@@ -327,6 +331,11 @@ if [ -d /opt/homebrew/opt/fzf/shell ]; then
 elif [ -d /usr/share/fzf ]; then
   source "/usr/share/fzf/completion.zsh" 2> /dev/null
   source "/usr/share/fzf/key-bindings.zsh"
+elif [ -d /usr/share/doc/fzf/examples ]; then
+  source "/usr/share/doc/fzf/examples/completion.zsh" 2> /dev/null
+  source "/usr/share/doc/fzf/examples/key-bindings.zsh"
+else
+  echo "Missing zsh fzf completion and key-bindings"
 fi
 
 export EDITOR=nvim
