@@ -1,0 +1,31 @@
+sets:gui.xaero_default:Empty:To Explore:Caves and Areas
+#
+#waypoint:name:initials:x:y:z:color:disabled:type:set:rotate_on_tp:tp_yaw:visibility_type:destination
+#
+waypoint:To Explore:T:-330:32:-1844:12:false:0:To Explore:false:0:0:false
+waypoint:To Explore:T:1094:3:-2179:12:false:0:To Explore:false:0:0:false
+waypoint:Ice Biome:I:1012:63:-7126:3:false:0:To Explore:false:0:0:false
+waypoint:Strange Geometry:S:1872:75:-12799:2:false:0:To Explore:false:0:0:false
+waypoint:Big Hole:B:2018:66:-12823:1:false:0:To Explore:false:0:0:false
+waypoint:Miner:M:831:64:-1132:7:false:0:gui.xaero_default:false:0:0:false
+waypoint:Megabase Lab:M:1180:82:-1365:13:false:0:gui.xaero_default:true:180:0:false
+waypoint:Megabase Storage:M:1169:97:-1410:13:false:0:gui.xaero_default:true:-180:0:false
+waypoint:Megabase Bedroom:M:1240:97:-1428:13:false:0:gui.xaero_default:true:0:0:false
+waypoint:Megabase Office:M:1200:91:-1467:13:false:0:gui.xaero_default:true:0:0:false
+waypoint:Megabase Front Door:M:1243:91:-1434:13:false:0:gui.xaero_default:false:0:0:false
+waypoint:Megabase Bee Farm:M:1202:91:-1401:13:false:0:gui.xaero_default:false:0:0:false
+waypoint:Lava Dispensory:L:1188:91:-1386:13:false:0:gui.xaero_default:false:0:0:false
+waypoint:Concrete Maker:C:1199:91:-1375:14:false:0:gui.xaero_default:false:0:0:false
+waypoint:Iron Maker:I:1167:91:-1387:14:false:0:gui.xaero_default:false:0:0:false
+waypoint:Megabase Docks:M:1348:63:-1431:10:false:0:gui.xaero_default:false:0:0:false
+waypoint:Megabase Solar Roof:M:1178:105:-1381:9:false:0:gui.xaero_default:false:0:0:false
+waypoint:Megabase Tree Farm:M:1360:63:-1376:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:Megabase Mine (-59):M:1216:-59:-1549:14:false:0:gui.xaero_default:false:0:0:false
+waypoint:Megabase Mine (-16):M:1228:-16:-1508:14:false:0:gui.xaero_default:false:0:0:false
+waypoint:Home Kitchen:H:485:64:-576:9:false:0:gui.xaero_default:false:0:0:false
+waypoint:Glass Maker:G:629:69:-684:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:Flower Generator:F:880:71:-710:2:false:0:gui.xaero_default:false:0:0:false
+waypoint:End Portal:E:-369:24:-1824:8:false:0:gui.xaero_default:false:0:0:false
+waypoint:Jah's Base:J:-32:193:3537:6:false:0:gui.xaero_default:false:0:0:false
+waypoint:Cave 1:C:1310:-23:-1628:0:false:0:Caves and Areas:false:0:0:false
+
