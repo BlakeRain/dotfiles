@@ -397,3 +397,9 @@ else
   echo "Need to install atuin; visit https://atuin.sh/docs/ and follow QuickStart"
   echo "(Authentication credentials are in password manager)"
 fi
+
+if command -v zoxide >/dev/null; then
+  eval "$(zoxide init --cmd cd zsh)"
+else
+  echo "Need to install zoxide; visit https://github.com/ajeetdsouza/zoxide"
+fi
