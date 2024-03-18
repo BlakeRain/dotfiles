@@ -234,6 +234,8 @@ function M.config()
   elseif vim.loop.os_uname().sysname == "Darwin" and
       vim.fn.filereadable("/opt/homebrew/opt/llvm/bin/clangd") == 1 then
     clangd_path = "/opt/homebrew/opt/llvm/bin/clangd"
+  elseif vim.fn.filereadable("/home/blake/.local/share/nvim/mason/bin/clangd") then
+    clangd_path = "/home/blake/.local/share/nvim/mason/bin/clangd"
   else
     print("Unable to locate 'clangd'")
   end
