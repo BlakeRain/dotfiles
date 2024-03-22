@@ -33,7 +33,6 @@ function M.setup()
 end
 
 function M.has_formatter(filetype)
-  print("null-ls.has_formatter for " .. filetype)
   local sources = require("null-ls.sources")
   local available = sources.get_available(filetype, "NULL_LS_FORMATTING")
   return #available > 0
