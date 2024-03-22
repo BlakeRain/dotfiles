@@ -37,6 +37,6 @@ end
 require("keymaps")
 
 -- Some of my custom plugins.
-require("custom.leap_ast").setup()
+require("custom.jump_ast").setup()
 require("custom.openai_tools").setup()
 require("custom.chatgpt").setup()
