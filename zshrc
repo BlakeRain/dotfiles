@@ -403,3 +403,29 @@ if command -v zoxide >/dev/null; then
 else
   echo "Need to install zoxide; visit https://github.com/ajeetdsouza/zoxide"
 fi
+
+if [[ -f "$HOME/.ghcup/env" ]]; then
+  source "$HOME/.ghcup/env"
+fi
+
+# See https://github.com/nvm-sh/nvm#installation-and-update
+if [[ -z "$NVM_DIR" ]]; then
+  if [[ -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+  elif [[ -d "${XDG_CONFIG_HOME:-$HOME/.config}/nvm" ]]; then
+    export NVM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvm"
+  elif (( $+commands[brew] )); then
+    NVM_HOMEBREW="${NVM_HOMEBREW:-${HOMEBREW_PREFIX:-$(brew --prefix)}/opt/nvm}"
+    if [[ -d "$NVM_HOMEBREW" ]]; then
+      export NVM_DIR="$NVM_HOMEBREW"
+    fi
+  fi
+fi
+
+if [[ -f "$NVM_DIR/nvm.sh" ]]; then
+  source "$NVM_DIR/nvm.sh"
+fi
+
+if [[ -f "$NVIM_DIR/bash_completion" ]]; then
+  source "$NVIM_DIR/bash_completion"
+fi
