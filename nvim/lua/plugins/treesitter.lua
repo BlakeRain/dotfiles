@@ -44,6 +44,7 @@ local M = {
           "glsl",
           "go",
           "gomod",
+          "haskell",
           "html",
           "java",
           "javascript",
