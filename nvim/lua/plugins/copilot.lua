@@ -6,12 +6,15 @@ local M = {
   dependencies = {
     "zbirenbaum/copilot-cmp",
   },
-  event = "VeryLazy"
+  event = "VeryLazy",
 }
 
 function M.config()
   vim.defer_fn(function()
-    require("copilot").setup()
+    require("copilot").setup({
+      copilot_node_command = "/opt/homebrew/bin/node"
+    })
+
     require("copilot_cmp").setup()
   end, 100)
 end
