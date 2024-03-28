@@ -2,7 +2,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 palette = "catppuccin_mocha"
-format = "$all$fill$line_break$character"
+format = "$all$line_break$character"
+# format = "$all$fill$line_break$character"
 
 [character]
 # Note the use of Catppuccin color 'maroon'
