@@ -388,6 +388,7 @@ load_dotfile "dir-history"
 load_dotfile "dir-persist"
 load_dotfile "osx"
 load_dotfile "misc"
+load_dotfile "completions/eksctl"
 load_share "zsh-autosuggestions"
 load_share "zsh-syntax-highlighting"
 
@@ -428,4 +429,8 @@ fi
 
 if [[ -f "$NVIM_DIR/bash_completion" ]]; then
   source "$NVIM_DIR/bash_completion"
+fi
+
+if command -v kubctl >/dev/null; then
+  source <(kubectl completion zsh)
 fi
