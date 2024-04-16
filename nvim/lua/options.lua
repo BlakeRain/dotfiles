@@ -156,3 +156,12 @@ vim.cmd [[
 set foldexpr=nvim_treesitter#foldexpr()
 set foldlevel=9000
 ]]
+
+-- Change the association for the 'htm' and 'html' extensions to 'htmldjango' filetype, as I spend a
+-- lot of time working within Django-esque formats.
+vim.filetype.add({
+  extension = {
+    htm = "htmldjango",
+    html = "htmldjango"
+  }
+})
