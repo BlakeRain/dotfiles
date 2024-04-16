@@ -3,8 +3,8 @@
 
 local M = {
   "mrcjkb/rustaceanvim",
-  version = "^3",
-  ft = { "rust" }
+  version = "^4",
+  lazy = false,
 }
 
 vim.g.rustaceanvim = function()
