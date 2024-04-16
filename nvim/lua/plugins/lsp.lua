@@ -93,6 +93,9 @@ function M.on_attach(client, bufnr)
   -- Attach LSP signatures
   require("lsp_signature").on_attach()
 
+  -- Enable inlay hints
+  vim.lsp.inlay_hint.enable(bufnr, true)
+
   -- Show diagnostics in floating window on cursor
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
@@ -152,12 +155,12 @@ function M.on_attach(client, bufnr)
   -- NOTE: I use Telescope for references now, as it's easier to browse
   --   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 
-  buf_set_keymap('n', '<space>e',
-    '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {
-      desc = "Show line diagnostics",
-      noremap = true,
-      silent = true
-    })
+  -- buf_set_keymap('n', '<space>e',
+  --   '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {
+  --     desc = "Show line diagnostics",
+  --     noremap = true,
+  --     silent = true
+  --   })
   -- See `plugins/mini` as `mini-bracketed` is doing this now
   -- buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   -- buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)

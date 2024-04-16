@@ -31,7 +31,8 @@ return {
       custom_highlights = function(C)
         return {
           NeoTreeNormal = { fg = C.text, bg = C.mantle },
-          NeoTreeNormalNC = { fg = C.text, bg = C.mantle }
+          NeoTreeNormalNC = { fg = C.text, bg = C.mantle },
+          LspInlayHint = { fg = C.surface2, bg = C.base, style = { "italic" } },
         }
       end
     })
