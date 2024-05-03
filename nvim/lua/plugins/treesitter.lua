@@ -64,15 +64,16 @@ local M = {
           "vimdoc",
           "yaml"
         },
+        auto_install = false,
         sync_install = true,
-        -- ignore_install = { "phpdoc", "d" },
+        ignore_install = {},
         highlight = {
           enable = true,
           disable = { "org" },
           additional_vim_regex_highlighting = { "org" }
         },
         autotag = { enable = true },
-        indent = { enable = true, disable = { "rust", "yaml", "solidity", "python" } },
+        indent = { enable = true, disable = { "rust", "yaml", "solidity", "python", "htmldjango" } },
         incremental_selection = {
           -- Disable while https://github.com/nvim-treesitter/nvim-treesitter/issues/4000
           enable = false,
