@@ -94,7 +94,8 @@ function M.on_attach(client, bufnr)
   require("lsp_signature").on_attach()
 
   -- Enable inlay hints
-  vim.lsp.inlay_hint.enable(bufnr, true)
+  -- vim.lsp.inlay_hint.enable(bufnr, true)
+  vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 
   -- Show diagnostics in floating window on cursor
   vim.api.nvim_create_autocmd("CursorHold", {
