@@ -22,6 +22,12 @@ vim.opt.listchars = {
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- Switch between relative and absolute line numbers depending on whether we're in insert mode.
+vim.cmd [[
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber
+]]
+
 vim.opt.title = true
 vim.opt.titlestring = " %{pathshorten(substitute(getcwd(),$HOME,'~',''))}"
 
