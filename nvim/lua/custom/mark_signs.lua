@@ -12,10 +12,6 @@ local function add_sign(bufnr, text, line, id, priority)
   vim.fn.sign_place(id, "MarkSigns", sign_name, bufnr, { lnum = line, priority = priority })
 end
 
-local function remove_sign(bufnr, id)
-  vim.fn.sign_unplace("MarkSigns", { id = id, buffer = bufnr })
-end
-
 local function is_upper(char)
   return (65 <= char:byte() and char:byte() <= 90)
 end
@@ -54,7 +50,7 @@ local function unregister_mark(bufnr, mark)
   if (not buffer) or (not buffer.marks[mark]) then return end
 
   if buffer.marks[mark].id ~= nil then
-    remove_sign(bufnr, buffer.marks[mark].id)
+    vim.fn.sign_unplace("MarkSigns", { id = buffer.marks[mark].id, buffer = bufnr })
   end
 
   buffer.marks[mark] = nil
@@ -85,6 +81,12 @@ local function refresh(bufnr, force)
   end
 
   local buffer = BUFFERS[bufnr]
+
+  for mark, _ in pairs(buffer.marks) do
+    if vim.api.nvim_buf_get_mark(bufnr, mark)[1] == 0 then
+      unregister_mark(bufnr, mark)
+    end
+  end
 
   local function process_mark(data, predicate)
     local mark = data.mark:sub(2, 3)
