@@ -28,6 +28,7 @@ autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 ]]
 
+-- Set the title to something corresponding to the project.
 vim.opt.title = true
 vim.opt.titlestring = " %{pathshorten(substitute(getcwd(),$HOME,'~',''))}"
 
@@ -133,8 +134,8 @@ vim.opt.undofile = true
 -- Give use a bit more space for displaying messages.
 -- vim.opt.cmdheight = 2
 
--- Don't pass messages to |ins-completion-menu|, dont't give the intro message, and dont' give "written" when writing a
--- file.
+-- Don't pass messages to |ins-completion-menu|, dont't give the intro message, and dont' give
+-- "written" when writing a file.
 vim.opt.shortmess:append({ c = true, I = true, W = true })
 
 -- Having a shorter updatetime leads to noticable delays and poor UXP (default is 4000ms, I think).

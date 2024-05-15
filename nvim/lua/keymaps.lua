@@ -1,19 +1,21 @@
 -- Configuration for global key bindings
 --
--- Note that this is not an entirely complete set of all keymaps, as individual plugins will also bind additional keys.
+-- Note that this is not an entirely complete set of all keymaps, as individual plugins will also
+-- bind additional keys.
 
 -- <Leader><Space> toggles folded regions
 vim.keymap.set("n", "<Leader><Space>", "zA")
 
 -- Setup a keybinding to toggle the folding of code.
 --
--- This will switch the code folding between 'expr' (which uses treesitter) and 'manual', and display a notification
--- to indicate the change to the fold method.
+-- This will switch the code folding between 'expr' (which uses treesitter) and 'manual', and
+-- display a notification to indicate the change to the fold method.
 --
--- If the fold method is changed to 'manual', the 'foldlevel' will be set to 9000 to ensure that all folds are open.
--- If the fold method is changed to 'expr', the 'foldlevel' is set to zero to collapse all folds.
+-- If the fold method is changed to 'manual', the 'foldlevel' will be set to 9000 to ensure that all
+-- folds are open. If the fold method is changed to 'expr', the 'foldlevel' is set to zero to
+-- collapse all folds.
 vim.keymap.set("n", "<Leader>cf", function()
-  local method = vim.api.nvim_win_get_option(0, "foldmethod")
+  local method = vim.api.nvim_get_option_value("foldmethod", { win = 0 })
   local new_method = nil
   local fold_level = 0
 
@@ -27,8 +29,8 @@ vim.keymap.set("n", "<Leader>cf", function()
   vim.notify("Setting fold method to '" .. new_method .. "'", vim.log.levels.INFO,
     { title = "NVim Folding" })
 
-  vim.api.nvim_win_set_option(0, "foldmethod", new_method)
-  vim.api.nvim_win_set_option(0, "foldlevel", fold_level)
+  vim.api.nvim_set_option_value("foldmethod", new_method, { win = 0 })
+  vim.api.nvim_set_option_value("foldlevel", fold_level, { win = 0 })
 end, { desc = "Toggle folding" })
 
 -- Map a keybinding to open the quick-fix list
@@ -69,11 +71,11 @@ vim.keymap.set("n", "<leader>ss",
 
 vim.keymap.set("n", "<leader>se", function()
   require("scissors").editSnippet()
-end)
+end, { desc = "Edit snippets" })
 
 vim.keymap.set({ "n", "x" }, "<leader>sa", function()
   require("scissors").addNewSnippet()
-end)
+end, { desc = "Add a new snippet" })
 
 -- Paste without replacing the contents of the register
 vim.keymap.set("x", "<leader>p", "\"_dP",
