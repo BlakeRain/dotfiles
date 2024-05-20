@@ -1,6 +1,6 @@
 return {
   "NeogitOrg/neogit",
-  branch = "nightly",
+  branch = "master",
   event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
