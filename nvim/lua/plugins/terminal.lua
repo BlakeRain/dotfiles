@@ -27,7 +27,10 @@ function M.toggle_lazygit()
       cmd = "lazygit",
       hidden = true,
       direction = "float",
-      float_opts = { winblend = 5 }
+      float_opts = {
+        winblend = 0,
+        -- winblend = 5
+      }
     })
   end
 
@@ -40,7 +43,12 @@ function M.toggle_floating()
     M.floating = Terminal:new({
       hidden = true,
       direction = "float",
-      float_opts = { width = 120, height = 50, winblend = 5 }
+      float_opts = {
+        width = 120,
+        height = 50,
+        winblend = 0,
+        -- winblend = 5
+      }
     })
   end
 
@@ -64,7 +72,11 @@ function M.config()
     shading_factor = 2,
     start_in_insert = true,
     close_on_exit = true,
-    float_opts = { border = "curved", winblend = 3 }
+    float_opts = {
+      border = "curved",
+      winblend = 0,
+      -- winblend = 3
+    }
   })
 
   vim.cmd('autocmd! TermOpen term://* lua require("plugins.terminal").set_terminal_keymaps()')

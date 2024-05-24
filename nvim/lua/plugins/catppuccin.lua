@@ -33,6 +33,8 @@ return {
           NeoTreeNormal = { fg = C.text, bg = C.mantle },
           NeoTreeNormalNC = { fg = C.text, bg = C.mantle },
           LspInlayHint = { fg = C.surface2, bg = C.base, style = { "italic" } },
+          NeoTreeWinSeparator = { fg = C.surface2 },
+          CursorLine = { bg = C.surface0 },
         }
       end
     })

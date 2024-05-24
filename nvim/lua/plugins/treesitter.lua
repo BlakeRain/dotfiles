@@ -14,7 +14,7 @@ local M = {
 
       -- Show current context
       -- https://github.com/nvim-treesitter/nvim-treesitter-context
-      "nvim-treesitter/nvim-treesitter-context",
+      -- "nvim-treesitter/nvim-treesitter-context",
 
       -- Treesitter auto-taggery
       -- https://github.com/windwp/nvim-ts-autotag
@@ -124,7 +124,7 @@ local M = {
         }
       })
 
-      require("treesitter-context").setup({ enabled = true })
+      -- require("treesitter-context").setup({ enabled = true })
       require("treesj").setup({ use_default_keymaps = false })
       vim.keymap.set("n", "<leader>m", "<cmd>TSJToggle<cr>", { desc = "Toggle split" })
     end

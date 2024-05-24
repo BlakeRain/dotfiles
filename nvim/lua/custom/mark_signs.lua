@@ -116,8 +116,15 @@ local function refresh(bufnr, force)
   end
 end
 
+local IGNORE_FILETYPES = { "neo-tree", "qf", "help", "minifiles" }
+local IGNORE_BUFTYPES = { "terminal" }
+
 return {
   _onBufEnter = function()
+    if IGNORE_FILETYPES[vim.bo.ft] or IGNORE_BUFTYPES[vim.bo.bt] then
+      return
+    end
+
     refresh(nil, true)
   end,
 

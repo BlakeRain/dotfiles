@@ -19,23 +19,23 @@ local M = {
   }
 }
 
-function M.init()
-  local open_netrw = false
-  if vim.fn.argc() == 1 then
-    local stat = vim.loop.fs_stat(vim.fn.argv(0))
-    if stat and stat.type == "directory" then
-      open_netrw = true
-    end
-  elseif vim.fn.argc() == 0 then
-    open_netrw = true
-  end
-
-  if open_netrw then
-    vim.defer_fn(function()
-      vim.cmd("Neotree current")
-    end, 10)
-  end
-end
+-- function M.init()
+--   local open_netrw = false
+--   if vim.fn.argc() == 1 then
+--     local stat = vim.loop.fs_stat(vim.fn.argv(0))
+--     if stat and stat.type == "directory" then
+--       open_netrw = true
+--     end
+--   elseif vim.fn.argc() == 0 then
+--     open_netrw = true
+--   end
+--
+--   if open_netrw then
+--     vim.defer_fn(function()
+--       vim.cmd("Neotree current")
+--     end, 10)
+--   end
+-- end
 
 function M.config()
   vim.fn.sign_define("DiagnosticSignError",

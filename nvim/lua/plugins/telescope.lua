@@ -59,7 +59,8 @@ function M.config()
 
   telescope.setup({
     defaults = {
-      winblend = 10,
+      winblend = 0,
+      -- winblend = 10,
       mappings = {
         i = { ["<C-j>"] = "select_default", ["<C-h>"] = "which_key" },
         n = { ["<C-j>"] = "select_default" },

@@ -119,11 +119,28 @@ function M.config()
 
   ------------------------------------------------------------------------------------------------
 
-  require("mini.files").setup({})
+  require("mini.files").setup({
+    options = {
+      use_as_default_explorer = true,
+    },
+    windows = {
+      winblend = 0,
+      preview = true,
+      width_preview = 50,
+    }
+  })
+
   vim.keymap.set("n", "<leader>o", function()
     require("mini.files").open()
   end, { desc = "Open file browser" })
 
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniFilesWindowOpen",
+    callback = function(args)
+      local win_id = args.data.win_id
+      vim.wo[win_id].winblend = 0
+    end
+  })
   ------------------------------------------------------------------------------------------------
 
   require("mini.indentscope").setup({})
@@ -184,7 +201,8 @@ function M.config()
       enable = false
     },
     window = {
-      winblend = 10
+      winblend = 0
+      -- winblend = 10
     }
   })
 
