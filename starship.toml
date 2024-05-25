@@ -2,8 +2,21 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 palette = "catppuccin_mocha"
-format = "$all$line_break$character"
+format = """
+$username@$hostname:$directory\
+$cmd_duration$jobs$status\
+$line_break\
+$character
+"""
 # format = "$all$fill$line_break$character"
+
+[username]
+format = "[$user]($style)"
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[$ssh_symbol$hostname]($style)"
 
 [character]
 # Note the use of Catppuccin color 'maroon'
@@ -17,10 +30,11 @@ truncation_length = 4
 truncation_symbol = "…/"
 style = "bold lavender"
 
-[git_branch]
-symbol = " "
+[status]
+disabled = false
+format = "[$symbol \\($status\\)]($style)"
 
-[hg_branch]
+[git_branch]
 symbol = " "
 
 [os.symbols]
@@ -63,9 +77,6 @@ SUSE = " "
 Ubuntu = " "
 Unknown = " "
 Windows = "󰍲 "
-
-[rust]
-symbol = " "
 
 [time]
 disabled = false
