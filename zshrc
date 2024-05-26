@@ -37,12 +37,27 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:
 # Complete . and .. special directories
 zstyle ':completion:*' special-dirs true
 
-zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
 
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
 # disable named-directories autocompletion
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+
+# Preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+
+# Use tmux (v3.2+) popup feature
+# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 autoload -U +X bashcompinit && bashcompinit
 
@@ -121,6 +136,22 @@ bindkey '\C-x\C-e' edit-command-line
 
 bindkey '^W' kill-region
 bindkey '^I' complete-word
+
+if [[ ! -d "$HOME/.local/share/zsh" ]]; then
+  mkdir -p "$HOME/.local/share/zsh"
+fi
+
+if [[ ! -d "$HOME/.local/share/zsh/fzf-tab" ]]; then
+  if command -v git >/dev/null; then
+    git clone --depth 1 https://github.com/Aloxaf/fzf-tab "$HOME/.local/share/zsh/fzf-tab"
+  else
+    echo "No 'git' command available; unable to clone fzf-tab"
+  fi
+fi
+
+if [[ -d "$HOME/.local/share/zsh/fzf-tab" ]]; then
+  source "$HOME/.local/share/fzf-tab/fzf-tab.plugin.zsh"
+fi
 
 function greeting() {
   # if command -v neofetch >/dev/null; then
