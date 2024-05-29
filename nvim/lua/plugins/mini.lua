@@ -126,7 +126,7 @@ function M.config()
     windows = {
       winblend = 0,
       preview = true,
-      width_preview = 50,
+      width_preview = 80,
     }
   })
 

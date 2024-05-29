@@ -150,7 +150,7 @@ if [[ ! -d "$HOME/.local/share/zsh/fzf-tab" ]]; then
 fi
 
 if [[ -d "$HOME/.local/share/zsh/fzf-tab" ]]; then
-  source "$HOME/.local/share/fzf-tab/fzf-tab.plugin.zsh"
+  source "$HOME/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh"
 fi
 
 function greeting() {
