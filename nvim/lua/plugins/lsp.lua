@@ -30,15 +30,8 @@ end
 
 function M.formatting.setup(client, bufnr)
   local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-  local null_ls = require("plugins.null-ls")
 
   local enable = true
-  if null_ls.has_formatter(ft) then
-    enable = client.name == "null-ls"
-  else
-    enable = client.name ~= "null-ls"
-  end
-
   if client.name == "tsserver" then
     enable = false
   end
@@ -287,8 +280,6 @@ function M.config()
   }
 
   -- NOTE: Rust is now activated in 'rustaceanvim.lua'
-
-  require("plugins.null-ls").setup()
 end
 
 return M

@@ -53,6 +53,7 @@ local M = {
           "latex",
           "lua",
           "make",
+          "markdown",
           "python",
           "regex",
           "rust",
@@ -73,7 +74,7 @@ local M = {
           additional_vim_regex_highlighting = { "org" }
         },
         autotag = { enable = true },
-        indent = { enable = true, disable = { "rust", "yaml", "solidity", "python", "htmldjango" } },
+        indent = { enable = true, disable = { "rust", "yaml", "solidity", "python", "htmldjango", "markdown" } },
         incremental_selection = {
           -- Disable while https://github.com/nvim-treesitter/nvim-treesitter/issues/4000
           enable = false,
