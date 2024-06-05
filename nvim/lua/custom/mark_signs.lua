@@ -72,7 +72,34 @@ end
 
 local BUILTINS = { ".", "^", "`", "'", '"', "<", ">", "[", "]" }
 
+local IGNORE_FILETYPES = {}
+local IGNORE_BUFTYPES = {}
+
+local function ignoreFiletype(name)
+  IGNORE_FILETYPES[name] = true
+end
+
+local function ignoreBuftype(name)
+  IGNORE_BUFTYPES[name] = true
+end
+
+local function addDefaultIgnores()
+  ignoreFiletype("neo-tree")
+  ignoreFiletype("qf")
+  ignoreFiletype("help")
+  ignoreFiletype("minifiles")
+
+  ignoreBuftype("terminal")
+  ignoreBuftype("nofile")
+end
+
+local function shouldIgnore()
+  return IGNORE_FILETYPES[vim.bo.ft] or IGNORE_BUFTYPES[vim.bo.bt]
+end
+
 local function refresh(bufnr, force)
+  if shouldIgnore() then return end
+
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   force = force or false
 
@@ -116,15 +143,9 @@ local function refresh(bufnr, force)
   end
 end
 
-local IGNORE_FILETYPES = { "neo-tree", "qf", "help", "minifiles" }
-local IGNORE_BUFTYPES = { "terminal" }
-
 return {
   _onBufEnter = function()
-    if IGNORE_FILETYPES[vim.bo.ft] or IGNORE_BUFTYPES[vim.bo.bt] then
-      return
-    end
-
+    if shouldIgnore() then return end
     refresh(nil, true)
   end,
 
@@ -136,6 +157,8 @@ return {
   end,
 
   setup = function()
+    addDefaultIgnores()
+
     vim.cmd [[augroup mark_signs_au
       autocmd!
       autocmd BufEnter * lua require("custom.mark_signs")._onBufEnter()
