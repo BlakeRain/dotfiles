@@ -385,10 +385,14 @@ fi
 
 greeting
 
-if command -v starship >/dev/null; then
-  eval "$(starship init zsh)"
+if command -v oh-my-posh >/dev/null; then
+  if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+    eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
+  else
+    echo "oh-my-posh not available in Apple Terminal"
+  fi
 else
-  echo "Need to install starship"
+  echo "Need to install oh-my-posh: https://ohmyposh.dev/"
 fi
 
 function load_dotfile() {
