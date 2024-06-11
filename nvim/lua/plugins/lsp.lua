@@ -1,10 +1,14 @@
 -- LSP support
+--
 -- https://github.com/neovim/nvim-lspconfig
+-- https://github.com/hrsh7th/cmp-nvim-lsp
+-- https://github.com/SmiteshP/nvim-navic
+
 local M = {
   "neovim/nvim-lspconfig",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
-    "SmiteshP/nvim-navic"
+    "SmiteshP/nvim-navic",
   },
 }
 
@@ -18,9 +22,14 @@ function M.formatting.toggle()
   notify.info(msg .. " format on save", { title = "Formatting" })
 end
 
+local CONFORM_FT = { javascript = true, typescript = true }
+
 function M.formatting.format()
   if M.formatting.autoformat then
-    if vim.lsp.buf.format then
+    if CONFORM_FT[vim.bo.filetype] then
+      require("conform").format()
+      return
+    elseif vim.lsp.buf.format then
       vim.lsp.buf.format()
     else
       vim.lsp.buf.formatting_sync()
@@ -32,19 +41,18 @@ function M.formatting.setup(client, bufnr)
   local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
 
   local enable = true
-  if client.name == "tsserver" then
+  if CONFORM_FT[ft] then
     enable = false
   end
 
   client.server_capabilities.documentFormattingProvider = enable
-  if client.server_capabilities.documentFormattingProvider then
-    vim.cmd([[
+
+  vim.cmd([[
     augroup LspFormat
     autocmd! * <buffer>
     autocmd BufWritePre <buffer> lua require("plugins.lsp").formatting.format()
     augroup END
-    ]])
-  end
+  ]])
 end
 
 function M.show_documentation()
