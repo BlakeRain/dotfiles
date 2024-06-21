@@ -1,6 +1,5 @@
 -- Surround things (e.g. cs'' to replace ' with '; or ysw] to enclose word in []
--- https://github.com/tpope/vim-surround
--- use 'http://github.com/tpope/vim-surround'
+-- https://github.com/hylechui/nvim-surround
 local M = {
   'kylechui/nvim-surround',
   event = "VeryLazy"
