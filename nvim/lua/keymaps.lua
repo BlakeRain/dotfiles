@@ -152,7 +152,7 @@ local automake_group = vim.api.nvim_create_augroup("AutoMakeGroup",
   { clear = true })
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = automake_group,
-  callback = function() if vim.b.__automake then vim.cmd [[make]] end end
+  callback = function() if vim.b.__automake then vim.cmd [[make!]] end end
 })
 
 -- Toggle the 'automake' effect on the current buffer.
