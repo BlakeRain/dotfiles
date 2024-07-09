@@ -131,7 +131,10 @@ function M.config()
   })
 
   vim.keymap.set("n", "<leader>o", function()
-    require("mini.files").open()
+    local files = require("mini.files")
+    if not files.close() then
+      files.open(vim.api.nvim_buf_get_name(0), true)
+    end
   end, { desc = "Open file browser" })
 
   vim.api.nvim_create_autocmd("User", {
@@ -139,6 +142,10 @@ function M.config()
     callback = function(args)
       local win_id = args.data.win_id
       vim.wo[win_id].winblend = 0
+
+      local config = vim.api.nvim_win_get_config(win_id)
+      config.border = "double"
+      vim.api.nvim_win_set_config(win_id, config)
     end
   })
   ------------------------------------------------------------------------------------------------
