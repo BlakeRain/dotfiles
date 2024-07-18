@@ -137,20 +137,32 @@ bindkey '\C-x\C-e' edit-command-line
 bindkey '^W' kill-region
 bindkey '^I' complete-word
 
+function _log_note() {
+  echo -e "\e[1m\e[36mNOTE:\e[0m" "$@"
+}
+
+function _log_warn() {
+  echo -e "\e[1m\e[1;33mWARN:\e[0m" "$@"
+}
+
 if [[ ! -d "$HOME/.local/share/zsh" ]]; then
+  _log_note "Creating '$HOME/.local/share/zsh' directory"
   mkdir -p "$HOME/.local/share/zsh"
 fi
 
 if [[ ! -d "$HOME/.local/share/zsh/fzf-tab" ]]; then
   if command -v git >/dev/null; then
+    _log_note "Cloning fzf-tab into '$HOME/.local/share/zsh/fzf-tab'"
     git clone --depth 1 https://github.com/Aloxaf/fzf-tab "$HOME/.local/share/zsh/fzf-tab"
   else
-    echo "No 'git' command available; unable to clone fzf-tab"
+    _log_warn "No 'git' command available; unable to clone fzf-tab"
   fi
 fi
 
 if [[ -d "$HOME/.local/share/zsh/fzf-tab" ]]; then
   source "$HOME/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh"
+else
+  _log_warn "fzf-tab not available"
 fi
 
 function greeting() {
@@ -218,14 +230,24 @@ function clear_screen() {
 
 alias cls=clear_screen
 
+if [ "$(uname)" = "Darwin" ]; then
+  function _clipboard_copy() {
+    pbcopy
+  }
+else
+  function _clipboard_copy() {
+    xclip -selection clipboard
+  }
+fi
+
 function copydir() {
-  pwd | tr -d "\r\n" | pbcopy
+  pwd | tr -d "\r\n" | _clipboard_copy
 }
 
 function copyfile() {
   [[ "$#" != 1 ]] && return 1
   local file_to_copy=$1
-  cat $file_to_copy | pbcopy
+  cat $file_to_copy | _clipboard_copy
 }
 
 function copybuffer() {
@@ -236,7 +258,7 @@ function copybuffer() {
     buf=$BUFFER
   fi
 
-  printf "%s" "$buf" | pbcopy
+  printf "%s" "$buf" | _clipboard_copy
 }
 
 zle -N copybuffer
@@ -265,52 +287,58 @@ fi
 
 if [[ -d $HOME/.cargo/bin ]]; then
   export PATH="$HOME/.cargo/bin:$PATH"
+else
+  _log_warn "No Rust Cargo bin directory found"
 fi
 
 # Add the GitHub CLI if it exists
 if command -v gh >/dev/null; then
   eval "$(gh completion -s zsh)"
+else
+  _log_warn "No GitHub CLI found"
 fi
 
 # Abbreviate the 'gg' command to 'lazygit'
 if command -v lazygit >/dev/null; then
-    alias gg=lazygit
+  alias gg=lazygit
+else
+  _log_warn "No lazygit found"
 fi
 
 # Add aliases to relace 'ls' (and similar) to 'exa'
 if command -v eza >/dev/null; then
-    alias exa=eza
-    alias l=eza
-    alias ls=eza
-    alias ll="eza -l --git --icons"
-    alias lll="eza -la --git --icons"
-    alias lt="eza --tree --git --icons"
+  alias exa=eza
+  alias l=eza
+  alias ls=eza
+  alias ll="eza -l --git --icons"
+  alias lll="eza -la --git --icons"
+  alias lt="eza --tree --git --icons"
 elif command -v exa >/dev/null; then
-    alias l=exa
-    alias ls=exa
-    alias ll="exa -l --git --icons"
-    alias lll="exa -la --git --icons"
-    alias lt="exa --tree --git --icons"
+  alias l=exa
+  alias ls=exa
+  alias ll="exa -l --git --icons"
+  alias lll="exa -la --git --icons"
+  alias lt="exa --tree --git --icons"
 else
-    alias l=ls
-    alias ll="ls -l"
-    alias lll="ls -la"
-    if command -v tree >/dev/null; then
-      alias lt="tree"
-    else
-      alias lt="echo 'Need to install eza'"
-    fi
+  alias l=ls
+  alias ll="ls -l"
+  alias lll="ls -la"
+  if command -v tree >/dev/null; then
+    alias lt="tree"
+  else
+    alias lt="echo 'Need to install eza'"
+  fi
 fi
 
 # Use `dust` instead of `du`
 if command -v dust >/dev/null; then
-    alias du=dust
-    alias duu=du
+  alias du=dust
+  alias duu=du
 fi
 
 # Use 'duf' stead of 'df'
 if command -v duf >/dev/null; then
-    alias df=duf
+  alias df=duf
 fi
 
 # See if `xplr` is knocking around
@@ -324,31 +352,39 @@ if command -v xplr >/dev/null; then
   alias xnvim='nvim "$(xplr)"'
   alias xv='xnvim'
 else
-  echo "Need to install xplr; xplr will not be available"
+  _log_note "Need to install xplr; xplr will not be available"
   alias x=ls
 fi
 
 if command -v ranger >/dev/null; then
-    alias r=ranger
+  alias r=ranger
 fi
 
 if command -v nvim >/dev/null; then
   alias v=nvim
+else
+  _log_warn "No Neovim found"
 fi
 
 if command -v fzf >/dev/null; then
   alias f="fzf --height 40 --layout=reverse --border --preview 'bat --style=numbers --color=always {}'"
   alias fv="fzf --height 40 --layout=reverse --border --preview 'bat --style=numbers --color=always {}' | xargs nvim"
+else
+  _log_note "Need to install fzf; visit https://github.com/junegunn/fzf"
 fi
 
 if command -v ag >/dev/null; then
   export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+else
+  _log_note "Need to install ag; visit https://github.com/ggreer/the_silver_searcher"
 fi
 
 if command -v rg >/dev/null; then
   function rgv() {
     rg -n "$@" | fzf --height 40 --layout=reverse --border --preview "$HOME/cs/dotfiles/zsh/_rgv_preview.sh"' {}' | cut -d':' -f1,2 | xargs -n 1 "$HOME/cs/dotfiles/zsh/_rgv_edit.sh"
   }
+else
+  _log_note "Need to install rg; visit https://github.com/BurntSushi/ripgrep"
 fi
 
 if [[ -f $HOME/.opam/opam-init/init.zsh ]]; then
@@ -366,7 +402,7 @@ elif [ -d /usr/share/doc/fzf/examples ]; then
   source "/usr/share/doc/fzf/examples/completion.zsh" 2> /dev/null
   source "/usr/share/doc/fzf/examples/key-bindings.zsh"
 else
-  echo "Missing zsh fzf completion and key-bindings"
+  _log_warn "Missing zsh fzf completion and key-bindings"
 fi
 
 export EDITOR=nvim
@@ -377,10 +413,10 @@ if command -v jq >/dev/null; then
   if [ -f ~/.openai.secret-key.json ]; then
     export OPENAI_API_KEY=$(cat "$HOME/.openai.secret-key.json" | jq -r ".secretKey")
   else
-    echo "OpenAI secret key not found; OPENAI_API_KEY will not be available"
+    _log_warn "OpenAI secret key not found; OPENAI_API_KEY will not be available"
   fi
 else
-  echo "Need to install jq; OPENAI_API_KEY will not be available"
+  _log_warn "Need to install jq; OPENAI_API_KEY will not be available"
 fi
 
 greeting
@@ -389,10 +425,10 @@ if command -v oh-my-posh >/dev/null; then
   if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
     eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
   else
-    echo "oh-my-posh not available in Apple Terminal"
+    _log_warn "oh-my-posh not available in Apple Terminal"
   fi
 else
-  echo "Need to install oh-my-posh: https://ohmyposh.dev/"
+  _log_warn "Need to install oh-my-posh: https://ohmyposh.dev/"
 fi
 
 function load_dotfile() {
@@ -401,7 +437,7 @@ function load_dotfile() {
   elif [ -f $HOME/.config/zsh/$1.zsh ]; then
     source $HOME/.config/zsh/$1.zsh
   else
-    echo "Unable to find '$1.zsh' (in Synology dotfiles or ~/.config/zsh)"
+    _log_warn "Unable to find '$1.zsh' (in Synology dotfiles or ~/.config/zsh)"
   fi
 }
 
@@ -413,7 +449,7 @@ function load_share() {
   elif [ -f /usr/share/zsh/plugins/$1/$1.zsh ]; then
     source /usr/share/zsh/plugins/$1/$1.zsh
   else
-    echo "Unable to find '$1' (in Homebrew or /usr/share)"
+    _log_warn "Unable to find '$1' (in Homebrew or /usr/share)"
   fi
 }
 
@@ -421,27 +457,33 @@ load_dotfile "1password"
 load_dotfile "p10k"
 load_dotfile "dir-history"
 load_dotfile "dir-persist"
-load_dotfile "osx"
 load_dotfile "misc"
 load_dotfile "completions/eksctl"
+
+if [ "$(uname)" = "Darwin" ]; then
+  load_dotfile "osx"
+fi
+
 load_share "zsh-autosuggestions"
 load_share "zsh-syntax-highlighting"
 
 if command -v atuin >/dev/null; then
   eval "$(atuin init zsh)"
 else
-  echo "Need to install atuin; visit https://atuin.sh/docs/ and follow QuickStart"
-  echo "(Authentication credentials are in password manager)"
+  _log_note "Need to install atuin; visit https://atuin.sh/docs/ and follow QuickStart"
+  _log_note "(Authentication credentials are in password manager)"
 fi
 
 if command -v zoxide >/dev/null; then
   eval "$(zoxide init --cmd cd zsh)"
 else
-  echo "Need to install zoxide; visit https://github.com/ajeetdsouza/zoxide"
+  _log_note "Need to install zoxide; visit https://github.com/ajeetdsouza/zoxide"
 fi
 
 if [[ -f "$HOME/.ghcup/env" ]]; then
   source "$HOME/.ghcup/env"
+else
+  _log_note "Note: ghcup not installed (or no ~/.ghcup directory)"
 fi
 
 # See https://github.com/nvm-sh/nvm#installation-and-update
@@ -455,6 +497,8 @@ if [[ -z "$NVM_DIR" ]]; then
     if [[ -d "$NVM_HOMEBREW" ]]; then
       export NVM_DIR="$NVM_HOMEBREW"
     fi
+  else
+    _log_note "Note: nvm not installed (or no ~/.nvm directory)"
   fi
 fi
 
@@ -469,3 +513,5 @@ fi
 if command -v kubctl >/dev/null; then
   source <(kubectl completion zsh)
 fi
+
+export LEDGER_FILE="$HOME/cs/hledger/main.journal"
