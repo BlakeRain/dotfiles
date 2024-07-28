@@ -298,12 +298,7 @@ else
   _log_warn "No GitHub CLI found"
 fi
 
-# Abbreviate the 'gg' command to 'lazygit'
-if command -v lazygit >/dev/null; then
-  alias gg=lazygit
-else
-  _log_warn "No lazygit found"
-fi
+alias gg="nvim +:NeogitStart"
 
 # Add aliases to relace 'ls' (and similar) to 'exa'
 if command -v eza >/dev/null; then
