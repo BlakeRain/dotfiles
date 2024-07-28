@@ -34,6 +34,37 @@ if have_lazy then
   })
 end
 
+vim.api.nvim_create_user_command("NeogitStart", function(args)
+  vim.defer_fn(function()
+    require("neogit").open()
+
+    vim.defer_fn(function()
+      local buffers = vim.api.nvim_list_bufs()
+      local buffer
+      for _, buf in ipairs(buffers) do
+        if vim.api.nvim_buf_get_name(buf):match("NeogitStatus") then
+          buffer = buf
+          break
+        end
+      end
+
+      if not buffer then
+        vim.notify("Failed to find Neogit buffer", vim.log.levels.ERROR)
+        return
+      end
+
+      vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
+        buffer = buffer,
+        callback = function()
+          vim.defer_fn(function()
+            vim.cmd(":q")
+          end, 150)
+        end
+      })
+    end, 150)
+  end, 150)
+end, { nargs = 0 })
+
 require("keymaps")
 
 -- Some of my custom plugins.
