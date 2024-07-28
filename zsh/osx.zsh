@@ -41,3 +41,7 @@ function man-preview() {
 }
 
 alias manp=man-preview
+
+function hexfiend() {
+  open -a "Hex Fiend" $*
+}
