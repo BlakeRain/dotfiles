@@ -3,7 +3,8 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "R", function()
 end)
 
 hs.hotkey.bind({ "ctrl", "alt" }, "T", function()
-  hs.osascript.applescript("tell application \"iTerm\"\n  create window with default profile\nend tell")
+  hs.osascript.applescript(
+  "if application \"WezTerm\" is running then\n  Do Shell Script \"/Applications/WezTerm.app/Contents/MacOS/wezterm-gui\"\nelse\n  tell application \"WezTerm\" to activate\nend if")
 end)
 
 function reloadConfig(files)
