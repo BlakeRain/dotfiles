@@ -1,8 +1,0 @@
-# Ignore everything
-/*
-!.gitignore
-
-# Add exceptions for what we want to actually include
-!README.md
-!config.fish
-!sugoi-emoti
