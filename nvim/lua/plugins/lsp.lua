@@ -247,6 +247,7 @@ function M.config()
 
   nvim_lsp.clangd.setup {
     cmd = { clangd_path },
+    filetypes = { "c", "cpp", "objc", "objcpp" },
     on_attach = M.on_attach,
     flags = { debounce_text_changes = 150 },
     capabilities = vim.tbl_extend("force", {}, capabilities, {
