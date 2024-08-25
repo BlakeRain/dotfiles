@@ -184,36 +184,17 @@ function greeting() {
   format "Running Processes" "$(ps -caxm | tail -n +2 | wc -l | awk '{ print $1 }')"
   format "Resident Set Size" "$(ps aux | awk '{ sum += $6 } END { printf("%.2f MiB", sum / 1024.0) }')"
 
-  local inet_script='
-    /^[a-z0-9]+:.*/ {
-      wanted = 0
+  local ifconfig_script='
+    /^[a-zA-Z0-9]+:/ {
       iface = substr($1, 0, length($1) - 1)
-
-      if (index($1, "lo") == 0) {
-        if (index($2, "UP") != 0) {
-          wanted = 1
-
-          if (index($2, "POINTOPOINT") != 0) {
-            wanted = 0
-          }
-        }
-      }
     }
 
-    /inet / {
-      if (wanted) {
-        printf("IPv4 Address for %s:;%s\n", iface, $2)
-      }
+    /^[ \t]+inet / {
+      printf("IPv4 Address for %s:;%s\n", iface, $2)
     }
-
-    # /inet6 / {
-    #   if (wanted) {
-    #     printf("IPv6 Address for %s:;%s\n", iface, $2)
-    #   }
-    # }
   '
 
-  ip addr | awk "$inet_script" | while read inet_line; do
+  ifconfig | awk "$ifconfig_script" | while read inet_line; do
     echo $inet_line | _format
   done
 
