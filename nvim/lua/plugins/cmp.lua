@@ -53,7 +53,7 @@ function M.config()
       -- ['<CR>'] = cmp.mapping.confirm({ select = false })
     }),
     sources = cmp.config.sources({
-      { name = 'copilot' },
+      -- { name = 'copilot' },
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
       { name = 'luasnip' }
