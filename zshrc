@@ -491,3 +491,9 @@ if command -v kubctl >/dev/null; then
 fi
 
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
+
+PATH="/Users/blakerain/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/blakerain/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/blakerain/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/blakerain/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/blakerain/perl5"; export PERL_MM_OPT;

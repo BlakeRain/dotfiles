@@ -2,7 +2,8 @@
 -- https://github.com/zbirenbaum/copilot.lua
 
 local M = {
-  "zbirenbaum/copilot.lua",
+  -- "zbirenbaum/copilot.lua",
+  "qRoC/copilot.lua",
   dependencies = {
     "zbirenbaum/copilot-cmp",
   },
@@ -12,7 +13,9 @@ local M = {
 function M.config()
   vim.defer_fn(function()
     require("copilot").setup({
-      copilot_node_command = "/opt/homebrew/bin/node"
+      copilot_node_command = "/opt/homebrew/bin/node",
+      suggestion = { enabled = false },
+      panel = { enabled = false },
     })
 
     require("copilot_cmp").setup()
