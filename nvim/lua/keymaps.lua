@@ -33,8 +33,8 @@ vim.keymap.set("n", "<Leader>cf", function()
   vim.api.nvim_set_option_value("foldlevel", fold_level, { win = 0 })
 end, { desc = "Toggle folding" })
 
--- Map a keybinding to open the quick-fix list
-vim.keymap.set("n", "<Leader>qf", "<CMD>copen<CR>", { desc = "Open quickfix list" })
+-- Map a keybinding to open the quick-fix list (Now in quicker.lua)
+-- vim.keymap.set("n", "<Leader>qf", "<CMD>copen<CR>", { desc = "Open quickfix list" })
 
 -- Reselect visual selection after indent.
 vim.keymap.set('v', '<', '<gv')
