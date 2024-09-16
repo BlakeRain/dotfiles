@@ -22,7 +22,11 @@ local M = {
 
       -- TreeSJ: split or join blocks of code
       -- https://github.com/Wansmer/treesj
-      "Wansmer/treesj"
+      "Wansmer/treesj",
+
+      -- Treesitter text subjects
+      -- https://github.com/RRethy/nvim-treesitter-textsubjects
+      "RRethy/nvim-treesitter-textsubjects"
     },
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -120,6 +124,18 @@ local M = {
             goto_previous_end = {
               ["[M"] = "@function.outer",
               ["[]"] = "@class.outer"
+            }
+          }
+        },
+        textsubjects = {
+          enable = true,
+          prev_selection = ",",
+          keymaps = {
+            ["."] = "textsubjects-smart",
+            [";"] = "textsubjects-container-outer",
+            ["i;"] = {
+              "textsubjects-container-inner",
+              desc = "Select inside containers"
             }
           }
         }
