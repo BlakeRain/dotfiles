@@ -2,7 +2,7 @@
 --
 -- https://github.com/neovim/nvim-lspconfig
 -- https://github.com/hrsh7th/cmp-nvim-lsp
--- https://github.com/SmiteshP/nvim-navic
+-- https://github.com/SmiteshP/nvim-navic (used in the statusline)
 
 local M = {
   "neovim/nvim-lspconfig",
