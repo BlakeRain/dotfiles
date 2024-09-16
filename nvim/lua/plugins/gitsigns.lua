@@ -11,6 +11,10 @@ function M.config()
 
   gitsigns.setup({
     current_line_blame = true,
+    current_line_blame_opts = {
+      virt_text = true,
+      virt_text_pos = 'right_align'
+    },
     on_attach = function(bufnr)
       local function map(mode, l, r, opts)
         opts = opts or {}
