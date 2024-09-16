@@ -160,8 +160,9 @@ vim.g.markdown_fenced_languages = {
 -- Setup folding.
 -- Note: I don't actually set the 'foldmethod' here, as I have a keybinding to toggle it (see 'keymaps.lua').
 vim.cmd [[
+set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
-set foldlevel=9000
+set foldlevelstart=99
 ]]
 
 -- Change the association for the 'htm' and 'html' extensions to 'htmldjango' filetype, as I spend a

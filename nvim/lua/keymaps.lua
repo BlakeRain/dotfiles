@@ -23,7 +23,7 @@ vim.keymap.set("n", "<Leader>cf", function()
     new_method = "expr"
   else
     new_method = "manual"
-    fold_level = 9000
+    fold_level = 99
   end
 
   vim.notify("Setting fold method to '" .. new_method .. "'", vim.log.levels.INFO,
