@@ -222,7 +222,7 @@ function M.config()
 
   -- Setup the Python and TypeScript servers
 
-  local servers = { 'pyright', 'tsserver', 'tailwindcss' }
+  local servers = { 'pyright', 'ts_ls', 'tailwindcss' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = M.on_attach,
