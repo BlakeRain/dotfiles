@@ -69,6 +69,6 @@ require("keymaps")
 
 -- Some of my custom plugins.
 require("custom.jump_ast").setup()
-require("custom.openai_tools").setup()
-require("custom.chatgpt").setup()
-require("custom.mark_signs").setup()
+-- require("custom.openai_tools").setup()
+-- require("custom.chatgpt").setup()
+-- require("custom.mark_signs").setup()
