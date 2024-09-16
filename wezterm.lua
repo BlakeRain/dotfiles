@@ -16,4 +16,9 @@ config.window_background_opacity = 0.9
 -- Disable detecting password input as we use tmux
 config.detect_password_input = false
 
+config.visual_bell = {
+  fade_in_duration_ms = 75,
+  fade_out_duration_ms = 75,
+  target = 'CursorColor',
+}
 return config
