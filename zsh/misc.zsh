@@ -25,3 +25,33 @@ function new_ssh_key() {
 
   ssh-keygen -t ed25519 -C "$1"
 }
+
+function enc_dir() {
+  # Make sure that we get a directory as an argument.
+  if [ -z "$1" ]; then
+    echo "Usage: enc_dir <dir>"
+    return 1
+  fi
+
+  # Make sure that the directory exists.
+  if [ ! -d "$1" ]; then
+    echo "Directory does not exist: $1"
+    return 1
+  fi
+
+  # We're going to use a temporary file, just in case the directory in '$1' is
+  # the same as the directory that we're in. After encrypting to the temporary file
+  # we can then move it back in place.
+  local temp_file="$(mktemp)"
+  tar -cz "$1" | gpg --encrypt --output "$temp_file" --yes
+  mv "$temp_file" "$(basename "$1").tar.gz.gpg"
+}
+
+function enc_cwd() {
+  # Because we can't create the encrypted file in the same directory that we are
+  # encrypting, we need to first create the file in the temporary directory and
+  # then move it into the current working directory with the correct name.
+  local temp_file="$(mktemp)"
+  tar -cz . | gpg --encrypt --output "$temp_file" --yes
+  mv "$temp_file" "$(basename "$(pwd)").tar.gz.gpg"
+}
