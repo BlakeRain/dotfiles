@@ -9,6 +9,8 @@ config.font_size = 13.0
 
 config.hide_tab_bar_if_only_one_tab = true
 
+config.quote_dropped_files = "Posix"
+
 config.initial_cols = 120
 config.initial_rows = 50
 config.window_background_opacity = 0.9
