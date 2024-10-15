@@ -2,7 +2,7 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "R", function()
   hs.reload()
 end)
 
-hs.hotkey.bind({ "ctrl", "alt" }, "T", function()
+hs.hotkey.bind({ "cmd", "ctrl" }, "T", function()
   hs.osascript.applescript(
   "if application \"WezTerm\" is running then\n  Do Shell Script \"/Applications/WezTerm.app/Contents/MacOS/wezterm-gui\"\nelse\n  tell application \"WezTerm\" to activate\nend if")
 end)
