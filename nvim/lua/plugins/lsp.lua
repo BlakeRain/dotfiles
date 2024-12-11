@@ -96,7 +96,7 @@ function M.on_attach(client, bufnr)
 
   -- Enable inlay hints
   -- vim.lsp.inlay_hint.enable(bufnr, true)
-  vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 
   -- Show diagnostics in floating window on cursor
   vim.api.nvim_create_autocmd("CursorHold", {
@@ -195,9 +195,9 @@ function M.config()
 
   vim.diagnostic.config({
     signs = true,
-    float = { source = "always", border = "rounded", prefix = " " },
+    float = { source = true, border = "rounded", prefix = " " },
     virtual_text = {
-      source = "always",
+      source = true,
       format = function(diagnostic)
         if #diagnostic.message > 60 then
           return string.sub(diagnostic.message, 1, 60) .. "..."
