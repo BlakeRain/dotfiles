@@ -84,7 +84,7 @@ function M.config()
         { mode = "n", keys = "<leader>co",      desc = "+Code & OpenAI" },
         { mode = "n", keys = "<leader>cw",      desc = "+LSP workspace" },
         { mode = "n", keys = "<leader>f",       desc = "+Telescope" },
-        { mode = "n", keys = "<leader>fc",      desc = "+Telescope commits" },
+        -- { mode = "n", keys = "<leader>fc",      desc = "+Telescope commits" },
         { mode = "n", keys = "<leader>fH",      desc = "+Telescope cheats" },
         { mode = "n", keys = "<leader>g",       desc = "+Git (& others)" },
         { mode = "n", keys = "<leader>gh",      desc = "+Git hunks" },
