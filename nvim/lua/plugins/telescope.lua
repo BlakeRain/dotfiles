@@ -19,7 +19,7 @@ local M = {
     },
     "nvim-telescope/telescope-cheat.nvim",
     "benfowler/telescope-luasnip.nvim",
-    "sudormrfbin/cheatsheet.nvim",
+    "doctorfree/cheatsheet.nvim",
     "debugloop/telescope-undo.nvim",
   },
   keys = {
