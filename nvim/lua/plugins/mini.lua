@@ -191,6 +191,13 @@ function M.config()
 
   local jump2d = require("mini.jump2d")
   jump2d.setup({
+    allowed_lines = {
+      blank = false,
+    },
+    allowed_windows = {
+      current = true,
+      not_current = false,
+    },
     mappings = {
       start_jumping = "",
     }
