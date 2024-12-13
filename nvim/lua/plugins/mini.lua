@@ -20,8 +20,18 @@ function M.config()
 
   ------------------------------------------------------------------------------------------------
 
+  local ts_spec = require("mini.ai").gen_spec.treesitter
   require("mini.ai").setup({
-    custom_text_objects = nil
+    custom_textobjects = {
+      F = ts_spec({
+        a = "@function.outer",
+        i = "@function.inner",
+      }),
+      o = ts_spec({
+        a = { "@conditional.outer", "@loop.outer" },
+        i = { "@conditional.inner", "@loop.inner" },
+      }),
+    }
   })
 
   ------------------------------------------------------------------------------------------------
