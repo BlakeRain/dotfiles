@@ -169,13 +169,13 @@ function M.config()
     require("telescope.builtin").find_files {
       cwd = vim.fn.stdpath("config")
     }
-  end)
+  end, { desc = "Search in Neovim Config" })
 
   vim.keymap.set("n", "<leader>ep", function()
     require("telescope.builtin").find_files {
       cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
     }
-  end)
+  end, { desc = "Search in Neovim Plugins" })
 end
 
 return M
