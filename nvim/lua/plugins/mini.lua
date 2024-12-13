@@ -160,11 +160,11 @@ function M.config()
   })
   ------------------------------------------------------------------------------------------------
 
-  require("mini.indentscope").setup({})
-
-  vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {
-    fg = mocha.mauve
-  })
+  -- require("mini.indentscope").setup({})
+  --
+  -- vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {
+  --   fg = mocha.mauve
+  -- })
 
   ------------------------------------------------------------------------------------------------
 
