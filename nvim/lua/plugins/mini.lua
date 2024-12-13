@@ -204,7 +204,8 @@ function M.config()
   })
 
   vim.keymap.set("n", "<leader>jj", function()
-    jump2d.start(jump2d.builtin_opts.word_start)
+    -- jump2d.start(jump2d.builtin_opts.word_start)
+    jump2d.start({ spotter = jump2d.gen_pattern_spotter("[%w_]+", "start") })
   end, { desc = "Jump to word" })
 
   vim.keymap.set("n", "<leader>jl", function()
