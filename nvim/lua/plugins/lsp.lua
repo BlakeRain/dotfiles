@@ -1,13 +1,12 @@
 -- LSP support
 --
 -- https://github.com/neovim/nvim-lspconfig
--- https://github.com/hrsh7th/cmp-nvim-lsp
 -- https://github.com/SmiteshP/nvim-navic (used in the statusline)
 
 local M = {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
+    -- "hrsh7th/cmp-nvim-lsp",
     "SmiteshP/nvim-navic",
   },
 }
@@ -92,7 +91,7 @@ function M.on_attach(client, bufnr)
   M.formatting.setup(client, bufnr)
 
   -- Attach LSP signatures
-  require("lsp_signature").on_attach()
+  -- require("lsp_signature").on_attach()
 
   -- Enable inlay hints
   -- vim.lsp.inlay_hint.enable(bufnr, true)
@@ -179,12 +178,21 @@ function M.get_capabilities()
     return M.capabilities
   end
 
-  local cmp_nvim_lsp = require("cmp_nvim_lsp")
-  if type(cmp_nvim_lsp.default_capabilities) == "function" then
-    M.capabilities = cmp_nvim_lsp.default_capabilities()
+  -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
+  -- if type(cmp_nvim_lsp.default_capabilities) == "function" then
+  --   M.capabilities = cmp_nvim_lsp.default_capabilities()
+  -- else
+  --   M.capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol
+  --     .make_client_capabilities())
+  -- end
+
+  M.capabilities = vim.lsp.protocol.make_client_capabilities()
+
+  local ok, blink_cmp = pcall(require, "blink-cmp")
+  if ok then
+    M.capabilities = blink_cmp.get_lsp_capabilities(M.capabilities)
   else
-    M.capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol
-      .make_client_capabilities())
+    vim.notify("Failed to load blink-cmp", vim.log.levels.WARN)
   end
 
   return M.capabilities

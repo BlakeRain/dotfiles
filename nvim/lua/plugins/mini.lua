@@ -72,6 +72,10 @@ function M.config()
       -- `z` key
       { mode = 'n', keys = 'z' },
       { mode = 'x', keys = 'z' },
+
+      -- Brackets (mini.bracketed)
+      { mode = 'n', keys = ']' },
+      { mode = 'n', keys = '[' },
     },
 
     clues = {
@@ -104,7 +108,7 @@ function M.config()
         { mode = "n", keys = "<leader>q",       desc = "+Quickfix" },
         { mode = "n", keys = "<leader>w",       desc = "+Windows" },
         { mode = "n", keys = "<leader>x",       desc = "+Trouble" },
-      }
+      },
     },
 
     window = {
@@ -225,6 +229,10 @@ function M.config()
   vim.keymap.set("n", "<leader>bz", function()
     require("mini.misc").zoom(0, {})
   end, { desc = "Zoom into buffer" })
+
+  ------------------------------------------------------------------------------------------------
+
+  require('mini.move').setup({})
 
   ------------------------------------------------------------------------------------------------
 

@@ -7,13 +7,13 @@ return {
     require("catppuccin").setup({
       integrations = {
         barbar = true,
-        cmp = true,
+        blink_cmp = true,
         gitsigns = true,
-        hop = true,
-        leap = true,
         lsp_trouble = true,
         mason = true,
+        neogit = true,
         notify = true,
+        octo = true,
         treesitter = true,
         treesitter_context = true,
         ufo = true,
@@ -30,10 +30,7 @@ return {
 
       custom_highlights = function(C)
         return {
-          NeoTreeNormal = { fg = C.text, bg = C.mantle },
-          NeoTreeNormalNC = { fg = C.text, bg = C.mantle },
           LspInlayHint = { fg = C.surface2, bg = C.base, style = { "italic" } },
-          NeoTreeWinSeparator = { fg = C.surface2 },
           CursorLine = { bg = C.surface0 },
         }
       end

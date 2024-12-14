@@ -58,6 +58,7 @@ function M.config()
 
   telescope.setup({
     defaults = {
+      theme = "ivy",
       winblend = 0,
       -- winblend = 10,
       mappings = {
@@ -74,6 +75,10 @@ function M.config()
     },
     pickers = {
       find_files = {
+        theme = "ivy",
+        prompt_prefix = "🔍 ",
+      },
+      oldfiles = {
         theme = "ivy",
         prompt_prefix = "🔍 ",
       },

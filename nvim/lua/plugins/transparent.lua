@@ -22,7 +22,7 @@ function M.config()
   })
 
   -- transparent.clear_prefix("lualine")
-  transparent.clear_prefix("NeoTree")
+  -- transparent.clear_prefix("NeoTree")
   transparent.clear_prefix("MiniFiles")
 end
 

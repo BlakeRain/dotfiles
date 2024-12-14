@@ -10,14 +10,14 @@ local function lualine_winnum()
   return "w" .. vim.inspect(vim.api.nvim_win_get_number(vim.api.nvim_get_current_win()))
 end
 
-local function lualine_neotree_cwd()
-  return vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
-end
+-- local function lualine_neotree_cwd()
+--   return vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+-- end
 
-local neo_tree_lualine = {
-  sections = { lualine_a = { lualine_neotree_cwd } },
-  filetypes = { "neo-tree" }
-}
+-- local neo_tree_lualine = {
+--   sections = { lualine_a = { lualine_neotree_cwd } },
+--   filetypes = { "neo-tree" }
+-- }
 
 
 
@@ -26,7 +26,7 @@ function M.config()
   local navic = require("nvim-navic")
 
   lualine.setup({
-    extensions = { neo_tree_lualine },
+    -- extensions = { neo_tree_lualine },
     options = {
       icons_enabled = true,
       -- theme = "tokyonight",

@@ -1,6 +1,6 @@
 -- Luasnip (snippets)
 -- https://github.com/L3MON4D3/LuaSnip
-local M = { "L3MON4D3/LuaSnip", event = "VeryLazy" }
+local M = { "L3MON4D3/LuaSnip", version = "v2.*" }
 
 function M.config()
   require("luasnip.loaders.from_vscode").lazy_load({
