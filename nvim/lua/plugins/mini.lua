@@ -180,18 +180,8 @@ function M.config()
     bg = mocha.yellow,
   })
 
-  -- Consider:
-  -- vim.api.nvim_set_hl(0, 'MiniJump2dSpot', { reverse = true })
-
-  vim.api.nvim_set_hl(0, "MiniJump2dSpot", {
-    fg = mocha.base,
-    bg = mocha.sapphire,
-  })
-
-  vim.api.nvim_set_hl(0, "MiniJump2dSpotUnique", {
-    fg = mocha.base,
-    bg = mocha.blue,
-  })
+  vim.api.nvim_set_hl(0, 'MiniJump2dSpot', { reverse = true })
+  vim.api.nvim_set_hl(0, 'MiniJump2dSpotUnique', { reverse = true })
 
   local jump2d = require("mini.jump2d")
   jump2d.setup({
