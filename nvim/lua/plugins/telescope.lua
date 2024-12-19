@@ -27,7 +27,8 @@ local M = {
     { "<leader>gb",  "<cmd>Telescope git_bcommits<cr>",              desc = "Show git buffer commits" },
     { "<leader>gs",  "<cmd>Telescope git_status<cr>",                desc = "Show git status" },
 
-    { "<leader>fb",  "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in buffer" },
+    { "<leader>fb",  "<cmd>Telescope buffers<cr>",                   desc = "Current buffers" },
+    { "<leader>fB",  "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in buffer" },
     { "<leader>fd",  "<cmd>Telescope lsp_document_symbols<cr>",      desc = "LSP document symbols" },
     { "<leader>fD",  "<cmd>Telescope diagnostics<cr>",               desc = "Filter diagnostics" },
     { "<leader>ff",  "<cmd>Telescope find_files<cr>",                desc = "Filter files" },
@@ -74,13 +75,27 @@ function M.config()
       }
     },
     pickers = {
+      buffers = {
+        theme = "ivy",
+      },
       find_files = {
         theme = "ivy",
-        prompt_prefix = "🔍 ",
+        find_command = function(opts)
+          return {
+            "rg",
+            "--files",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--no-ignore-dot",
+          }
+        end
       },
       oldfiles = {
         theme = "ivy",
-        prompt_prefix = "🔍 ",
       },
       notify = {
         layout_strategy = "vertical"
@@ -88,7 +103,6 @@ function M.config()
       help_tags = { layout_config = { preview_width = 0.7 } },
       live_grep = {
         theme = "ivy",
-        prompt_prefix = "🔍 ",
       }
     },
     extensions = {
@@ -116,7 +130,7 @@ function M.config()
 
         local pieces = vim.split(prompt, "  ")
         local args = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column",
-          "--smart-case" }
+          "--smart-case", "--no-ignore-dot" }
 
         if pieces[1] then
           table.insert(args, "-e")
