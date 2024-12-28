@@ -97,6 +97,7 @@ function M.config()
         { mode = "n", keys = "<leader>cR",      desc = "+Rust" },
         { mode = "n", keys = "<leader>co",      desc = "+Code & OpenAI" },
         { mode = "n", keys = "<leader>cw",      desc = "+LSP workspace" },
+        { mode = "n", keys = "<leader>e",       desc = "+Editor" },
         { mode = "n", keys = "<leader>f",       desc = "+Telescope" },
         -- { mode = "n", keys = "<leader>fc",      desc = "+Telescope commits" },
         { mode = "n", keys = "<leader>fH",      desc = "+Telescope cheats" },
@@ -251,6 +252,27 @@ function M.config()
 
   require("mini.pairs").setup({
   })
+
+  ------------------------------------------------------------------------------------------------
+
+  local SESSION_NAME = ".session.vim"
+  require("mini.sessions").setup({
+    file = SESSION_NAME
+  })
+
+  vim.keymap.set("n", "<leader>es", function()
+    -- If the 'Session.vim' file does not exist, create the new session and then notify that
+    -- the new session has been created. Otherwise, load the session.
+    local path = vim.fn.getcwd() .. "/" .. SESSION_NAME
+    local stat = vim.loop.fs_stat(path)
+    if stat and stat.type == "file" then
+      MiniSessions.read(SESSION_NAME)
+      vim.notify("Session loaded", vim.log.levels.INFO)
+    else
+      MiniSessions.write(SESSION_NAME)
+      vim.notify("Session created", vim.log.levels.INFO)
+    end
+  end, { desc = "Load/Create session" })
 
   ------------------------------------------------------------------------------------------------
 

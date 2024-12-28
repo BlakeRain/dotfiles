@@ -37,3 +37,4 @@
 
 # Now add back in some things to ignore
 /tmux/plugins
+/nvim/.session.vim
