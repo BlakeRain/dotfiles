@@ -9,7 +9,7 @@ return {
   opts = {
     keymap = {
       preset = "default",
-      ["<C-j>"] = { "select_and_accept" },
+      -- ["<C-j>"] = { "select_and_accept" },  Use C-Y to accept, see :help ins-completion
     },
     appearance = {
       nerd_font_variant = "mono"
