@@ -4,8 +4,8 @@
 local M = {
   "akinsho/toggleterm.nvim",
   keys = {
-    { "<leader>T", "<cmd>ToggleTerm<cr>",                                        desc = "Toggle bottom terminal" },
-    { "<leader>t", function() require("plugins.terminal").toggle_floating() end, desc = "Toggle terminal" },
+    { "<leader>t", "<cmd>ToggleTerm<cr>",                                        desc = "Toggle bottom terminal" },
+    { "<leader>T", function() require("plugins.terminal").toggle_floating() end, desc = "Toggle terminal" },
     -- { "<leader>gg", function() require("plugins.terminal").toggle_lazygit() end, desc = "Lazygit window" },
   }
 }
