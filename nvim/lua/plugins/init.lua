@@ -11,10 +11,10 @@ return {
     -- Nice icons
     -- https://github.com/nvim-tree/nvim-web-devicons
     "nvim-tree/nvim-web-devicons",
-    config = { default = true }
+    opts = { default = true }
   },
 
-  
+
   -- Maximize and restore a window
   -- https://github.com/szw/vim-maximizer
   { "szw/vim-maximizer", cmd = "MaximizerToggle" }

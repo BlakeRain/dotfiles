@@ -165,11 +165,11 @@ function M.config()
   })
   ------------------------------------------------------------------------------------------------
 
-  -- require("mini.indentscope").setup({})
-  --
-  -- vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {
-  --   fg = mocha.mauve
-  -- })
+  require("mini.indentscope").setup({})
+
+  vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {
+    fg = mocha.mauve
+  })
 
   ------------------------------------------------------------------------------------------------
 
@@ -257,7 +257,15 @@ function M.config()
 
   local SESSION_NAME = ".session.vim"
   require("mini.sessions").setup({
-    file = SESSION_NAME
+    file = SESSION_NAME,
+    hooks = {
+      pre = {
+        write = function()
+          -- https://github.com/romgrk/barbar.nvim?tab=readme-ov-file#mininvim
+          vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" })
+        end
+      }
+    }
   })
 
   vim.keymap.set("n", "<leader>es", function()
@@ -265,11 +273,13 @@ function M.config()
     -- the new session has been created. Otherwise, load the session.
     local path = vim.fn.getcwd() .. "/" .. SESSION_NAME
     local stat = vim.loop.fs_stat(path)
+    local sessions = require("mini.sessions")
+
     if stat and stat.type == "file" then
-      MiniSessions.read(SESSION_NAME)
+      sessions.read(SESSION_NAME)
       vim.notify("Session loaded", vim.log.levels.INFO)
     else
-      MiniSessions.write(SESSION_NAME)
+      sessions.write(SESSION_NAME)
       vim.notify("Session created", vim.log.levels.INFO)
     end
   end, { desc = "Load/Create session" })

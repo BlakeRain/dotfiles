@@ -1,7 +1,7 @@
 -- https://github.com/Saghen/blink.cmp
 return {
   "saghen/blink.cmp",
-  lazy = false,
+  event = "InsertEnter",
   version = "v0.*",
   dependencies = {
     { "L3MON4D3/LuaSnip", version = "v2.*" }
@@ -17,31 +17,32 @@ return {
     sources = {
       default = {
         "lsp",
-        "luasnip",
+        "snippets",
         "buffer"
       },
-      providers = {
-        luasnip = {
-          opts = {
-            use_show_condition = false
-          }
-        }
-      }
+      -- providers = {
+      --   luasnip = {
+      --     opts = {
+      --       use_show_condition = false
+      --     }
+      --   }
+      -- }
     },
     snippets = {
-      expand = function(snippet)
-        require("luasnip").lsp_expand(snippet)
-      end,
-      active = function(filter)
-        if filter and filter.direction then
-          return require("luasnip").jumpable(filter.direction)
-        end
-
-        return require("luasnip").in_snippet()
-      end,
-      jump = function(direction)
-        require("luasnip").jump(direction)
-      end
+      preset = "luasnip",
+      -- expand = function(snippet)
+      --   require("luasnip").lsp_expand(snippet)
+      -- end,
+      -- active = function(filter)
+      --   if filter and filter.direction then
+      --     return require("luasnip").jumpable(filter.direction)
+      --   end
+      --
+      --   return require("luasnip").in_snippet()
+      -- end,
+      -- jump = function(direction)
+      --   require("luasnip").jump(direction)
+      -- end
     },
     completion = {
       menu = {

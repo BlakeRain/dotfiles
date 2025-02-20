@@ -70,7 +70,6 @@ end
 -- Use an on_attach function to only map keys after the language server attaches to the current buffer
 function M.on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
@@ -87,7 +86,6 @@ function M.on_attach(client, bufnr)
   end
 
   -- Set formatting on save
-  -- vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
   M.formatting.setup(client, bufnr)
 
   -- Attach LSP signatures
@@ -120,14 +118,8 @@ function M.on_attach(client, bufnr)
   local opts = { noremap = true, silent = true }
 
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-
-  -- NOTE: I use Telescope for definitions now, as it's easier to browse
-  --   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  -- buf_set_keymap('n', 'K', M.show_documentation, opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
   buf_set_keymap('n', '<space>cwa',
     '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', {
@@ -135,6 +127,7 @@ function M.on_attach(client, bufnr)
       noremap = true,
       silent = true
     })
+
   buf_set_keymap('n', '<space>cwr',
     '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', {
       desc = "Remove folder from workspace",
@@ -145,46 +138,22 @@ function M.on_attach(client, bufnr)
     '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
     { desc = "List workspace", noremap = true, silent = true })
 
-  -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>',
-  --                { desc = "Show Type Definition", noremap = true, silent = true })
-
   buf_set_keymap('n', '<space>cr', '<cmd>lua vim.lsp.buf.rename()<CR>',
     { desc = "Rename symbol", noremap = true, silent = true })
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>',
     { desc = "Code actions", noremap = true, silent = true })
 
-  -- NOTE: I use Telescope for references now, as it's easier to browse
-  --   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-
-  -- buf_set_keymap('n', '<space>e',
-  --   '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {
-  --     desc = "Show line diagnostics",
-  --     noremap = true,
-  --     silent = true
-  --   })
-  -- See `plugins/mini` as `mini-bracketed` is doing this now
-  -- buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  -- buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', {
     desc = "Diagnostics to loclist",
     noremap = true,
     silent = true
   })
-  -- buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 function M.get_capabilities()
   if M.capabilities then
     return M.capabilities
   end
-
-  -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
-  -- if type(cmp_nvim_lsp.default_capabilities) == "function" then
-  --   M.capabilities = cmp_nvim_lsp.default_capabilities()
-  -- else
-  --   M.capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol
-  --     .make_client_capabilities())
-  -- end
 
   M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -262,6 +231,13 @@ function M.config()
       -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
       offsetEncoding = { "utf-16" }
     })
+  }
+
+  -- Setup the Go server
+  nvim_lsp.gopls.setup {
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+    -- flags = { debounce_text_changes = 150 }
   }
 
   -- Setup the Lua server

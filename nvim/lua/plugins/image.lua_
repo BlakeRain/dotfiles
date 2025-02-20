@@ -1,0 +1,30 @@
+return {
+  "3rd/image.nvim",
+  build = false,
+  event = "VeryLazy",
+  config = function()
+    require("image").setup({
+      processor = "magick_cli",
+      integrations = {
+        markdown = {
+          enabled = false
+        },
+        neorg = {
+          enabled = false
+        },
+        syslang = {
+          enabled = false
+        },
+        typst = {
+          enabled = false
+        },
+        html = {
+          enabled = false
+        },
+        css = {
+          enabled = false
+        }
+      }
+    })
+  end
+}

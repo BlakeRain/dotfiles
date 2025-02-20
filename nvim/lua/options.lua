@@ -141,6 +141,11 @@ vim.opt.signcolumn = "yes"
 -- Use a global status line.
 vim.opt.laststatus = 3
 
+-- Store globals (starting with an upper-case letter and having at least one lower-case letter) in
+-- the session.
+-- https://github.com/romgrk/barbar.nvim?tab=readme-ov-file#sessions
+vim.opt.sessionoptions:append "globals"
+
 -- Include some language highlighting in markdown fences.
 vim.g.markdown_fenced_languages = {
   "html",
