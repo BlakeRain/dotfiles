@@ -165,11 +165,11 @@ function M.config()
   })
   ------------------------------------------------------------------------------------------------
 
-  require("mini.indentscope").setup({})
-
-  vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {
-    fg = mocha.mauve
-  })
+  -- require("mini.indentscope").setup({})
+  --
+  -- vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {
+  --   fg = mocha.mauve
+  -- })
 
   ------------------------------------------------------------------------------------------------
 
@@ -227,26 +227,26 @@ function M.config()
 
   ------------------------------------------------------------------------------------------------
 
-  local notify = require("mini.notify")
-  notify.setup({
-    content = {
-      format = function(notif)
-        return string.format("• %s", notif.msg)
-      end
-    },
-    lsp_progress = {
-      enable = false
-    },
-    window = {
-      winblend = 0
-      -- winblend = 10
-    }
-  })
-
-  vim.notify = notify.make_notify()
-  vim.keymap.set("n", "<leader>fn", function()
-    notify.show_history()
-  end, { desc = "Show notification history" })
+  -- local notify = require("mini.notify")
+  -- notify.setup({
+  --   content = {
+  --     format = function(notif)
+  --       return string.format("• %s", notif.msg)
+  --     end
+  --   },
+  --   lsp_progress = {
+  --     enable = false
+  --   },
+  --   window = {
+  --     winblend = 0
+  --     -- winblend = 10
+  --   }
+  -- })
+  --
+  -- vim.notify = notify.make_notify()
+  -- vim.keymap.set("n", "<leader>fn", function()
+  --   notify.show_history()
+  -- end, { desc = "Show notification history" })
 
   ------------------------------------------------------------------------------------------------
 
@@ -268,7 +268,7 @@ function M.config()
     }
   })
 
-  vim.keymap.set("n", "<leader>es", function()
+  vim.keymap.set("n", "<leader>Es", function()
     -- If the 'Session.vim' file does not exist, create the new session and then notify that
     -- the new session has been created. Otherwise, load the session.
     local path = vim.fn.getcwd() .. "/" .. SESSION_NAME

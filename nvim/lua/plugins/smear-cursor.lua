@@ -1,9 +1,9 @@
 -- https://github.com/sphamba/smear-cursor.nvim
 return {
   "sphamba/smear-cursor.nvim",
-  event = "VeryLazy",
+  -- event = "VeryLazy",
   keys = {
-    { "<leader>eS", function() require("smear_cursor").toggle() end, desc = "Toggle smear cursor" }
+    { "<leader>ES", function() require("smear_cursor").toggle() end, desc = "Toggle smear cursor" }
   },
   opts = {
     cursor_color = "#F9DFDB",

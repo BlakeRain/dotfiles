@@ -3,8 +3,8 @@
 -- Note that this is not an entirely complete set of all keymaps, as individual plugins will also
 -- bind additional keys.
 
--- <Leader><Space> toggles folded regions
-vim.keymap.set("n", "<Leader><Space>", "zA")
+-- <Leader><Space> toggles folded regions (2025-02-26: conflict with snacks.nvim)
+-- vim.keymap.set("n", "<Leader><Space>", "zA")
 
 -- Setup a keybinding to toggle the folding of code.
 --
@@ -65,9 +65,9 @@ vim.keymap.set('n', '<leader>k', ':nohlsearch<CR>', { desc = "Clear highlight" }
 vim.keymap.set("n", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
 vim.keymap.set("v", "<leader>d", "\"_d", { desc = "Delete (to void register)" })
 
--- Begin a search/replace with the current word under the cursor
-vim.keymap.set("n", "<leader>ss",
-  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Search & replace word" })
+-- Begin a search/replace with the current word under the cursor (2025-02-26: conflict with snacks.nvim)
+-- vim.keymap.set("n", "<leader>ss",
+--   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Search & replace word" })
 
 vim.keymap.set("n", "<leader>se", function()
   require("scissors").editSnippet()
