@@ -2,7 +2,8 @@
 -- https://github.com/hylechui/nvim-surround
 local M = {
   'kylechui/nvim-surround',
-  event = "VeryLazy"
+  event = "VeryLazy",
+  version = "^3.0.0"
 }
 
 function M.config()
