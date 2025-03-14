@@ -173,13 +173,13 @@ function M.config()
 
   ------------------------------------------------------------------------------------------------
 
-  require("mini.jump").setup({
-  })
-
-  vim.api.nvim_set_hl(0, "MiniJump", {
-    fg = mocha.base,
-    bg = mocha.yellow,
-  })
+  -- require("mini.jump").setup({
+  -- })
+  --
+  -- vim.api.nvim_set_hl(0, "MiniJump", {
+  --   fg = mocha.base,
+  --   bg = mocha.yellow,
+  -- })
 
   vim.api.nvim_set_hl(0, 'MiniJump2dSpot', { reverse = true })
   vim.api.nvim_set_hl(0, 'MiniJump2dSpotUnique', { reverse = true })
