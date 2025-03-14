@@ -1,4 +1,11 @@
 -- https://github.com/folke/snacks.nvim
+
+local STANDARD_EXCLUDES = {
+  "node_modules/",
+  "target/",
+  ".git/"
+}
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -14,7 +21,15 @@ return {
       enabled = true,
       timeout = 3000,
     },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        explorer = { ignored = true },
+        files = { cmd = "rg", args = { "--no-ignore-dot" } },
+        grep = { cmd = "rg", args = { "--no-ignore-dot" } },
+        grep_word = { cmd = "rg", args = { "--no-ignore-dot" } }
+      }
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     -- scroll = { enabled = true },
@@ -75,7 +90,7 @@ return {
     { "<leader>sq",      function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
     { "<leader>sR",      function() Snacks.picker.resume() end,                                  desc = "Resume" },
     { "<leader>su",      function() Snacks.picker.undo() end,                                    desc = "Undo History" },
-    { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
+    -- { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
     -- LSP
     { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
     { "gD",              function() Snacks.picker.lsp_declarations() end,                        desc = "Goto Declaration" },
