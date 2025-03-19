@@ -8,9 +8,10 @@ else
 end
 
 config.color_scheme = 'Catppuccin Mocha'
-config.font = wezterm.font("JetBrainsMonoNL Nerd Font Mono", { weight = "DemiBold" })
+config.font = wezterm.font("CommitMono Nerd Font Mono")
+-- config.font = wezterm.font("JetBrainsMonoNL Nerd Font Mono", { weight = "DemiBold" })
 -- config.font = wezterm.font("Atkinson Hyperlegible Mono", { weight = "Regular" })
-config.font_size = 13.0
+config.font_size = 15.0
 
 config.hide_tab_bar_if_only_one_tab = true
 
