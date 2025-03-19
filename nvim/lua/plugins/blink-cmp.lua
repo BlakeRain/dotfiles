@@ -9,7 +9,6 @@ return {
   opts = {
     keymap = {
       preset = "default",
-      -- ["<C-j>"] = { "select_and_accept" },  Use C-Y to accept, see :help ins-completion
     },
     appearance = {
       nerd_font_variant = "mono"
@@ -20,29 +19,9 @@ return {
         "snippets",
         "buffer"
       },
-      -- providers = {
-      --   luasnip = {
-      --     opts = {
-      --       use_show_condition = false
-      --     }
-      --   }
-      -- }
     },
     snippets = {
       preset = "luasnip",
-      -- expand = function(snippet)
-      --   require("luasnip").lsp_expand(snippet)
-      -- end,
-      -- active = function(filter)
-      --   if filter and filter.direction then
-      --     return require("luasnip").jumpable(filter.direction)
-      --   end
-      --
-      --   return require("luasnip").in_snippet()
-      -- end,
-      -- jump = function(direction)
-      --   require("luasnip").jump(direction)
-      -- end
     },
     completion = {
       menu = {
