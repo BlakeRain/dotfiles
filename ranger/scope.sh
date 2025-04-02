@@ -331,6 +331,11 @@ handle_mime() {
             mediainfo "${FILE_PATH}" && exit 5
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
+
+        application/*)
+          file --dereference -- "${FILE_PATH}"
+          du -h "${FILE_PATH}"
+          xxd -l 1048576 "${FILE_PATH}" && exit 5
     esac
 }
 
