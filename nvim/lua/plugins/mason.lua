@@ -6,9 +6,9 @@
 local M = {
   "mason-org/mason.nvim",
   event = "VeryLazy",
-  dependencies = {
-    "mason-org/mason-lspconfig.nvim",
-  }
+  -- dependencies = {
+  --   "mason-org/mason-lspconfig.nvim",
+  -- }
 }
 
 M.tools = {
@@ -40,9 +40,9 @@ function M.config()
   require("mason").setup()
   M.check()
 
-  require("mason-lspconfig").setup({
-    automatic_installation = true,
-  })
+  -- require("mason-lspconfig").setup({
+  --   automatic_installation = true,
+  -- })
 end
 
 return M

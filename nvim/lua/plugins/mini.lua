@@ -259,17 +259,17 @@ function M.config()
   ------------------------------------------------------------------------------------------------
 
   local SESSION_NAME = ".session.vim"
-  require("mini.sessions").setup({
-    file = SESSION_NAME,
-    hooks = {
-      pre = {
-        write = function()
-          -- https://github.com/romgrk/barbar.nvim?tab=readme-ov-file#mininvim
-          vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" })
-        end
-      }
-    }
-  })
+  -- require("mini.sessions").setup({
+  --   file = SESSION_NAME,
+  --   hooks = {
+  --     pre = {
+  --       write = function()
+  --         -- https://github.com/romgrk/barbar.nvim?tab=readme-ov-file#mininvim
+  --         vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" })
+  --       end
+  --     }
+  --   }
+  -- })
 
   vim.keymap.set("n", "<leader>Es", function()
     -- If the 'Session.vim' file does not exist, create the new session and then notify that
