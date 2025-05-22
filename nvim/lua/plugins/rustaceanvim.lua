@@ -3,7 +3,7 @@
 
 local M = {
   "mrcjkb/rustaceanvim",
-  version = "^5",
+  version = "^6",
   lazy = false,
 }
 
@@ -11,7 +11,7 @@ vim.g.rustaceanvim = {
   server = {
     on_attach = function(client, bufnr)
       require("plugins.lsp").on_attach(client, bufnr)
-    end
+    end,
   }
 }
 

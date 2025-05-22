@@ -55,6 +55,7 @@ function M.formatting.setup(client, bufnr)
 end
 
 function M.show_documentation()
+  print("Show_documne")
   local filetype = vim.bo.filetype
   if vim.tbl_contains({ "vim", "help" }, filetype) then
     vim.cmd("h " .. vim.fn.expand("<cword>"))
@@ -69,6 +70,7 @@ end
 
 -- Use an on_attach function to only map keys after the language server attaches to the current buffer
 function M.on_attach(client, bufnr)
+  print("on_attach", client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -87,30 +89,6 @@ function M.on_attach(client, bufnr)
 
   -- Set formatting on save
   M.formatting.setup(client, bufnr)
-
-  -- Attach LSP signatures
-  -- require("lsp_signature").on_attach()
-
-  -- Enable inlay hints
-  -- vim.lsp.inlay_hint.enable(bufnr, true)
-  -- vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-
-  -- Show diagnostics in floating window on cursor
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    callback = function()
-      local opts = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = "rounded",
-        source = "always",
-        prefix = " ",
-        scope = "cursor"
-      }
-
-      vim.diagnostic.open_float(nil, opts)
-    end
-  })
 
   -- Mappings
   -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -167,45 +145,21 @@ function M.get_capabilities()
   return M.capabilities
 end
 
-function M.config()
+function M.init()
   local nvim_lsp = require("lspconfig")
-
-  vim.diagnostic.config({
-    signs = true,
-    float = { source = true, border = "rounded", prefix = " " },
-    virtual_text = {
-      source = true,
-      format = function(diagnostic)
-        if #diagnostic.message > 60 then
-          return string.sub(diagnostic.message, 1, 60) .. "..."
-        else
-          return diagnostic.message
-        end
-      end
-    }
-  })
-
-  -- Change the border of documentation hover windows
-  vim.lsp.handlers["textDocument/hover"] =
-      vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers
-    .signature_help,
-    { border = "rounded" })
 
   -- Get our initial set of capabilities
   local capabilities = M.get_capabilities()
 
-  -- Setup the Python and TypeScript servers
-
+  -- Setup the Python, TypeScript, and tailwind servers
   local servers = { 'pyright', 'ts_ls', 'tailwindcss' }
   for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
+    vim.lsp.enable(lsp)
+    vim.lsp.config(lsp, {
+      capabilities = capabilities,
       on_attach = M.on_attach,
-      flags = { debounce_text_changes = 150 },
-      capabilities = capabilities
-    }
+      flags = { debounce_text_changes = 150 }
+    })
   end
 
   -- Setup the clangd server
@@ -222,7 +176,8 @@ function M.config()
     print("Unable to locate 'clangd'")
   end
 
-  nvim_lsp.clangd.setup {
+  vim.lsp.enable("clangd")
+  vim.lsp.config("clangd", {
     cmd = { clangd_path },
     filetypes = { "c", "cpp", "objc", "objcpp" },
     on_attach = M.on_attach,
@@ -231,17 +186,19 @@ function M.config()
       -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
       offsetEncoding = { "utf-16" }
     })
-  }
+  })
 
   -- Setup the Go server
-  nvim_lsp.gopls.setup {
+  vim.lsp.enable("gopls")
+  vim.lsp.config("gopls", {
     on_attach = M.on_attach,
     capabilities = capabilities,
     -- flags = { debounce_text_changes = 150 }
-  }
+  })
 
   -- Setup the Lua server
-  nvim_lsp.lua_ls.setup {
+  vim.lsp.enable("lua_ls")
+  vim.lsp.config("lua_ls", {
     on_attach = M.on_attach,
     capabilities = capabilities,
     settings = {
@@ -259,18 +216,7 @@ function M.config()
         telemetry = { enable = false }
       }
     }
-  }
-
-  -- Setup Solidity
-  nvim_lsp.solidity_ls
-      .setup { on_attach = M.on_attach, capabilities = capabilities }
-
-  -- Setup the Java server
-  nvim_lsp.jdtls.setup {
-    cmd = { "jdtls" },
-    on_attach = M.on_attach,
-    capabilities = capabilities,
-  }
+  })
 
   -- NOTE: Rust is now activated in 'rustaceanvim.lua'
 end

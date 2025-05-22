@@ -64,6 +64,9 @@ endif
 -- Set the floating-window blending to 10 (percent?).
 vim.opt.winblend = 10
 
+-- Set the default border for windows
+vim.opt.winborder = 'rounded'
+
 -- Add a ruler at column 100
 vim.opt.colorcolumn = '100'
 
@@ -198,4 +201,32 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.HINT] = "DiagnosticHint"
     }
   }
+})
+
+-- Close some filetypes with 'q'.
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("close_with_q", { clear = true}),
+  pattern = {
+    "checkhealth",
+    "dbout",
+    "gitsigns-blame",
+    "help",
+    "lspinfo",
+    "notify",
+    "qf",
+    "startuptime",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.schedule(function()
+      vim.keymap.set("n", "q", function()
+        vim.cmd("close")
+        pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+      end, {
+        buffer = event.buf,
+        slient = true,
+        desc = "Quit buffer"
+      })
+    end)
+  end
 })
