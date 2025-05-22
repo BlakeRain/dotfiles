@@ -205,7 +205,7 @@ vim.diagnostic.config({
 
 -- Close some filetypes with 'q'.
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("close_with_q", { clear = true}),
+  group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
   pattern = {
     "checkhealth",
     "dbout",
@@ -224,7 +224,7 @@ vim.api.nvim_create_autocmd("FileType", {
         pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
       end, {
         buffer = event.buf,
-        slient = true,
+        silent = true,
         desc = "Quit buffer"
       })
     end)
