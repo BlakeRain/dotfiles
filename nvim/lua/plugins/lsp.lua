@@ -151,7 +151,7 @@ function M.init()
   local capabilities = M.get_capabilities()
 
   -- Setup the Python, TypeScript, and tailwind servers
-  local servers = { 'pyright', 'ts_ls', 'tailwindcss' }
+  local servers = { 'pyright', 'ts_ls', 'tailwindcss', 'gdscript' }
   for _, lsp in ipairs(servers) do
     vim.lsp.enable(lsp)
     vim.lsp.config(lsp, {
