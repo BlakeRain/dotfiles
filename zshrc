@@ -317,29 +317,16 @@ if command -v duf >/dev/null; then
   alias df=duf
 fi
 
-# See if `xplr` is knocking around
-if command -v xplr >/dev/null; then
-  alias x=xplr
-
-  # Change to a directory selected with `xplr`
-  alias xcd='cd "$(xplr --print-pwd-as-result)"'
-
-  # Edit a file selected with `xplr` using `nvim`
-  alias xnvim='nvim "$(xplr)"'
-  alias xv='xnvim'
-else
-  _log_note "Need to install xplr; xplr will not be available"
-  alias x=ls
-fi
-
-if command -v ranger >/dev/null; then
-  alias r=ranger
-fi
-
 if command -v nvim >/dev/null; then
   alias v=nvim
 else
   _log_warn "No Neovim found"
+fi
+
+if command -v yazi >/dev/null; then
+  alias y=yazi
+else
+  _log_warn "No yazi found; visit https://yazi-rs.github.io/docs/installation"
 fi
 
 if command -v fzf >/dev/null; then
@@ -397,15 +384,15 @@ fi
 
 greeting
 
-if command -v oh-my-posh >/dev/null; then
-  if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-    eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
-  else
-    _log_warn "oh-my-posh not available in Apple Terminal"
-  fi
-else
-  _log_warn "Need to install oh-my-posh: https://ohmyposh.dev/"
-fi
+# if command -v oh-my-posh >/dev/null; then
+#   if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+#     eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
+#   else
+#     _log_warn "oh-my-posh not available in Apple Terminal"
+#   fi
+# else
+#   _log_warn "Need to install oh-my-posh: https://ohmyposh.dev/"
+# fi
 
 function load_dotfile() {
   if [ -f $HOME/cs/dotfiles/zsh/$1.zsh ]; then
@@ -464,23 +451,16 @@ fi
 
 # See https://github.com/nvm-sh/nvm#installation-and-update
 if [[ -z "$NVM_DIR" ]]; then
-  if [[ -d "$HOME/.nvm" ]]; then
-    export NVM_DIR="$HOME/.nvm"
-  elif [[ -d "${XDG_CONFIG_HOME:-$HOME/.config}/nvm" ]]; then
-    export NVM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvm"
-  elif (( $+commands[brew] )); then
-    NVM_HOMEBREW="${NVM_HOMEBREW:-${HOMEBREW_PREFIX:-$(brew --prefix)}/opt/nvm}"
-    if [[ -d "$NVM_HOMEBREW" ]]; then
-      export NVM_DIR="$NVM_HOMEBREW"
-    fi
-  else
-    _log_note "Note: nvm not installed (or no ~/.nvm directory)"
-  fi
+  export NVM_DIR="$HOME/.nvm"
 fi
 
-if [[ -f "$NVM_DIR/nvm.sh" ]]; then
-  source "$NVM_DIR/nvm.sh"
-fi
+function activate_nvm() {
+  if [[ -f "$NVM_DIR/nvm.sh" ]]; then
+    source "$NVM_DIR/nvm.sh"
+  else
+    _log_warn "NVM not installed or nvm.sh not found in \$NVM_DIR"
+  fi
+}
 
 if [[ -f "$NVIM_DIR/bash_completion" ]]; then
   source "$NVIM_DIR/bash_completion"
@@ -490,6 +470,10 @@ if command -v kubctl >/dev/null; then
   source <(kubectl completion zsh)
 fi
 
+PS1="%B%F{#74c7ec}%n@%m%b%f %F{#89b4fa}%1~%f %% "
+# Set the RPROMPT to the current time and date
+RPROMPT="%F{#7f849c}%D{%Y-%m-%d} %*%f"
+
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
 
 PATH="/Users/blakerain/perl5/bin${PATH:+:${PATH}}"; export PATH;
@@ -497,6 +481,7 @@ PERL5LIB="/Users/blakerain/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PER
 PERL_LOCAL_LIB_ROOT="/Users/blakerain/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/Users/blakerain/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/blakerain/perl5"; export PERL_MM_OPT;
+
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Added by LM Studio CLI (lms)
