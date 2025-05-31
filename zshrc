@@ -8,6 +8,7 @@ fi
 
 # Load all the stock functions
 autoload -U compaudit compinit zercompile
+autoload -Uz vcs_info
 
 compinit -u
 
@@ -166,23 +167,9 @@ else
 fi
 
 function greeting() {
-  # if command -v neofetch >/dev/null; then
-  #   neofetch
-  # fi
-
-  function _format {
-    awk -F ';' '{ printf("  \x1b[37m%-30s \x1b[96m%s\x1b[0m\n", $1, $2) }'
-  }
-
-  function format {
-    echo "$1:;$2" | _format
-  }
-
-  format "Hostname" "$(hostname -s)"
-  format "Uptime" "$(uptime | sed 's/.*up \([^,]*\),.*/\1/')"
-  format "System Load" "$(uptime | sed 's/.*load av.*: \(.*\)/\1/')"
-  format "Running Processes" "$(ps -caxm | tail -n +2 | wc -l | awk '{ print $1 }')"
-  format "Resident Set Size" "$(ps aux | awk '{ sum += $6 } END { printf("%.2f MiB", sum / 1024.0) }')"
+  local load=$(uptime | sed 's/.*load av.*: \(.*\)/\1/')
+  local procs=$(ps -caxm | tail -n +2 | wc -l | awk '{ print $1 }')
+  local rss=$(ps aux | awk '{ sum += $6 } END { printf("%.2f MiB", sum / 1024.0) }')
 
   local ifconfig_script='
     /^[a-zA-Z0-9]+:/ {
@@ -190,15 +177,11 @@ function greeting() {
     }
 
     /^[ \t]+inet / {
-      printf("IPv4 Address for %s:;%s\n", iface, $2)
-    }
-  '
+      printf("(\x1b[95m%s\x1b[0m):%s\n", iface, $2)
+    }'
 
-  ifconfig | awk "$ifconfig_script" | while read inet_line; do
-    echo $inet_line | _format
-  done
-
-  echo # blank line
+  echo -e "\x1b[96mload:\x1b[0m $load" "/ \x1b[96mprocs:\x1b[0m $procs" "/ \x1b[96mrss:\x1b[0m $rss"
+  echo -e "\x1b[96mip:\x1b[0m" "$(ifconfig | awk "$ifconfig_script" | tr '\n' ' ' | sed 's/ $//' | sed 's^ ^ / ^g')"
 }
 
 function clear_screen() {
@@ -384,16 +367,6 @@ fi
 
 greeting
 
-# if command -v oh-my-posh >/dev/null; then
-#   if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-#     eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
-#   else
-#     _log_warn "oh-my-posh not available in Apple Terminal"
-#   fi
-# else
-#   _log_warn "Need to install oh-my-posh: https://ohmyposh.dev/"
-# fi
-
 function load_dotfile() {
   if [ -f $HOME/cs/dotfiles/zsh/$1.zsh ]; then
     source $HOME/cs/dotfiles/zsh/$1.zsh
@@ -445,8 +418,6 @@ fi
 
 if [[ -f "$HOME/.ghcup/env" ]]; then
   source "$HOME/.ghcup/env"
-else
-  _log_note "Note: ghcup not installed (or no ~/.ghcup directory)"
 fi
 
 # See https://github.com/nvm-sh/nvm#installation-and-update
@@ -470,9 +441,13 @@ if command -v kubctl >/dev/null; then
   source <(kubectl completion zsh)
 fi
 
-PS1="%B%F{#74c7ec}%n@%m%b%f %F{#89b4fa}%1~%f %% "
-# Set the RPROMPT to the current time and date
-RPROMPT="%F{#7f849c}%D{%Y-%m-%d} %*%f"
+precmd() { vcs_info }
+
+setopt prompt_subst
+zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' formats '%F{#fab387}%b%f '
+PS1='%B%F{#74c7ec}%n@%m%b%f ${vcs_info_msg_0_}%F{#89b4fa}%1~%f %% '
+RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f'
 
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
 
