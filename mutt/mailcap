@@ -1,2 +1,0 @@
-text/html; open -a 'Firefox Developer Edition' %s
-text/html; w3m -I %{charset} -T text/html -dump; copiousoutput;
