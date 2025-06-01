@@ -355,6 +355,11 @@ export EDITOR=nvim
 export PAGER=less
 export LESS=-R
 
+export BROWSER=firefox
+if [ "$(uname)" = "Darwin" ]; then
+  export BROWSER="open -a 'Firefox Developer Edition'"
+fi
+
 if command -v jq >/dev/null; then
   if [ -f ~/.openai.secret-key.json ]; then
     export OPENAI_API_KEY=$(cat "$HOME/.openai.secret-key.json" | jq -r ".secretKey")

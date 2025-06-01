@@ -3,11 +3,13 @@
 !.gitignore
 
 # Add exceptions for what we want to actually include
+!/abook
 !/devilspie
 !/fish
 !/fortunes
 !/lazygit
 !/hammerspoon
+!/mutt
 !/newsboat
 !/nvim
 !/ohmyposh
