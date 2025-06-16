@@ -415,11 +415,11 @@ else
   _log_note "(Authentication credentials are in password manager)"
 fi
 
-if command -v zoxide >/dev/null; then
-  eval "$(zoxide init --cmd cd zsh)"
-else
-  _log_note "Need to install zoxide; visit https://github.com/ajeetdsouza/zoxide"
-fi
+# if command -v zoxide >/dev/null; then
+#   eval "$(zoxide init --cmd cd zsh)"
+# else
+#   _log_note "Need to install zoxide; visit https://github.com/ajeetdsouza/zoxide"
+# fi
 
 if [[ -f "$HOME/.ghcup/env" ]]; then
   source "$HOME/.ghcup/env"
