@@ -262,60 +262,27 @@ else
   _log_warn "No GitHub CLI found"
 fi
 
-alias gg="nvim +:NeogitStart"
-
 # Add aliases to relace 'ls' (and similar) to 'exa'
 if command -v eza >/dev/null; then
   alias exa=eza
   alias l=eza
   alias ls=eza
-  alias ll="eza -l --git --icons"
-  alias lll="eza -la --git --icons"
-  alias lt="eza --tree --git --icons"
 elif command -v exa >/dev/null; then
   alias l=exa
   alias ls=exa
-  alias ll="exa -l --git --icons"
-  alias lll="exa -la --git --icons"
-  alias lt="exa --tree --git --icons"
 else
   alias l=ls
-  alias ll="ls -l"
-  alias lll="ls -la"
-  if command -v tree >/dev/null; then
-    alias lt="tree"
-  else
-    alias lt="echo 'Need to install eza'"
-  fi
 fi
 
-# Use `dust` instead of `du`
-if command -v dust >/dev/null; then
-  alias du=dust
-  alias duu=du
-fi
-
-# Use 'duf' stead of 'df'
-if command -v duf >/dev/null; then
-  alias df=duf
-fi
-
-if command -v nvim >/dev/null; then
-  alias v=nvim
-else
+if ! command -v nvim >/dev/null; then
   _log_warn "No Neovim found"
 fi
 
-if command -v yazi >/dev/null; then
-  alias y=yazi
-else
+if ! command -v yazi >/dev/null; then
   _log_warn "No yazi found; visit https://yazi-rs.github.io/docs/installation"
 fi
 
-if command -v fzf >/dev/null; then
-  alias f="fzf --height 40 --layout=reverse --border --preview 'bat --style=numbers --color=always {}'"
-  alias fv="fzf --height 40 --layout=reverse --border --preview 'bat --style=numbers --color=always {}' | xargs nvim"
-else
+if ! command -v fzf >/dev/null; then
   _log_note "Need to install fzf; visit https://github.com/junegunn/fzf"
 fi
 
@@ -358,16 +325,6 @@ export LESS=-R
 export BROWSER=firefox
 if [ "$(uname)" = "Darwin" ]; then
   export BROWSER="open -a 'Firefox Developer Edition'"
-fi
-
-if command -v jq >/dev/null; then
-  if [ -f ~/.openai.secret-key.json ]; then
-    export OPENAI_API_KEY=$(cat "$HOME/.openai.secret-key.json" | jq -r ".secretKey")
-  else
-    _log_warn "OpenAI secret key not found; OPENAI_API_KEY will not be available"
-  fi
-else
-  _log_warn "Need to install jq; OPENAI_API_KEY will not be available"
 fi
 
 greeting
@@ -414,12 +371,6 @@ else
   _log_note "Need to install atuin; visit https://atuin.sh/docs/ and follow QuickStart"
   _log_note "(Authentication credentials are in password manager)"
 fi
-
-# if command -v zoxide >/dev/null; then
-#   eval "$(zoxide init --cmd cd zsh)"
-# else
-#   _log_note "Need to install zoxide; visit https://github.com/ajeetdsouza/zoxide"
-# fi
 
 if [[ -f "$HOME/.ghcup/env" ]]; then
   source "$HOME/.ghcup/env"
