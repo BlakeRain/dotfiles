@@ -52,7 +52,3 @@ function opswd() {
 function ghtoken() {
   op item get "GitHub (BlakeRain)" --fields "CLI PAT"
 }
-
-function neo_ghtoken() {
-  op item get "GitHub (BlakeRain)" --fields "Neo PAT"
-}
