@@ -230,3 +230,13 @@ vim.api.nvim_create_autocmd("FileType", {
     end)
   end
 })
+
+vim.api.nvim_create_augroup("RfcFileType", { clear = true })
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = vim.fn.expand("$HOME") .. "/cs/docs/rfcs/*",
+  callback = function()
+    vim.cmd("set filetype=rfc")
+  end,
+  -- command = "set filetype=rfc",
+  group = "RfcFileType"
+})
