@@ -7,12 +7,11 @@ local M = {
     "nvim-lua/plenary.nvim"
   },
   keys = {
-    { "<leader>al", "<cmd>Telescope attempt<cr>", desc = "List attempts" },
-    { "<leader>an", function() require("attempt").new_select() end, desc = "New attempt, select extension" },
+    { "<leader>an", function() require("attempt").new_select() end,    desc = "New attempt, select extension" },
     { "<leader>ai", function() require("attempt").new_input_ext() end, desc = "New attempt, enter extension" },
-    { "<leader>ar", function() require("attempt").run() end, desc = "Run attempt" },
-    { "<leader>ad", function() require("attempt").delete_buf() end, desc = "Delete attempt from current buffer" },
-    { "<leader>ac", function() require("attempt").rename_buf() end, desc = "Rename attempt from current buffer" },
+    { "<leader>ar", function() require("attempt").run() end,           desc = "Run attempt" },
+    { "<leader>ad", function() require("attempt").delete_buf() end,    desc = "Delete attempt from current buffer" },
+    { "<leader>ac", function() require("attempt").rename_buf() end,    desc = "Rename attempt from current buffer" },
   }
 }
 
