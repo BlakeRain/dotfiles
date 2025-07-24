@@ -72,71 +72,71 @@ setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
 setopt share_history          # share command history data
 
-bindkey -e
-
-# [PageUp] - Up a line of history
-if [[ -n "${terminfo[kpp]}" ]]; then
-  bindkey -M emacs "${terminfo[kpp]}" up-line-or-history
-fi
-
-# [PageDown] - Down a line of history
-if [[ -n "${terminfo[knp]}" ]]; then
-  bindkey -M emacs "${terminfo[kpp]}" up-line-or-history
-fi
-
-# Start typing + [Up-Arrow] - fuzzy find history forward
-if [[ -n "${terminfo[kcuu1]}" ]]; then
-  autoload -U up-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-
-  bindkey -M emacs "${terminfo[kcuu1]}" up-line-or-beginning-search
-fi
-
-# Start typing + [Down-Arrow] - fuzzy find history backward
-if [[ -n "${terminfo[kcud1]}" ]]; then
-  autoload -U down-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-
-  bindkey -M emacs "${terminfo[kcud1]}" down-line-or-beginning-search
-fi
-
-# [Home] - Go to beginning of line
-if [[ -n "${terminfo[khome]}" ]]; then
-  bindkey -M emacs "${terminfo[khome]}" beginning-of-line
-fi
-
-# [End] - Go to end of line
-if [[ -n "${terminfo[kend]}" ]]; then
-  bindkey -M emacs "${terminfo[kend]}"  end-of-line
-fi
-
-# [Backspace] - delete backward
-bindkey -M emacs '^?' backward-delete-char
-
-# [Delete] - delete forward
-if [[ -n "${terminfo[kdch1]}" ]]; then
-  bindkey -M emacs "${terminfo[kdch1]}" delete-char
-else
-  bindkey -M emacs "^[[3~" delete-char
-  bindkey -M emacs "^[3;5~" delete-char
-fi
-
-# [Ctrl-Delete] - delete whole forward-word
-bindkey -M emacs '^[[3;5~' kill-word
-
-# [Ctrl-RightArrow] - move forward one word
-bindkey -M emacs '^[[1;5C' forward-word
-
-# [Ctrl-LeftArrow] - move backward one word
-bindkey -M emacs '^[[1;5D' backward-word
-
-# Edit the current command line in $EDITOR
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '\C-x\C-e' edit-command-line
-
-bindkey '^W' kill-region
-bindkey '^I' complete-word
+# bindkey -v
+#
+# # [PageUp] - Up a line of history
+# if [[ -n "${terminfo[kpp]}" ]]; then
+#   bindkey -M emacs "${terminfo[kpp]}" up-line-or-history
+# fi
+#
+# # [PageDown] - Down a line of history
+# if [[ -n "${terminfo[knp]}" ]]; then
+#   bindkey -M emacs "${terminfo[kpp]}" up-line-or-history
+# fi
+#
+# # Start typing + [Up-Arrow] - fuzzy find history forward
+# if [[ -n "${terminfo[kcuu1]}" ]]; then
+#   autoload -U up-line-or-beginning-search
+#   zle -N up-line-or-beginning-search
+#
+#   bindkey -M emacs "${terminfo[kcuu1]}" up-line-or-beginning-search
+# fi
+#
+# # Start typing + [Down-Arrow] - fuzzy find history backward
+# if [[ -n "${terminfo[kcud1]}" ]]; then
+#   autoload -U down-line-or-beginning-search
+#   zle -N down-line-or-beginning-search
+#
+#   bindkey -M emacs "${terminfo[kcud1]}" down-line-or-beginning-search
+# fi
+#
+# # [Home] - Go to beginning of line
+# if [[ -n "${terminfo[khome]}" ]]; then
+#   bindkey -M emacs "${terminfo[khome]}" beginning-of-line
+# fi
+#
+# # [End] - Go to end of line
+# if [[ -n "${terminfo[kend]}" ]]; then
+#   bindkey -M emacs "${terminfo[kend]}"  end-of-line
+# fi
+#
+# # [Backspace] - delete backward
+# bindkey -M emacs '^?' backward-delete-char
+#
+# # [Delete] - delete forward
+# if [[ -n "${terminfo[kdch1]}" ]]; then
+#   bindkey -M emacs "${terminfo[kdch1]}" delete-char
+# else
+#   bindkey -M emacs "^[[3~" delete-char
+#   bindkey -M emacs "^[3;5~" delete-char
+# fi
+#
+# # [Ctrl-Delete] - delete whole forward-word
+# bindkey -M emacs '^[[3;5~' kill-word
+#
+# # [Ctrl-RightArrow] - move forward one word
+# bindkey -M emacs '^[[1;5C' forward-word
+#
+# # [Ctrl-LeftArrow] - move backward one word
+# bindkey -M emacs '^[[1;5D' backward-word
+#
+# # Edit the current command line in $EDITOR
+# autoload -U edit-command-line
+# zle -N edit-command-line
+# bindkey '\C-x\C-e' edit-command-line
+#
+# bindkey '^W' kill-region
+# bindkey '^I' complete-word
 
 function _log_note() {
   echo -e "\e[1m\e[36mNOTE:\e[0m" "$@"
@@ -358,6 +358,17 @@ load_dotfile "dir-persist"
 load_dotfile "misc"
 load_dotfile "completions/eksctl"
 
+function zvm_config() {
+  ZVM_VI_HIGHLIGHT_BACKGROUND="#45475B"
+}
+
+load_dotfile "zsh-vi-mode/zsh-vi-mode.plugin"
+
+function append-last-word { ((++CURSOR)); zle insert-last-word; }
+zle -N append-last-word
+bindkey -M vicmd '\e.' append-last-word
+bindkey -M viins '\e.' insert-last-word
+
 if [ "$(uname)" = "Darwin" ]; then
   load_dotfile "osx"
 fi
@@ -399,11 +410,34 @@ fi
 
 precmd() { vcs_info }
 
+function _show_zvm_mode() {
+  case $ZVM_MODE in
+    $ZVM_MODE_NORMAL)
+      echo -n "%F{#81B4FE}NORMAL%f"
+      ;;
+    $ZVM_MODE_INSERT)
+      echo -n "%F{#95E79D}INSERT%f"
+      ;;
+    $ZVM_MODE_VISUAL)
+      echo -n "%F{#D2A1FB}VISUAL%f"
+      ;;
+    $ZVM_MODE_VISUAL_LINE)
+      echo -n "%F{#D2A1FB}VISUAL-LINE%f"
+      ;;
+    $ZVM_MODE_REPLACE)
+      echo -n "%F{#FF82A8}REPLACE%f"
+      ;;
+    *)
+      echo -n "%F{#7f849c}UNKNOWN%f"
+      ;;
+  esac
+}
+
 setopt prompt_subst
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%F{#fab387}%b%f '
 PS1='%B%F{#74c7ec}%n@%m%b%f ${vcs_info_msg_0_}%F{#89b4fa}%1~%f %% '
-RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f'
+RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f $(_show_zvm_mode)'
 
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
 
