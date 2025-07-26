@@ -355,6 +355,7 @@ load_dotfile "1password"
 load_dotfile "p10k"
 load_dotfile "dir-history"
 load_dotfile "dir-persist"
+load_dotfile "git"
 load_dotfile "misc"
 load_dotfile "completions/eksctl"
 
