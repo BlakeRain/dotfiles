@@ -1,3 +1,57 @@
+function gwti() {
+  # Check if the first argument is provided
+  if [[ -z "$1" ]]; then
+    echo "Usage: gwti <repository-url> <directory>"
+    return 1
+  fi
+
+  # Check the second argument for the directory.
+  if [[ -z "$2" ]]; then
+    echo "Usage: gwti <repository-url> <directory>"
+    return 1
+  fi
+
+  mkdir -p "$2/worktrees"
+  git clone --bare "$1" "$2/repo.git"
+  git --git-dir="$2/repo.git" worktree add "$2/worktrees/main" main
+}
+
+function _gwt_ascertain() {
+  local repo=""
+  local worktrees=""
+  if [ -d "repo.git" ]; then
+    repo="$(pwd)/repo.git"
+    worktrees="$(pwd)/worktrees"
+  elif [ -d "../repo.git" ] && [ "$(basename "$(pwd)")" = "worktrees" ]; then
+    repo="$(pwd)/../repo.git"
+    worktrees="$(pwd)"
+  elif [ "$(basename "$(pwd)")" = "repo.git" ]; then
+    repo="$(pwd)"
+    worktrees="$(pwd)/../worktrees"
+  elif [ -f ".git" ]; then
+    # Parse out the gitdir from .git file.
+    repo="$(cat .git | sed 's|^gitdir: ||')"
+    # Drop the trailing worktree path from the gitdir
+    repo="${repo%/worktrees/*}"
+    worktrees="$(dirname "$repo")/worktrees"
+  else
+    echo "Error: Could not ascertain git repository location." >&2
+    echo ""
+    return
+  fi
+
+  repo="$(realpath "$repo")"
+  worktrees="$(realpath "$worktrees")"
+
+  if [ ! -d "$worktrees" ]; then
+    echo "Error: worktrees directory '$worktrees' does not exist." >&2
+    echo ""
+    return
+  fi
+
+  printf "%s;%s\n" "$repo" "$worktrees"
+}
+
 function gwt() {
   # Check if the first argument is provided
   if [[ -z "$1" ]]; then
@@ -5,5 +59,27 @@ function gwt() {
     return 1
   fi
 
-  git --git-dir=repo.git worktree add "worktrees/$1" "$1"
+  local result=$(_gwt_ascertain || return 1)
+  if [[ -z $result ]]; then
+    return 1
+  fi
+
+  IFS=';' read repo worktrees <<< "$result"
+  git --git-dir=${repo} worktree add "${worktrees}/$1" "$1"
+}
+
+function gwtr() {
+  # Check if the first argument is provided
+  if [[ -z "$1" ]]; then
+    echo "Usage: gwtr <branch-name>"
+    return 1
+  fi
+
+  local result=$(_gwt_ascertain)
+  if [[ -z $result ]]; then
+    return 1
+  fi
+
+  IFS=';' read repo worktrees <<< "$result"
+  git --git-dir=${repo} worktree remove "${worktrees}/$1"
 }
