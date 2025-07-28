@@ -217,6 +217,28 @@ function M.init()
     }
   })
 
+  -- Setup JDTLS server for Java
+  vim.lsp.enable("jdtls")
+  vim.lsp.config("jdtls", {
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+    -- cmd = { "jdtls" },
+    -- root_dir = function(fname)
+    --   return nvim_lsp.util.root_pattern("pom.xml", "build.gradle", "settings.gradle", ".git")(fname) or
+    --       nvim_lsp.util.path.dirname(fname)
+    -- end,
+    -- settings = {
+    --   java = {
+    --     format = {
+    --       enabled = true,
+    --       -- settings = {
+    --       --   url = "https://raw.githubusercontent.com/blakeblackshear/javac-format/main/src/main/resources/formatter.xml"
+    --       -- }
+    --     }
+    --   }
+    -- }
+  })
+
   -- NOTE: Rust is now activated in 'rustaceanvim.lua'
 end
 
