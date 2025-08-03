@@ -409,6 +409,10 @@ if command -v kubctl >/dev/null; then
   source <(kubectl completion zsh)
 fi
 
+if command -v zoxide >/dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
 precmd() { vcs_info }
 
 function _show_zvm_mode() {
