@@ -1,13 +1,8 @@
-function gwti() {
-  # Check if the first argument is provided
-  if [[ -z "$1" ]]; then
-    echo "Usage: gwti <repository-url> <directory>"
-    return 1
-  fi
-
-  # Check the second argument for the directory.
-  if [[ -z "$2" ]]; then
-    echo "Usage: gwti <repository-url> <directory>"
+function gwtc() {
+  # Check if the first and second arguments are provided
+  if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+    echo "Usage: gwtc <repository-url> <directory>"
+    echo "Clones a bare repository and initializes a worktree structure."
     return 1
   fi
 
@@ -56,6 +51,7 @@ function gwt() {
   # Check if the first argument is provided
   if [[ -z "$1" ]]; then
     echo "Usage: gwt <branch-name>"
+    echo "Creates a new worktree for the specified branch."
     return 1
   fi
 
@@ -65,6 +61,7 @@ function gwt() {
   fi
 
   IFS=';' read repo worktrees <<< "$result"
+  echo "Creating worktree: ${worktrees}/$1"
   git --git-dir=${repo} worktree add "${worktrees}/$1" "$1"
 }
 
@@ -72,6 +69,7 @@ function gwtr() {
   # Check if the first argument is provided
   if [[ -z "$1" ]]; then
     echo "Usage: gwtr <branch-name>"
+    echo "Removes the specified worktree."
     return 1
   fi
 
@@ -81,5 +79,6 @@ function gwtr() {
   fi
 
   IFS=';' read repo worktrees <<< "$result"
+  echo "Removing worktree: ${worktrees}/$1"
   git --git-dir=${repo} worktree remove "${worktrees}/$1"
 }
