@@ -51,8 +51,8 @@ function M.config()
     return
   end
 
-  local colors = require("catppuccin.palettes").get_palette "mocha"
-  -- local colors = require("tokyonight.colors").setup()
+  -- local colors = require("catppuccin.palettes").get_palette "mocha"
+  local colors = require("tokyonight.colors").setup()
   local fg = "#394264"
 
   require("incline").setup({
