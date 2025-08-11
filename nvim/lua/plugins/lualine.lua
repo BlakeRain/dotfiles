@@ -29,8 +29,8 @@ function M.config()
     -- extensions = { neo_tree_lualine },
     options = {
       icons_enabled = true,
-      theme = "tokyonight",
-      -- theme = "catppuccin",
+      -- theme = "tokyonight",
+      theme = "catppuccin",
       disabled_filetypes = {},
       always_divide_middle = true,
       globalstatus = true,
