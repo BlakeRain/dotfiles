@@ -413,34 +413,11 @@ fi
 
 precmd() { vcs_info }
 
-function _show_zvm_mode() {
-  case $ZVM_MODE in
-    $ZVM_MODE_NORMAL)
-      echo -n "%F{#81B4FE}NORMAL%f"
-      ;;
-    $ZVM_MODE_INSERT)
-      echo -n "%F{#95E79D}INSERT%f"
-      ;;
-    $ZVM_MODE_VISUAL)
-      echo -n "%F{#D2A1FB}VISUAL%f"
-      ;;
-    $ZVM_MODE_VISUAL_LINE)
-      echo -n "%F{#D2A1FB}VISUAL-LINE%f"
-      ;;
-    $ZVM_MODE_REPLACE)
-      echo -n "%F{#FF82A8}REPLACE%f"
-      ;;
-    *)
-      echo -n "%F{#7f849c}UNKNOWN%f"
-      ;;
-  esac
-}
-
 setopt prompt_subst
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%F{#fab387}%b%f '
 PS1='%B%F{#74c7ec}%n@%m%b%f ${vcs_info_msg_0_}%F{#89b4fa}%1~%f %% '
-RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f $(_show_zvm_mode)'
+RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f'
 
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
 
