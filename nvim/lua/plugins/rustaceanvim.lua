@@ -8,6 +8,9 @@ local M = {
 }
 
 vim.g.rustaceanvim = {
+  tools = {
+    enable_clippy = false
+  },
   server = {
     on_attach = function(client, bufnr)
       require("plugins.lsp").on_attach(client, bufnr)
