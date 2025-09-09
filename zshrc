@@ -417,7 +417,7 @@ setopt prompt_subst
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%F{#fab387}%b%f '
 PS1='%B%F{#74c7ec}%n@%m%b%f ${vcs_info_msg_0_}%F{#89b4fa}%1~%f %% '
-RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f'
+# RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f'
 
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
 
