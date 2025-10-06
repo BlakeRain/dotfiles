@@ -21,7 +21,7 @@ function M.formatting.toggle()
   notify.info(msg .. " format on save", { title = "Formatting" })
 end
 
-local CONFORM_FT = { javascript = true, typescript = true }
+local CONFORM_FT = { javascript = true, typescript = true, python = true }
 
 function M.formatting.format()
   if M.formatting.autoformat then

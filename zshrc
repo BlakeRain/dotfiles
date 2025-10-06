@@ -421,6 +421,10 @@ PS1='%B%F{#74c7ec}%n@%m%b%f ${vcs_info_msg_0_}%F{#89b4fa}%1~%f %% '
 
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
 
+if [[ -d "/opt/homebrew/opt/sqlite/bin" ]]; then
+  export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
+fi
+
 PATH="/Users/blakerain/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/Users/blakerain/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/Users/blakerain/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
