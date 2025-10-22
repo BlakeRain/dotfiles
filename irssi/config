@@ -1,0 +1,31 @@
+completion_auto = "ON";
+
+autolog = "ON";
+autolog_colors = "OFF";
+
+hostname = "irc";
+chat = "nick";
+
+settings = {
+  core = {
+    real_name = "Blake Rain";
+    nick = "BanUtama";
+    user_name = "blakerain";
+  };
+  "fe-text" = { colors_ansi_24bit = "yes"; };
+};
+chatnets = {
+  LiberaChat = {
+    type = "IRC";
+  };
+};
+servers = (
+  {
+    address = "irc.eu.libera.chat";
+    chatnet = "LiberaChat";
+    port = "6697";
+    use_tls = "yes";
+    tls_verify = "yes";
+    autoconnect = "yes";
+  }
+);

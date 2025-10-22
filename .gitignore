@@ -6,6 +6,7 @@
 !/devilspie
 !/fish
 !/fortunes
+!/irssi
 !/lazygit
 !/hammerspoon
 !/newsboat
@@ -20,19 +21,7 @@
 !/xaero-minimap
 
 !README.md
-!alacritty.toml
 !atuin.toml
-!bashrc
-!bat.config
-!emacs
-!ghci
-!micro.json
-!nanorc
-!p10k.zsh
-!pureline.conf
-!starship.toml
-!tmux.conf
-!vscode-settings.json
 !wezterm.lua
 !zshrc
 
