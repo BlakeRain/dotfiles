@@ -1,0 +1,31 @@
+browser open
+
+bind-key j down
+bind-key k up
+bind-key j next articlelist
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K next-feed articlelist
+bind-key G end
+bind-key g home
+bind-key d pagedown
+bind-key u pageup
+bind-key l open
+bind-key q quit
+bind-key h quit
+bind-key a toggle-article-read
+bind-key n next-unread
+bind-key N prev-unread
+bind-key D pb-download
+bind-key U show-urls
+bind-key x pb-delete
+
+color title color232 color111 bold
+color info color232 color111
+
+color listnormal color7 default dim
+color listnormal_unread color15 default bold
+
+color listfocus color232 white
+color listfocus_unread color232 white bold
+
