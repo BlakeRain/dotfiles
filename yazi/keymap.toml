@@ -99,8 +99,11 @@ keymap = [
 	{ on = [ "c", "f" ], run = "copy filename",         desc = "Copy the filename" },
 	{ on = [ "c", "n" ], run = "copy name_without_ext", desc = "Copy the filename without extension" },
 
-	# Filter
-	{ on = "f", run = "filter --smart", desc = "Filter files" },
+	# File Actions
+	{ on = [ "f", "f" ], run = "filter --smart", desc = "Filter files" },
+  { on = [ "f", "e" ], run = "plugin blake -- gpg encrypt", desc = "Encrypt with GPG" },
+  { on = [ "f", "d" ], run = "plugin blake -- gpg decrypt", desc = "Decrypt with GPG" },
+  { on = [ "f", "s" ], run = "plugin blake -- gpg sign", desc = "Sign with GPG" },
 
 	# Find
 	{ on = "/", run = "find --smart",            desc = "Find next file" },
