@@ -16,13 +16,13 @@
 # session_path = "~/.session"
 
 ## date format used, either "us" or "uk"
-# dialect = "us"
+dialect = "uk"
 
 ## enable or disable automatic sync
 # auto_sync = true
 
 ## enable or disable automatic update checks
-# update_check = true
+update_check = true
 
 ## address of the sync server
 # sync_address = "https://api.atuin.sh"
@@ -58,12 +58,13 @@ sync_address = "http://pink.falcon-uaru.ts.net:8888"
 ## which style to use
 ## possible values: auto, full, compact
 # style = "auto"
+# style = "full"
 style = "compact"
 
 ## the maximum number of lines the interface should take up
 ## set it to 0 to always go full screen
-# inline_height = 0
-inline_height = 10
+inline_height = 0
+# inline_height = 10
 
 ## Invert the UI - put the search bar at the top , Default to `false`
 # invert = false
