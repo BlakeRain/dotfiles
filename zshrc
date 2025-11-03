@@ -419,6 +419,8 @@ zstyle ':vcs_info:*' formats '%F{#fab387}%b%f '
 PS1='%B%F{#74c7ec}%n@%m%b%f ${vcs_info_msg_0_}%F{#89b4fa}%1~%f %% '
 # RPROMPT='%F{#7f849c}%D{%Y-%m-%d} %*%f'
 
+export GPG_TTY=$(tty)
+
 export LEDGER_FILE="$HOME/cs/hledger/main.journal"
 
 if [[ -d "/opt/homebrew/opt/sqlite/bin" ]]; then
@@ -435,3 +437,14 @@ PERL_MM_OPT="INSTALL_BASE=/Users/blakerain/perl5"; export PERL_MM_OPT;
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/blakerain/.lmstudio/bin"
+
+# IntelliShell
+export INTELLI_HOME="/Users/blakerain/Library/Application Support/org.IntelliShell.Intelli-Shell"
+# export INTELLI_SEARCH_HOTKEY='^@'
+# export INTELLI_VARIABLE_HOTKEY='^l'
+# export INTELLI_BOOKMARK_HOTKEY='^b'
+# export INTELLI_FIX_HOTKEY='^x'
+# export INTELLI_SKIP_ESC_BIND=0
+# alias is="intelli-shell"
+export PATH="$INTELLI_HOME/bin:$PATH"
+eval "$(intelli-shell init zsh)"
